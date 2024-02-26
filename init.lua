@@ -254,6 +254,7 @@ treesitter_configs.setup({
 		"elixir",
 		"heex",
 		"javascript",
+		"typescript",
 		"html",
 		"python",
 		"json",
