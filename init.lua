@@ -234,6 +234,9 @@ local plugins = {
 	{
 		"kristijanhusak/vim-dadbod-completion",
 	},
+	{
+		"ThePrimeagen/git-worktree.nvim",
+	},
 }
 
 local opts = {}
@@ -297,11 +300,6 @@ require("dashboard").setup({
 		mru = { limit = 6, icon = "your icon", label = "", cwd_only = false },
 	},
 })
-
--- local highlight = {
--- 	"CursorColumn",
--- 	"Whitespace",
--- }
 
 require("ibl").setup({
 	-- indent = { highlight = highlight },
@@ -465,9 +463,9 @@ require("harpoon").setup({
 		mark_branch = false,
 
 		-- enable tabline with harpoon marks
-		tabline = true,
-		tabline_prefix = " hellow  ",
-		tabline_suffix = " world  ",
+		-- tabline = true,
+		-- tabline_prefix = " hellow  ",
+		-- tabline_suffix = " world  ",
 	},
 	menu = {
 		width = vim.api.nvim_win_get_width(0) - 30,
@@ -582,6 +580,17 @@ vim.keymap.set("n", "<leader>ch", ":ToggleTerm direction=horizontal size=12<CR>"
 --------------------------- keymap for buffer navigation -------------------------
 vim.keymap.set("n", "<leader>we", ":bnext<CR>", {})
 vim.keymap.set("n", "<leader>wq", ":bprev<CR>", {})
+----------------------------------------------------------------------------------
+
+----------------------------- keymap for Git WorkTree ----------------------------
+-- Creates a worktree.  Requires the path, branch name, and the upstream
+vim.keymap.set("n", "<leader>gt", ":lua require('telescope').extensions.git_worktree.create_git_worktree()<CR>", {})
+
+-- switches to an existing worktree.  Requires the path name
+vim.keymap.set("n", "<leader>gh", ":lua require('telescope').extensions.git_worktree.git_worktrees()<CR>", {})
+
+-- deletes to an existing worktree.  Requires the path name
+--vim.keymap.set("n", "<leader>gf", require("git-worktree").delete_worktree(), {})
 ----------------------------------------------------------------------------------
 
 ------------------------------ LazyGit Config ------------------------------------
@@ -1159,10 +1168,6 @@ function Taber()
 	end
 	return InnObj
 end
-
-
-
--- vim.keymap.set("n", "<leader>hh", Taber, {})
 
 function Header()
 	return {
@@ -1893,3 +1898,33 @@ end
 
 -- if you only want these mappings for toggle term use term://*toggleterm#* instead
 vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
+
+require("git-worktree").setup({
+	change_directory_command = "cd",
+	update_on_change = true,
+	update_on_change_command = "e .",
+	clearjumps_on_change = true,
+	autopush = false,
+})
+
+require("telescope").load_extension("git_worktree")
+
+local Worktree = require("git-worktree")
+
+-- op = Operations.Switch, Operations.Create, Operations.Delete
+-- metadata = table of useful values (structure dependent on op)
+--      Switch
+--          path = path you switched to
+--          prev_path = previous worktree path
+--      Create
+--          path = path where worktree created
+--          branch = branch name
+--          upstream = upstream remote name
+--      Delete
+--          path = path where worktree deleted
+
+Worktree.on_tree_change(function(op, metadata)
+	if op == Worktree.Operations.Switch then
+		print("Switched from " .. metadata.prev_path .. " to " .. metadata.path)
+	end
+end)
