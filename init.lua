@@ -1928,3 +1928,13 @@ Worktree.on_tree_change(function(op, metadata)
 		print("Switched from " .. metadata.prev_path .. " to " .. metadata.path)
 	end
 end)
+
+local deleteWorkTree = function(opts)
+	local cmd = "lua require('git-worktree').delete_worktree('" .. opts.args .. "')"
+	print(cmd)
+	vim.api.nvim_command(cmd)
+	-- print("deleted" .. opts.args)
+	return 0
+end
+
+vim.api.nvim_create_user_command("Gwdel", deleteWorkTree, { nargs = "?" })
