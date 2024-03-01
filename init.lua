@@ -264,6 +264,7 @@ treesitter_configs.setup({
 		"css",
 		"rust",
 		"sql",
+		"regex",
 	},
 	auto_install = true,
 	sync_install = false,
@@ -538,7 +539,7 @@ vim.keymap.set("n", "<leader>fa", ":Telescope find_files find_command=rg,--ignor
 ------------------------------- keymap for neo-tree -------------------------------
 vim.keymap.set("n", "<leader>p", ":Neotree<CR>", {})
 vim.keymap.set("n", "<leader>ng", ":Neotree float git_status<CR>", {})
-vim.keymap.set("n", "<C-t>", ":Neotree  source=filesystem reveal left toggle=true<CR>", {})
+vim.keymap.set("n", "<C-t>", ":Neotree source=filesystem reveal left toggle=true<CR>", {})
 vim.keymap.set(
 	"n",
 	"<leader>nb",
@@ -566,6 +567,8 @@ vim.keymap.set("v", "<Leader>1f", vim.lsp.buf.format, {})
 ----------------------------- keymap for harpoon ---------------------------------
 vim.keymap.set("n", "<leader>hh", require("harpoon.mark").add_file, {})
 vim.keymap.set("n", "<leader>z", require("harpoon.ui").toggle_quick_menu)
+vim.keymap.set("n", "<C-q>", require("harpoon.ui").nav_next) -- navigates to next mark
+vim.keymap.set("n", "<C-1>", require("harpoon.ui").nav_prev) -- navigates to previous mark
 vim.keymap.set("n", "<leader>'", require("harpoon.ui").nav_next) -- navigates to next mark
 vim.keymap.set("n", "<leader>;", require("harpoon.ui").nav_prev) -- navigates to previous mark
 vim.keymap.set("n", "<leader>th", ":Telescope harpoon marks<CR>", {})
@@ -649,11 +652,17 @@ require("mason").setup({
 require("mason-lspconfig").setup({
 	ensure_installed = {
 		"lua_ls",
-		"jsonls",
 		"rust_analyzer",
 		"quick_lint_js",
 		"tsserver",
+		"eslint",
+		"lwc_ls",
 		"html",
+		"jsonls",
+		"cssls",
+		"emmet_ls",
+		"volar",
+		"angularls",
 		"clangd",
 		"jedi_language_server",
 		"sqlls",
@@ -680,12 +689,18 @@ lspconfig.tsserver.setup({
 })
 lspconfig.quick_lint_js.setup({ capabilities = capabilities })
 lspconfig.html.setup({ capabilities = capabilities })
+lspconfig.cssls.setup({ capabilities = capabilities })
 lspconfig.jsonls.setup({ capabilities = capabilities })
+lspconfig.volar.setup({ capabilities = capabilities })
+lspconfig.angularls.setup({ capabilities = capabilities })
 lspconfig.clangd.setup({ capabilities = capabilities })
 lspconfig.jedi_language_server.setup({ capabilities = capabilities })
 lspconfig.sqlls.setup({ capabilities = capabilities })
 lspconfig.sqls.setup({ capabilities = capabilities })
 lspconfig.pylsp.setup({ capabilities = capabilities })
+-- lspconfig.eslint.setup({})
+lspconfig.lwc_ls.setup({ capabilities = capabilities })
+lspconfig.emmet_ls.setup({ capabilities = capabilities })
 -- lspconfig.pyre.setup({ capabilities = capabilities })
 -- lspconfig.pylyzer.setup({ capabilities = capabilities })
 -- lspconfig.pyright.setup({ capabilities = capabilities })
@@ -1482,8 +1497,9 @@ ins_left({
 	-- cond = hide_in_width,
 	-- separator = " ",
 })
+
 ins_left({
-	-- Lsp server name .
+	-- Lsp server name .
 	function()
 		local msg = "No Active Lsp"
 		local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
@@ -1504,6 +1520,11 @@ ins_left({
 	-- color = { fg = colors.green, gui = "bold" },
 })
 
+ins_right({
+	function()
+		return( "[" .. vim.fn.winnr() .. "]")
+	end,
+})
 -- Add components to right sections
 -- ins_right({
 -- 	"o:encoding", -- option component same as &encoding in viml
@@ -1938,3 +1959,6 @@ local deleteWorkTree = function(opts)
 end
 
 vim.api.nvim_create_user_command("Gwdel", deleteWorkTree, { nargs = "?" })
+
+vim.keymap.set("n", "]d", ":lua vim.diagnostic.goto_next()<CR>", {})
+vim.keymap.set("n", "[d", ":lua vim.diagnostic.goto_prev()<CR>", {})
