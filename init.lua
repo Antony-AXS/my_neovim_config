@@ -78,9 +78,9 @@ local plugins = {
 	{
 		"hrsh7th/cmp-nvim-lsp",
 	},
-	{
-		"BurntSushi/ripgrep",
-	},
+	-- {
+	-- 	"BurntSushi/ripgrep",
+	-- },
 	{
 		"tpope/vim-fugitive",
 	},
@@ -166,9 +166,9 @@ local plugins = {
 	{
 		"folke/tokyonight.nvim",
 	},
-	{
-		"kkharji/sqlite.lua",
-	},
+	-- {
+	-- 	"kkharji/sqlite.lua",
+	-- },
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
@@ -186,8 +186,9 @@ local plugins = {
 		"mbbill/undotree",
 	},
 	{
-		-- amongst your other plugins
-		{ "akinsho/toggleterm.nvim", version = "*", config = true },
+		"akinsho/toggleterm.nvim",
+		version = "*",
+		config = true,
 	},
 	{
 		"tpope/vim-dadbod",
@@ -277,7 +278,7 @@ treesitter_configs.setup({
 		"css",
 		"rust",
 		"sql",
-		"regex",
+		--"regex",
 	},
 	auto_install = true,
 	sync_install = false,
@@ -487,19 +488,24 @@ require("harpoon").setup({
 	},
 })
 
-local positive_look_behind = function(opts)
-	local cmd = ".,+22s/\\(" .. tostring(vim.fn.getreg("0")) .. "\\)\\@<=.*/" .. opts.args .. "/"
-	print(cmd)
-	vim.api.nvim_command(cmd)
-	return 0
-end
+-- local positive_look_behind = function(opts_1)
+-- 	local cmd = ".,+22s/\\(" .. tostring(vim.fn.getreg("0")) .. "\\)\\@<=.*/" .. opts_1.args .. "/"
+-- 	print(cmd)
+-- 	vim.api.nvim_command(cmd)
+-- 	return 0
+-- end
+--
+-- vim.api.nvim_create_user_command("Pchange", positive_look_behind, { nargs = "?" })
+
+-- vim.keymap.set("n", "<leader>lb", positive_look_behind)
+
 local TshiftToggleConst = "2"
-local shift_theme = function(opts)
-	if opts.args == "sol" then
+local shift_theme = function(opts_theme)
+	if opts_theme.args == "sol" then
 		vim.cmd.colorscheme("solarized-osaka")
-	elseif opts.args == "cat" then
+	elseif opts_theme.args == "cat" then
 		vim.cmd.colorscheme("catppuccin")
-	elseif opts.args == "Toggle" then
+	elseif opts_theme.args == "Toggle" then
 		if TshiftToggleConst == "1" then
 			TshiftToggleConst = "2"
 			vim.api.nvim_command("colorscheme catppuccin")
@@ -510,7 +516,6 @@ local shift_theme = function(opts)
 	end
 end
 
-vim.api.nvim_create_user_command("Pchange", positive_look_behind, { nargs = "?" })
 vim.api.nvim_create_user_command("Tshift", shift_theme, { nargs = "?" })
 vim.keymap.set("n", "<leader>cs", ":Tshift Toggle<CR>", {})
 
@@ -522,12 +527,9 @@ local NeoTreeGitStatus = function(opt)
 end
 
 vim.api.nvim_create_user_command("Ngs", NeoTreeGitStatus, { nargs = "?" })
--- local subscribe = vim.api.nvim_subscribe('NeoTree')
--- print("SUBSCRIBED------------------>>>>>>>>>>>>>>", vim.api.nvim_call_function('Neotree', {}))
 
 local harpoon = require("telescope").load_extension("harpoon")
 
-vim.keymap.set("n", "<leader>lb", positive_look_behind)
 ----------------------------- Harpoon Theme customize -----------------------------
 vim.cmd("highlight! HarpoonInactive guibg=NONE guifg=#63698c")
 vim.cmd("highlight! HarpoonActive guibg=NONE guifg=white")
@@ -580,8 +582,9 @@ vim.keymap.set("v", "<Leader>1f", vim.lsp.buf.format, {})
 ----------------------------- keymap for harpoon ---------------------------------
 vim.keymap.set("n", "<leader>hh", require("harpoon.mark").add_file, {})
 vim.keymap.set("n", "<leader>z", require("harpoon.ui").toggle_quick_menu)
+vim.keymap.set("n", "<C-j>", require("harpoon.ui").nav_prev) -- navigates to previous mark
+vim.keymap.set("n", "<C-k>", require("harpoon.ui").nav_next) -- navigates to next mark
 vim.keymap.set("n", "<C-q>", require("harpoon.ui").nav_next) -- navigates to next mark
-vim.keymap.set("n", "<C-1>", require("harpoon.ui").nav_prev) -- navigates to previous mark
 vim.keymap.set("n", "<leader>'", require("harpoon.ui").nav_next) -- navigates to next mark
 vim.keymap.set("n", "<leader>;", require("harpoon.ui").nav_prev) -- navigates to previous mark
 vim.keymap.set("n", "<leader>th", ":Telescope harpoon marks<CR>", {})
@@ -668,8 +671,8 @@ require("mason-lspconfig").setup({
 		"rust_analyzer",
 		"quick_lint_js",
 		"tsserver",
-		"eslint",
-		"lwc_ls",
+		-- "eslint",
+		-- "lwc_ls",
 		"html",
 		"jsonls",
 		"cssls",
@@ -678,7 +681,7 @@ require("mason-lspconfig").setup({
 		"angularls",
 		"clangd",
 		"jedi_language_server",
-		"sqlls",
+		-- "sqlls",
 		"sqls",
 		"pylsp",
 		--"pylyzer",
@@ -708,11 +711,11 @@ lspconfig.volar.setup({ capabilities = capabilities })
 lspconfig.angularls.setup({ capabilities = capabilities })
 lspconfig.clangd.setup({ capabilities = capabilities })
 lspconfig.jedi_language_server.setup({ capabilities = capabilities })
-lspconfig.sqlls.setup({ capabilities = capabilities })
+-- lspconfig.sqlls.setup({ capabilities = capabilities })
 lspconfig.sqls.setup({ capabilities = capabilities })
 lspconfig.pylsp.setup({ capabilities = capabilities })
 -- lspconfig.eslint.setup({})
-lspconfig.lwc_ls.setup({ capabilities = capabilities })
+-- lspconfig.lwc_ls.setup({ capabilities = capabilities })
 lspconfig.emmet_ls.setup({ capabilities = capabilities })
 -- lspconfig.pyre.setup({ capabilities = capabilities })
 -- lspconfig.pylyzer.setup({ capabilities = capabilities })
@@ -1019,7 +1022,7 @@ require("solarized-osaka").setup({
 	---@param highlights Highlights
 	---@param colors ColorScheme
 	on_highlights = function(hl, c)
-		local prompt = "#2d3149"
+		-- local prompt = "#2d3149"
 		hl.TelescopeNormal = {
 			bg = c.bg_dark,
 			fg = c.fg_dark,
@@ -1166,25 +1169,18 @@ function tprint(tbl, indent)
 end
 
 local tabs = shorten_filenames(require("harpoon").get_mark_config().marks)
--- print("Harpoon TABS------------------->>>>>>>>>>>>>", tprint(tabs))
 local Index = require("harpoon.mark").get_index_of(vim.fn.bufname())
--- print("Harpoon Index---------------->>>>>>>>>>>>>>", Index)
-local InnObj = {}
+InnObj = {}
 for k, v in pairs(tabs) do
-	-- print("for------------>>>>>>>>>>>", k, v.filename)
 	InnObj[k] = function()
 		return tabs[k].filename
 	end
 end
--- print("INNER OBJ------------------>>>>>>>>>>>", InnObj[1](), InnObj[2]())
---print("PRIMEAGEN--------------->>>>>>>>>>>>", vim.harpoon)
 function Taber()
 	local tabs = shorten_filenames(require("harpoon").get_mark_config().marks)
 	local index = require("harpoon.mark").get_index_of(vim.fn.bufname())
-	-- print("Harpoon TABS------------------->>>>>>>>>>>>>", tprint(tabs))
 	local InnObj = {}
 	for k, v in pairs(tabs) do
-		-- print("for------------>>>>>>>>>>>", k, v.filename)
 		InnObj[k] = {
 			function()
 				local index = require("harpoon.mark").get_index_of(vim.fn.bufname())
@@ -1397,7 +1393,7 @@ local config = {
 			-- 	{ "filename", file_status = true, newfile_status = true, path = 1 },
 		}, --lualine_x = {},
 		lualine_x = {
-			{ -- 󰨑 󰤼 
+			{
 				function()
 					-- 󰨑 󰤼   󰝜  󰓪  󰱾  󱀂  󱀃  󰹈    󰧑  :query
 					return ("󰨑 " .. vim.fn.winnr())
@@ -1902,11 +1898,10 @@ Worktree.on_tree_change(function(op, metadata)
 	end
 end)
 
-local deleteWorkTree = function(opts)
-	local cmd = "lua require('git-worktree').delete_worktree('" .. opts.args .. "')"
+local deleteWorkTree = function(opts_del)
+	local cmd = "lua require('git-worktree').delete_worktree('" .. opts_del.args .. "')"
 	print(cmd)
 	vim.api.nvim_command(cmd)
-	-- print("deleted" .. opts.args)
 	return 0
 end
 
