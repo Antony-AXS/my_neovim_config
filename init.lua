@@ -1,6 +1,13 @@
 local vimrc = vim.fn.stdpath("config") .. "/vimrc.vim"
 vim.cmd.source(vimrc)
+
+vim.opt.mouse = ""
+vim.opt.wrap = false
+vim.opt.number = true
+vim.opt.relativenumber = true
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
@@ -16,6 +23,7 @@ vim.opt.rtp:prepend(lazypath)
 local plugins = {
 	{
 		"catppuccin/nvim",
+		lazy = true,
 		name = "catppuccin",
 		priority = 1000,
 	},
@@ -36,6 +44,9 @@ local plugins = {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter-textobjects",
+		},
 	},
 	{
 		"nvim-lualine/lualine.nvim",
@@ -52,24 +63,30 @@ local plugins = {
 	},
 	{
 		"williamboman/mason.nvim",
+		lazy = true,
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
 		opts = {
 			auto_install = true,
 		},
+		lazy = true,
 	},
 	{
 		"neovim/nvim-lspconfig",
+		lazy = true,
 	},
 	{
 		"nvimtools/none-ls.nvim",
+		lazy = true,
 	},
 	{
 		"hrsh7th/nvim-cmp",
+		lazy = true,
 	},
 	{
 		"L3MON4D3/LuaSnip",
+		lazy = true,
 		dependencies = {
 			"saadparwaiz1/cmp_luasnip",
 			"rafamadriz/friendly-snippets",
@@ -77,6 +94,7 @@ local plugins = {
 	},
 	{
 		"hrsh7th/cmp-nvim-lsp",
+		lazy = true,
 	},
 	-- {
 	-- 	"BurntSushi/ripgrep",
@@ -87,14 +105,17 @@ local plugins = {
 	{
 		"nvim-lua/plenary.nvim",
 		"ThePrimeagen/harpoon",
+		lazy = true,
 	},
 	{
 		"lukas-reineke/indent-blankline.nvim",
+		lazy = true,
 		main = "ibl",
 		opts = {},
 	},
 	{
 		"echasnovski/mini.indentscope",
+		lazy = true,
 		event = { "BufReadPre", "BufNewFile" },
 		opts = {
 			draw = {
@@ -144,7 +165,6 @@ local plugins = {
 	},
 	{
 		"nvim-tree/nvim-web-devicons",
-		lazy = true,
 	},
 	-- {
 	-- 	"glepnir/dbsession.nvim",
@@ -179,9 +199,9 @@ local plugins = {
 		version = "*", -- Use for stability; omit to use `main` branch for the latest features
 		event = "VeryLazy",
 	},
-	{
-		"mg979/vim-visual-multi",
-	},
+	-- {
+	-- 	"mg979/vim-visual-multi",
+	-- },
 	{
 		"mbbill/undotree",
 	},
@@ -221,11 +241,8 @@ local plugins = {
 	{
 		"ThePrimeagen/git-worktree.nvim",
 	},
-	--	{
-	--		"stevearc/oil.nvim",
-	--	},
 	{
-		"nvim-treesitter/nvim-treesitter-textobjects",
+		"stevearc/oil.nvim",
 	},
 	{
 		"tpope/vim-commentary",
@@ -233,24 +250,18 @@ local plugins = {
 	{
 		"JoosepAlviste/nvim-ts-context-commentstring",
 	},
-	-- {
-	-- 	"3rd/image.nvim",
-	-- },
-	-- {
-	-- 	"folke/noice.nvim",
-	-- 	event = "VeryLazy",
-	-- 	opts = {
-	-- 		-- add any options here
-	-- 	},
-	-- 	dependencies = {
-	-- 		-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-	-- 		"MunifTanjim/nui.nvim",
-	-- 		-- OPTIONAL:
-	-- 		--   `nvim-notify` is only needed, if you want to use the notification view.
-	-- 		--   If not available, we use `mini` as the fallback
-	-- 		"rcarriga/nvim-notify",
-	-- 	},
-	-- },
+	{
+		"NeogitOrg/neogit",
+		dependencies = {
+			"nvim-lua/plenary.nvim", -- required
+			"sindrets/diffview.nvim", -- optional - Diff integration
+
+			-- Only one of these is needed, not both.
+			"nvim-telescope/telescope.nvim", -- optional
+			"ibhagwan/fzf-lua", -- optional
+		},
+		config = true,
+	},
 }
 
 local opts = {}
@@ -278,6 +289,11 @@ treesitter_configs.setup({
 		"css",
 		"rust",
 		"sql",
+		"git_config",
+		"git_rebase",
+		"gitattributes",
+		"gitcommit",
+		"gitignore",
 		--"regex",
 	},
 	auto_install = true,
@@ -530,12 +546,17 @@ vim.api.nvim_create_user_command("Ngs", NeoTreeGitStatus, { nargs = "?" })
 
 local harpoon = require("telescope").load_extension("harpoon")
 
------------------------------ Harpoon Theme customize -----------------------------
+----------------------------- Harpoon Theme customize ----------------------------
 vim.cmd("highlight! HarpoonInactive guibg=NONE guifg=#63698c")
 vim.cmd("highlight! HarpoonActive guibg=NONE guifg=white")
 vim.cmd("highlight! HarpoonNumberActive guibg=NONE guifg=#7aa2f7")
 vim.cmd("highlight! HarpoonNumberInactive guibg=NONE guifg=#7aa2f7")
 vim.cmd("highlight! TabLineFill guibg=#d9280d guifg=#d9280d")
+----------------------------------------------------------------------------------
+
+--------------------------- keymap for diagnostics jump --------------------------
+vim.keymap.set("n", "]d", ":lua vim.diagnostic.goto_next()<CR>", {})
+vim.keymap.set("n", "[d", ":lua vim.diagnostic.goto_prev()<CR>", {})
 ----------------------------------------------------------------------------------
 
 ------------------------------ keymap for telescope ------------------------------
@@ -554,7 +575,7 @@ vim.keymap.set("n", "<leader>fa", ":Telescope find_files find_command=rg,--ignor
 ------------------------------- keymap for neo-tree -------------------------------
 vim.keymap.set("n", "<leader>p", ":Neotree<CR>", {})
 vim.keymap.set("n", "<leader>ng", ":Neotree float git_status<CR>", {})
-vim.keymap.set("n", "<C-t>", ":Neotree source=filesystem reveal left toggle=true<CR>", {})
+vim.keymap.set("n", "<c-t>", ":Neotree source=filesystem reveal left toggle=true<CR>", {})
 vim.keymap.set(
 	"n",
 	"<leader>nb",
@@ -684,6 +705,8 @@ require("mason-lspconfig").setup({
 		-- "sqlls",
 		"sqls",
 		"pylsp",
+		"gopls",
+		"golangci_lint_ls",
 		--"pylyzer",
 		--"pyre",
 		--"pyright",
@@ -710,16 +733,18 @@ lspconfig.jsonls.setup({ capabilities = capabilities })
 lspconfig.volar.setup({ capabilities = capabilities })
 lspconfig.angularls.setup({ capabilities = capabilities })
 lspconfig.clangd.setup({ capabilities = capabilities })
-lspconfig.jedi_language_server.setup({ capabilities = capabilities })
--- lspconfig.sqlls.setup({ capabilities = capabilities })
 lspconfig.sqls.setup({ capabilities = capabilities })
 lspconfig.pylsp.setup({ capabilities = capabilities })
--- lspconfig.eslint.setup({})
--- lspconfig.lwc_ls.setup({ capabilities = capabilities })
 lspconfig.emmet_ls.setup({ capabilities = capabilities })
+lspconfig.golangci_lint_ls.setup({ capabilities = capabilities })
+lspconfig.gopls.setup({ capabilities = capabilities })
+lspconfig.jedi_language_server.setup({ capabilities = capabilities })
 -- lspconfig.pyre.setup({ capabilities = capabilities })
 -- lspconfig.pylyzer.setup({ capabilities = capabilities })
 -- lspconfig.pyright.setup({ capabilities = capabilities })
+-- lspconfig.sqlls.setup({ capabilities = capabilities })
+-- lspconfig.eslint.setup({})
+-- lspconfig.lwc_ls.setup({ capabilities = capabilities })
 
 local null_ls = require("null-ls")
 
@@ -1177,6 +1202,7 @@ for k, v in pairs(tabs) do
 	end
 end
 function Taber()
+	local current_file_path = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":.")
 	local tabs = shorten_filenames(require("harpoon").get_mark_config().marks)
 	local index = require("harpoon.mark").get_index_of(vim.fn.bufname())
 	local InnObj = {}
@@ -1185,12 +1211,27 @@ function Taber()
 			function()
 				local index = require("harpoon.mark").get_index_of(vim.fn.bufname())
 				vim.fn.bufname()
-				return string.format(" %s ", tabs[k].filename)
+				local path = string.format(" %s ", tabs[k].filename)
+				if path == current_file_path then
+					return "hello"
+				else
+					return path
+				end
 			end,
 			component = { right = "" },
 		}
 	end
 	return InnObj
+end
+
+function Taber_2()
+	return {
+		function()
+			local vi = (vim.fn.fnamemodify(vim.fn.expand("%:p"), ":."))
+			return vi
+		end,
+		color = { bg = colors.blue },
+	}
 end
 
 function Header()
@@ -1389,6 +1430,7 @@ local config = {
 		}, -- "location"
 		-- These will be filled later
 		lualine_c = {
+			-- { "harpoon_status", icon = " " },
 			-- project_root,
 			-- 	{ "filename", file_status = true, newfile_status = true, path = 1 },
 		}, --lualine_x = {},
@@ -1396,7 +1438,7 @@ local config = {
 			{
 				function()
 					-- 󰨑 󰤼   󰝜  󰓪  󰱾  󱀂  󱀃  󰹈    󰧑  :query
-					return ("󰨑 " .. vim.fn.winnr())
+					return ("󰝜 " .. vim.fn.winnr())
 				end,
 				color = {
 					fg = "#a9ff0a",
@@ -1424,13 +1466,13 @@ local config = {
 		lualine_x = {},
 	},
 	-- tabline = {
-	-- tabline	lualine_a = { Header() },
-	-- tabline	lualine_b =  Taber(),
-	-- tabline	lualine_c = { bg = nil, guibg = nil },
-	-- tabline	lualine_z = { bg = nil, guibg = nil },
-	-- tabline	lualine_y = { bg = nil, guibg = nil },
-	-- tabline	lualine_x = { bg = nil, guibg = nil },
-	-- tabline},
+	-- 	lualine_a = { Header() },
+	-- 	lualine_b = { Taber_2() },
+	-- 	lualine_c = { bg = nil, guibg = nil },
+	-- 	lualine_z = { bg = nil, guibg = nil },
+	-- 	lualine_y = { bg = nil, guibg = nil },
+	-- 	lualine_x = { bg = nil, guibg = nil },
+	-- },
 }
 
 -- Inserts a component in lualine_c at left section
@@ -1921,11 +1963,6 @@ local last_status = function()
 end
 vim.keymap.set("n", "<leader>ll", last_status, {})
 
------------------------- keymap for diagnostics jump ----------------------
-vim.keymap.set("n", "]d", ":lua vim.diagnostic.goto_next()<CR>", {})
-vim.keymap.set("n", "[d", ":lua vim.diagnostic.goto_prev()<CR>", {})
----------------------------------------------------------------------------
-
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 require("nvim-treesitter.configs").setup({
@@ -1981,242 +2018,21 @@ require("ts_context_commentstring").setup({
 	enable_autocmd = false,
 })
 
--- require("oil").setup({
--- 	-- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
--- 	-- Set to false if you still want to use netrw.
--- 	default_file_explorer = false,
--- 	-- Id is automatically added at the beginning, and name at the end
--- 	-- See :help oil-columns
--- 	columns = {
--- 		"icon",
--- 		-- "permissions",
--- 		-- "size",
--- 		-- "mtime",
--- 	},
--- 	-- Buffer-local options to use for oil buffers
--- 	buf_options = {
--- 		buflisted = false,
--- 		bufhidden = "hide",
--- 	},
--- 	-- Window-local options to use for oil buffers
--- 	win_options = {
--- 		wrap = false,
--- 		signcolumn = "no",
--- 		cursorcolumn = false,
--- 		foldcolumn = "0",
--- 		spell = false,
--- 		list = false,
--- 		conceallevel = 3,
--- 		concealcursor = "nvic",
--- 	},
--- 	-- Send deleted files to the trash instead of permanently deleting them (:help oil-trash)
--- 	delete_to_trash = false,
--- 	-- Skip the confirmation popup for simple operations (:help oil.skip_confirm_for_simple_edits)
--- 	skip_confirm_for_simple_edits = false,
--- 	-- Selecting a new/moved/renamed file or directory will prompt you to save changes first
--- 	-- (:help prompt_save_on_select_new_entry)
--- 	prompt_save_on_select_new_entry = true,
--- 	-- Oil will automatically delete hidden buffers after this delay
--- 	-- You can set the delay to false to disable cleanup entirely
--- 	-- Note that the cleanup process only starts when none of the oil buffers are currently displayed
--- 	cleanup_delay_ms = 2000,
--- 	-- Set to true to autosave buffers that are updated with LSP willRenameFiles
--- 	-- Set to "unmodified" to only save unmodified buffers
--- 	lsp_rename_autosave = false,
--- 	-- Constrain the cursor to the editable parts of the oil buffer
--- 	-- Set to `false` to disable, or "name" to keep it on the file names
--- 	constrain_cursor = "editable",
--- 	-- Set to true to watch the filesystem for changes and reload oil
--- 	experimental_watch_for_changes = false,
--- 	-- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
--- 	-- options with a `callback` (e.g. { callback = function() ... end, desc = "", mode = "n" })
--- 	-- Additionally, if it is a string that matches "actions.<name>",
--- 	-- it will use the mapping at require("oil.actions").<name>
--- 	-- Set to `false` to remove a keymap
--- 	-- See :help oil-actions for a list of all available actions
--- 	keymaps = {
--- 		["g?"] = "actions.show_help",
--- 		["<CR>"] = "actions.select",
--- 		["<C-s>"] = "actions.select_vsplit",
--- 		["<C-h>"] = "actions.select_split",
--- 		["<C-t>"] = "actions.select_tab",
--- 		["<C-p>"] = "actions.preview",
--- 		["<C-c>"] = "actions.close",
--- 		["<C-l>"] = "actions.refresh",
--- 		["-"] = "actions.parent",
--- 		["_"] = "actions.open_cwd",
--- 		["`"] = "actions.cd",
--- 		["~"] = "actions.tcd",
--- 		["gs"] = "actions.change_sort",
--- 		["gx"] = "actions.open_external",
--- 		["g."] = "actions.toggle_hidden",
--- 		["g\\"] = "actions.toggle_trash",
--- 	},
--- 	-- Configuration for the floating keymaps help window
--- 	keymaps_help = {
--- 		border = "rounded",
--- 	},
--- 	-- Set to false to disable all of the above keymaps
--- 	use_default_keymaps = true,
--- 	view_options = {
--- 		-- Show files and directories that start with "."
--- 		show_hidden = false,
--- 		-- This function defines what is considered a "hidden" file
--- 		is_hidden_file = function(name, bufnr)
--- 			return vim.startswith(name, ".")
--- 		end,
--- 		-- This function defines what will never be shown, even when `show_hidden` is set
--- 		is_always_hidden = function(name, bufnr)
--- 			return false
--- 		end,
--- 		sort = {
--- 			-- sort order can be "asc" or "desc"
--- 			-- see :help oil-columns to see which columns are sortable
--- 			{ "type", "asc" },
--- 			{ "name", "asc" },
--- 		},
--- 	},
--- 	-- Configuration for the floating window in oil.open_float
--- 	float = {
--- 		-- Padding around the floating window
--- 		padding = 2,
--- 		max_width = 0,
--- 		max_height = 0,
--- 		border = "rounded",
--- 		win_options = {
--- 			winblend = 0,
--- 		},
--- 		-- This is the config that will be passed to nvim_open_win.
--- 		-- Change values here to customize the layout
--- 		override = function(conf)
--- 			return conf
--- 		end,
--- 	},
--- 	-- Configuration for the actions floating preview window
--- 	preview = {
--- 		-- Width dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
--- 		-- min_width and max_width can be a single value or a list of mixed integer/float types.
--- 		-- max_width = {100, 0.8} means "the lesser of 100 columns or 80% of total"
--- 		max_width = 0.9,
--- 		-- min_width = {40, 0.4} means "the greater of 40 columns or 40% of total"
--- 		min_width = { 40, 0.4 },
--- 		-- optionally define an integer/float for the exact width of the preview window
--- 		width = nil,
--- 		-- Height dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
--- 		-- min_height and max_height can be a single value or a list of mixed integer/float types.
--- 		-- max_height = {80, 0.9} means "the lesser of 80 columns or 90% of total"
--- 		max_height = 0.9,
--- 		-- min_height = {5, 0.1} means "the greater of 5 columns or 10% of total"
--- 		min_height = { 5, 0.1 },
--- 		-- optionally define an integer/float for the exact height of the preview window
--- 		height = nil,
--- 		border = "rounded",
--- 		win_options = {
--- 			winblend = 0,
--- 		},
--- 		-- Whether the preview window is automatically updated when the cursor is moved
--- 		update_on_cursor_moved = true,
--- 	},
--- 	-- Configuration for the floating progress window
--- 	progress = {
--- 		max_width = 0.9,
--- 		min_width = { 40, 0.4 },
--- 		width = nil,
--- 		max_height = { 10, 0.9 },
--- 		min_height = { 5, 0.1 },
--- 		height = nil,
--- 		border = "rounded",
--- 		minimized_border = "none",
--- 		win_options = {
--- 			winblend = 0,
--- 		},
--- 	},
--- 	-- Configuration for the floating SSH window
--- 	ssh = {
--- 		border = "rounded",
--- 	},
--- })
---
+require("oil").setup({
+	default_file_explorer = false,
+})
 
--- default config
--- require("image").setup({
--- 	backend = "kitty",
--- 	integrations = {
--- 		markdown = {
--- 			enabled = true,
--- 			clear_in_insert_mode = false,
--- 			download_remote_images = true,
--- 			only_render_image_at_cursor = false,
--- 			filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
--- 			markdown = {
--- 				resolve_image_path = function(document_path, image_path, fallback)
--- 					-- document_path is the path to the file that contains the image
--- 					-- image_path is the potentially relative path to the image. for
--- 					-- markdown it's `![](this text)`
---
--- 					-- you can call the fallback function to get the default behavior
--- 					return fallback(document_path, image_path)
--- 				end,
--- 			},
--- 		},
--- 		neorg = {
--- 			enabled = true,
--- 			clear_in_insert_mode = false,
--- 			download_remote_images = true,
--- 			only_render_image_at_cursor = false,
--- 			filetypes = { "norg" },
--- 		},
--- 	},
--- 	max_width = nil,
--- 	max_height = nil,
--- 	max_width_window_percentage = nil,
--- 	max_height_window_percentage = 50,
--- 	window_overlap_clear_enabled = false, -- toggles images when windows are overlapped
--- 	window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
--- 	editor_only_render_when_focused = false, -- auto show/hide images when the editor gains/looses focus
--- 	tmux_show_only_in_active_window = false, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
--- 	hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp" }, -- render image files as images when opened
--- })
+-- init.lua
+local neogit = require("neogit")
+neogit.setup({})
 
--- require("noice").setup({
--- 	 cmdline = {
---     enabled = true, -- enables the Noice cmdline UI
---     view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
---     opts = {}, -- global options for the cmdline. See section on views
---     ---@type table<string, CmdlineFormat>
---     format = {
---       -- conceal: (default=true) This will hide the text in the cmdline that matches the pattern.
---       -- view: (default is cmdline view)
---       -- opts: any options passed to the view
---       -- icon_hl_group: optional hl_group for the icon
---       -- title: set to anything or empty string to hide
---       cmdline = { pattern = "^:", icon = "", lang = "vim" },
---       search_down = { kind = "search", pattern = "^/", icon = " ", lang = "regex" },
---       search_up = { kind = "search", pattern = "^%?", icon = " ", lang = "regex" },
---       filter = { pattern = "^:%s*!", icon = "$", lang = "bash" },
---       lua = { pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua" },
---       help = { pattern = "^:%s*he?l?p?%s+", icon = "" },
---       input = {}, -- Used by input()
---       -- lua = false, -- to disable a format, set to `false`
---     },
---   },
--- 	lsp = {
--- 		-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
--- 		override = {
--- 			["vim.lsp.util.convert_input_to_markdown_lines"] = true,
--- 			["vim.lsp.util.stylize_markdown"] = true,
--- 			["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
--- 		},
--- 	},
--- 	-- you can enable a preset for easier configuration
--- 	presets = {
--- 		bottom_search = true, -- use a classic bottom cmdline for search
--- 		command_palette = true, -- position the cmdline and popupmenu together
--- 		long_message_to_split = true, -- long messages will be sent to a split
--- 		inc_rename = false, -- enables an input dialog for inc-rename.nvim
--- 		lsp_doc_border = false, -- add a border to hover docs and signature help
--- 	},
--- })
---
---
---
+-- neogit.open()
+
+-- -- open commit popup
+-- neogit.open({ "commit" })
+
+-- open with split kind
+-- vim.keymap.set("n", "<leader>gs", neogit.open({ kind = "split" }), {})
+
+-- open home directory
+-- neogit.open({ cwd = "~" })
