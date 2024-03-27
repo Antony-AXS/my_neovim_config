@@ -1,9 +1,9 @@
 local vimrc = vim.fn.stdpath("config") .. "/vimrc.vim"
 vim.cmd.source(vimrc)
---------------------
 vim.opt.mouse = ""
 vim.opt.wrap = false
 vim.opt.number = true
+vim.opt.laststatus = 3
 vim.opt.relativenumber = true
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -261,6 +261,7 @@ local plugins = {
 			"ibhagwan/fzf-lua", -- optional
 		},
 		config = true,
+		lazy = true,
 	},
 }
 
@@ -631,6 +632,17 @@ vim.keymap.set("n", "<leader>gh", ":lua require('telescope').extensions.git_work
 
 -- deletes to an existing worktree.  Requires the path name
 --vim.keymap.set("n", "<leader>gf", require("git-worktree").delete_worktree(), {})
+----------------------------------------------------------------------------------
+
+-------------------------- keymap for NeoGit and DiffView ------------------------
+
+vim.keymap.set("n", "<leader>nf", ":Neogit kind=floating<CR>", {})
+vim.keymap.set("n", "<leader>nd", ":DiffviewOpen<CR>", {})
+vim.keymap.set("n", "<leader>nt", ":DiffviewToggleFiles<CR>", {})
+vim.keymap.set("n", "<leader>nc", ":DiffviewClose<CR>", {})
+vim.keymap.set("n", "<leader>nh", ":DiffviewFileHistory<CR>", {})
+vim.keymap.set("n", "<leader>nl", ":DiffviewLogs<CR>", {})
+
 ----------------------------------------------------------------------------------
 
 ------------------------------ LazyGit Config ------------------------------------
@@ -2025,14 +2037,3 @@ require("oil").setup({
 -- init.lua
 local neogit = require("neogit")
 neogit.setup({})
-
--- neogit.open()
-
--- -- open commit popup
--- neogit.open({ "commit" })
-
--- open with split kind
--- vim.keymap.set("n", "<leader>gs", neogit.open({ kind = "split" }), {})
-
--- open home directory
--- neogit.open({ cwd = "~" })
