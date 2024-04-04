@@ -1,9 +1,9 @@
 local vimrc = vim.fn.stdpath("config") .. "/vimrc.vim"
 vim.cmd.source(vimrc)
---------------------
 vim.opt.mouse = ""
 vim.opt.wrap = false
 vim.opt.number = true
+vim.opt.laststatus = 3
 vim.opt.relativenumber = true
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -20,253 +20,9 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local plugins = {
-	{
-		"catppuccin/nvim",
-		lazy = true,
-		name = "catppuccin",
-		priority = 1000,
-	},
-	{
-		"craftzdog/solarized-osaka.nvim",
-		lazy = true,
-		priority = 1000,
-		opts = {},
-	},
-	{
-		"nvim-telescope/telescope.nvim",
-		tag = "0.1.5",
-		dependencies = { "nvim-lua/plenary.nvim" },
-	},
-	{
-		"nvim-telescope/telescope-ui-select.nvim",
-	},
-	{
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter-textobjects",
-		},
-	},
-	{
-		"nvim-lualine/lualine.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-	},
-	{
-		"nvim-neo-tree/neo-tree.nvim",
-		branch = "v3.x",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-			"MunifTanjim/nui.nvim",
-		},
-	},
-	{
-		"williamboman/mason.nvim",
-		lazy = true,
-	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		opts = {
-			auto_install = true,
-		},
-		lazy = true,
-	},
-	{
-		"neovim/nvim-lspconfig",
-		lazy = true,
-	},
-	{
-		"nvimtools/none-ls.nvim",
-		lazy = true,
-	},
-	{
-		"hrsh7th/nvim-cmp",
-		lazy = true,
-	},
-	{
-		"L3MON4D3/LuaSnip",
-		lazy = true,
-		dependencies = {
-			"saadparwaiz1/cmp_luasnip",
-			"rafamadriz/friendly-snippets",
-		},
-	},
-	{
-		"hrsh7th/cmp-nvim-lsp",
-		lazy = true,
-	},
-	-- {
-	-- 	"BurntSushi/ripgrep",
-	-- },
-	{
-		"tpope/vim-fugitive",
-	},
-	{
-		"nvim-lua/plenary.nvim",
-		"ThePrimeagen/harpoon",
-		lazy = true,
-	},
-	{
-		"lukas-reineke/indent-blankline.nvim",
-		lazy = true,
-		main = "ibl",
-		opts = {},
-	},
-	{
-		"echasnovski/mini.indentscope",
-		lazy = true,
-		event = { "BufReadPre", "BufNewFile" },
-		opts = {
-			draw = {
-				delay = 0,
-				animation = function()
-					return 0
-				end,
-			},
-			options = { border = "top", try_as_border = true },
-			symbol = "▏",
-		},
-		config = function(_, opts)
-			require("mini.indentscope").setup(opts)
-
-			-- Disable for certain filetypes
-			vim.api.nvim_create_autocmd({ "FileType" }, {
-				desc = "Disable indentscope for certain filetypes",
-				callback = function()
-					local ignore_filetypes = {
-						"aerial",
-						"dashboard",
-						"help",
-						"lazy",
-						"leetcode.nvim",
-						"mason",
-						"neo-tree",
-						"NvimTree",
-						"neogitstatus",
-						"notify",
-						"startify",
-						"toggleterm",
-						"Trouble",
-						"undotree",
-						"lazygit",
-					}
-					if vim.tbl_contains(ignore_filetypes, vim.bo.filetype) then
-						vim.b.miniindentscope_disable = true
-					end
-				end,
-			})
-		end,
-	},
-	{
-		"nvimdev/dashboard-nvim",
-		event = "VimEnter",
-		dependencies = { { "nvim-tree/nvim-web-devicons" } },
-	},
-	{
-		"nvim-tree/nvim-web-devicons",
-	},
-	-- {
-	-- 	"glepnir/dbsession.nvim",
-	-- 	cmd = { "SessionSave", "SessionDelete", "SessionLoad" },
-	-- },
-	{
-		"kdheepak/lazygit.nvim",
-		-- optional for floating window border decoration
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-		},
-	},
-	{
-		"lewis6991/gitsigns.nvim",
-	},
-	-- {
-	-- 	"petertriho/nvim-scrollbar",
-	-- },
-	{
-		"folke/tokyonight.nvim",
-	},
-	-- {
-	-- 	"kkharji/sqlite.lua",
-	-- },
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		opts = {}, -- this is equalent to setup({}) function
-	},
-	{
-		"kylechui/nvim-surround",
-		version = "*", -- Use for stability; omit to use `main` branch for the latest features
-		event = "VeryLazy",
-	},
-	-- {
-	-- 	"mg979/vim-visual-multi",
-	-- },
-	{
-		"mbbill/undotree",
-	},
-	{
-		"akinsho/toggleterm.nvim",
-		version = "*",
-		config = true,
-	},
-	{
-		"tpope/vim-dadbod",
-		opt = true,
-		requires = {
-			"kristijanhusak/vim-dadbod-ui",
-			"kristijanhusak/vim-dadbod-completion",
-		},
-	},
-	{
-		"kristijanhusak/vim-dadbod-ui",
-		dependencies = {
-			{ "tpope/vim-dadbod", lazy = true },
-			{ "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
-		},
-		cmd = {
-			"DBUI",
-			"DBUIToggle",
-			"DBUIAddConnection",
-			"DBUIFindBuffer",
-		},
-		init = function()
-			-- Your DBUI configuration
-			vim.g.db_ui_use_nerd_fonts = 1
-		end,
-	},
-	{
-		"kristijanhusak/vim-dadbod-completion",
-	},
-	{
-		"ThePrimeagen/git-worktree.nvim",
-	},
-	{
-		"stevearc/oil.nvim",
-	},
-	{
-		"tpope/vim-commentary",
-	},
-	{
-		"JoosepAlviste/nvim-ts-context-commentstring",
-	},
-	{
-		"NeogitOrg/neogit",
-		dependencies = {
-			"nvim-lua/plenary.nvim", -- required
-			"sindrets/diffview.nvim", -- optional - Diff integration
-
-			-- Only one of these is needed, not both.
-			"nvim-telescope/telescope.nvim", -- optional
-			"ibhagwan/fzf-lua", -- optional
-		},
-		config = true,
-	},
-}
-
 local opts = {}
 
-require("lazy").setup(plugins, opts)
+require("lazy").setup("plugins", opts)
 
 local builtin = require("telescope.builtin")
 
@@ -322,7 +78,7 @@ local ascii = require("ascii")
 require("dashboard").setup({
 	theme = "hyper",
 	config = {
-		header = ascii.header_2,
+		header = ascii.header_3,
 		packages = { enable = true }, -- show how many plugins neovim loaded
 		-- limit how many projects list, action when you press key or enter it will run this action.
 		-- action can be a functino type, e.g.
@@ -514,6 +270,19 @@ require("harpoon").setup({
 -- vim.api.nvim_create_user_command("Pchange", positive_look_behind, { nargs = "?" })
 
 -- vim.keymap.set("n", "<leader>lb", positive_look_behind)
+local last_status_flag = 3
+local last_status = function()
+	local cmd
+	if last_status_flag == 3 then
+		cmd = "set laststatus=" .. last_status_flag
+		last_status_flag = 2
+	elseif last_status_flag == 2 then
+		cmd = "set laststatus=" .. last_status_flag
+		last_status_flag = 3
+	end
+	vim.api.nvim_command(cmd)
+end
+vim.keymap.set("n", "<leader>ll", last_status, {})
 
 local TshiftToggleConst = "2"
 local shift_theme = function(opts_theme)
@@ -525,13 +294,29 @@ local shift_theme = function(opts_theme)
 		if TshiftToggleConst == "1" then
 			TshiftToggleConst = "2"
 			vim.api.nvim_command("colorscheme catppuccin")
+			require("nvim-web-devicons").set_icon({
+				js = {
+					icon = "󰌞",
+					color = "yellow",
+					cterm_color = "65",
+					name = "js",
+				},
+				cpp = {
+					icon = "",
+					color = "#937af5",
+					cterm_color = "65",
+					name = "cpp",
+				},
+			})
 		elseif TshiftToggleConst == "2" then
-			TshiftToggleConst = "1"
+			TshiftToggleConst = "3"
 			vim.api.nvim_command("colorscheme solarized-osaka")
+		elseif TshiftToggleConst == "3" then
+			TshiftToggleConst = "1"
+			vim.api.nvim_command("colorscheme tokyonight-night")
 		end
 	end
 end
-
 vim.api.nvim_create_user_command("Tshift", shift_theme, { nargs = "?" })
 vim.keymap.set("n", "<leader>cs", ":Tshift Toggle<CR>", {})
 
@@ -633,6 +418,18 @@ vim.keymap.set("n", "<leader>gh", ":lua require('telescope').extensions.git_work
 --vim.keymap.set("n", "<leader>gf", require("git-worktree").delete_worktree(), {})
 ----------------------------------------------------------------------------------
 
+---------------------------- keymap for NeoGit and DiffView ------------------------
+
+-- vim.keymap.set("n", "<leader>nf", ":Neogit kind=floating<CR>", {})
+-- vim.keymap.set("n", "<leader>nd", ":DiffviewOpen<CR>", {})
+-- vim.keymap.set("n", "<leader>nt", ":DiffviewToggleFiles<CR>", {})
+-- vim.keymap.set("n", "<leader>nc", ":DiffviewClose<CR>", {})
+-- vim.keymap.set("n", "<leader>nh", ":DiffviewFileHistory<CR>", {})
+-- vim.keymap.set("n", "<leader>nl", ":DiffviewLogs<CR>", {})
+-- vim.keymap.set("n", "<leader>ns", ":Neogit kind=split_above<CR>", {})
+
+------------------------------------------------------------------------------------
+
 ------------------------------ LazyGit Config ------------------------------------
 vim.g.lazygit_floating_window_winblend = 0 -- transparency of floating window
 vim.g.lazygit_floating_window_scaling_factor = 0.85 -- scaling factor for floating window
@@ -681,7 +478,7 @@ require("mason").setup({
 		icons = {
 			package_installed = "✓",
 			package_pending = "➜",
-			package_uninstalled = "✗",
+			package_uninstalled = "󱘈",
 		},
 	},
 })
@@ -710,6 +507,7 @@ require("mason-lspconfig").setup({
 		--"pylyzer",
 		--"pyre",
 		--"pyright",
+		"bashls",
 	},
 })
 
@@ -739,6 +537,7 @@ lspconfig.emmet_ls.setup({ capabilities = capabilities })
 lspconfig.golangci_lint_ls.setup({ capabilities = capabilities })
 lspconfig.gopls.setup({ capabilities = capabilities })
 lspconfig.jedi_language_server.setup({ capabilities = capabilities })
+lspconfig.bashls.setup({ capabilities = capabilities })
 -- lspconfig.pyre.setup({ capabilities = capabilities })
 -- lspconfig.pylyzer.setup({ capabilities = capabilities })
 -- lspconfig.pyright.setup({ capabilities = capabilities })
@@ -1636,7 +1435,20 @@ ins_left({
 lualine.setup(config)
 
 require("nvim-web-devicons").get_icons()
-
+require("nvim-web-devicons").set_icon({
+	js = {
+		icon = "󰌞",
+		color = "yellow",
+		cterm_color = "65",
+		name = "js",
+	},
+	cpp = {
+		icon = "",
+		color = "#937af5",
+		cterm_color = "65",
+		name = "cpp",
+	},
+})
 -- require("nvim-web-devicons").get_icon_by_filetype(filetype, opts)
 -- require("nvim-web-devicons").get_icon_colors_by_filetype(filetype, opts)
 -- require("nvim-web-devicons").get_icon_color_by_filetype(filetype, opts)
@@ -1949,70 +1761,56 @@ end
 
 vim.api.nvim_create_user_command("Gwdel", deleteWorkTree, { nargs = "?" })
 
-local last_status_flag = 3
-local last_status = function()
-	local cmd
-	if last_status_flag == 3 then
-		cmd = "set laststatus=" .. last_status_flag
-		last_status_flag = 2
-	elseif last_status_flag == 2 then
-		cmd = "set laststatus=" .. last_status_flag
-		last_status_flag = 3
-	end
-	vim.api.nvim_command(cmd)
-end
-vim.keymap.set("n", "<leader>ll", last_status, {})
-
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
-require("nvim-treesitter.configs").setup({
-	textobjects = {
-		select = {
-			enable = true,
+--require("nvim-treesitter.configs").setup({
+--	textobjects = {
+--		select = {
+--			enable = true,
 
-			-- Automatically jump forward to textobj, similar to targets.vim
-			lookahead = true,
+--			-- Automatically jump forward to textobj, similar to targets.vim
+--			lookahead = true,
 
-			keymaps = {
-				-- You can use the capture groups defined in textobjects.scm
-				["af"] = "@function.outer",
-				["if"] = "@function.inner",
-				["ac"] = "@class.outer",
-				-- You can optionally set descriptions to the mappings (used in the desc parameter of
-				-- nvim_buf_set_keymap) which plugins like which-key display
-				["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
-				-- You can also use captures from other query groups like `locals.scm`
-				["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
-				["ik"] = "@conditional.inner",
-				["ak"] = "@conditional.outer",
-				["il"] = "@loop.inner",
-				["al"] = "@loop.outer",
-			},
-			-- You can choose the select mode (default is charwise 'v')
-			--
-			-- Can also be a function which gets passed a table with the keys
-			-- * query_string: eg '@function.inner'
-			-- * method: eg 'v' or 'o'
-			-- and should return the mode ('v', 'V', or '<c-v>') or a table
-			-- mapping query_strings to modes.
-			selection_modes = {
-				["@parameter.outer"] = "v", -- charwise
-				["@function.outer"] = "V", -- linewise
-				["@class.outer"] = "<c-v>", -- blockwise
-			},
-			-- If you set this to `true` (default is `false`) then any textobject is
-			-- extended to include preceding or succeeding whitespace. Succeeding
-			-- whitespace has priority in order to act similarly to eg the built-in
-			-- `ap`.
-			--
-			-- Can also be a function which gets passed a table with the keys
-			-- * query_string: eg '@function.inner'
-			-- * selection_mode: eg 'v'
-			-- and should return true or false
-			include_surrounding_whitespace = true,
-		},
-	},
-})
+--			keymaps = {
+--				-- You can use the capture groups defined in textobjects.scm
+--				["af"] = "@function.outer",
+--				["if"] = "@function.inner",
+--				["ac"] = "@class.outer",
+--				-- You can optionally set descriptions to the mappings (used in the desc parameter of
+--				-- nvim_buf_set_keymap) which plugins like which-key display
+--				["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+--				-- You can also use captures from other query groups like `locals.scm`
+--				["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+--				["ik"] = "@conditional.inner",
+--				["ak"] = "@conditional.outer",
+--				["il"] = "@loop.inner",
+--				["al"] = "@loop.outer",
+--			},
+--			-- You can choose the select mode (default is charwise 'v')
+--			--
+--			-- Can also be a function which gets passed a table with the keys
+--			-- * query_string: eg '@function.inner'
+--			-- * method: eg 'v' or 'o'
+--			-- and should return the mode ('v', 'V', or '<c-v>') or a table
+--			-- mapping query_strings to modes.
+--			selection_modes = {
+--				["@parameter.outer"] = "v", -- charwise
+--				["@function.outer"] = "V", -- linewise
+--				["@class.outer"] = "<c-v>", -- blockwise
+--			},
+--			-- If you set this to `true` (default is `false`) then any textobject is
+--			-- extended to include preceding or succeeding whitespace. Succeeding
+--			-- whitespace has priority in order to act similarly to eg the built-in
+--			-- `ap`.
+--			--
+--			-- Can also be a function which gets passed a table with the keys
+--			-- * query_string: eg '@function.inner'
+--			-- * selection_mode: eg 'v'
+--			-- and should return true or false
+--			include_surrounding_whitespace = true,
+--		},
+--	},
+--})
 
 require("ts_context_commentstring").setup({
 	enable_autocmd = false,
@@ -2023,16 +1821,15 @@ require("oil").setup({
 })
 
 -- init.lua
-local neogit = require("neogit")
-neogit.setup({})
+-- local neogit = require("neogit")
+-- neogit.setup({})
 
--- neogit.open()
-
--- -- open commit popup
--- neogit.open({ "commit" })
-
--- open with split kind
--- vim.keymap.set("n", "<leader>gs", neogit.open({ kind = "split" }), {})
-
--- open home directory
--- neogit.open({ cwd = "~" })
+-- vim.api.nvim_create_autocmd("BufEnter", {
+-- 	callback = function()
+-- 		vim.lsp.start({
+-- 			name = "flutter_lsp",
+-- 			cmd = { "home/antony/flutter/bin/dart" },
+-- 			root_dir = vim.fn.getcwd(),
+-- 		})
+-- 	end,
+-- })

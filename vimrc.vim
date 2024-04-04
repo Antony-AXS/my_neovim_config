@@ -38,7 +38,7 @@ if has("persistent_undo")
 endif
 
 if !exists('g:undotree_WindowLayout')
-    let g:undotree_WindowLayout = 1
+    let g:undotree_WindowLayout = 2
 endif
 
 let g:vim_dadbod_completion_mark = 'MYMARK'
