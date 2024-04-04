@@ -1521,105 +1521,7 @@ require("mini.indentscope").setup(
 	}
 )
 
-require("gitsigns").setup({
-	signs = {
-		add = { text = "+" },
-		change = { text = "~" },
-		delete = { text = "-" },
-		topdelete = { text = "‾" },
-		changedelete = { text = "~" },
-		untracked = { text = "┆" },
-	},
-	signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-	numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
-	linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
-	word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
-	watch_gitdir = {
-		follow_files = true,
-	},
-	auto_attach = true,
-	attach_to_untracked = true,
-	current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
-	current_line_blame_opts = {
-		virt_text = true,
-		virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
-		delay = 1000,
-		ignore_whitespace = false,
-		virt_text_priority = 100,
-	},
-	current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
-	sign_priority = 6,
-	update_debounce = 100,
-	status_formatter = nil, -- Use default
-	max_file_length = 40000, -- Disable if file is longer than this (in lines)
-	preview_config = {
-		-- Options passed to nvim_open_win
-		border = "single",
-		style = "minimal",
-		relative = "cursor",
-		row = 0,
-		col = 1,
-	},
-	yadm = {
-		enable = false,
-	},
-	on_attach = function(bufnr)
-		local gs = package.loaded.gitsigns
 
-		local function map(mode, l, r, opts)
-			opts = opts or {}
-			opts.buffer = bufnr
-			vim.keymap.set(mode, l, r, opts)
-		end
-
-		-- Navigation
-		map("n", "]c", function()
-			if vim.wo.diff then
-				return "]c"
-			end
-			vim.schedule(function()
-				gs.next_hunk()
-			end)
-			return "<Ignore>"
-		end, { expr = true })
-
-		map("n", "[c", function()
-			if vim.wo.diff then
-				return "[c"
-			end
-			vim.schedule(function()
-				gs.prev_hunk()
-			end)
-			return "<Ignore>"
-		end, { expr = true })
-
-		-- Actions
-		-- map("n", "<leader>hs", gs.stage_hunk)
-		-- map("n", "<leader>hr", gs.reset_hunk)
-		-- map("v", "<leader>hs", function()
-		-- 	gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-		-- end)
-		-- map("v", "<leader>hr", function()
-		-- 	gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-		-- end)
-		-- map("n", "<leader>hS", gs.stage_buffer)
-		-- map("n", "<leader>hu", gs.undo_stage_hunk)
-		-- map("n", "<leader>hR", gs.reset_buffer)
-		vim.keymap.set("n", "<leader>hp", gs.preview_hunk)
-		map("n", "<leader>hb", function()
-			gs.blame_line({ full = true })
-		end, {})
-		vim.keymap.set("n", "<leader>tb", gs.toggle_current_line_blame, {})
-		vim.keymap.set("n", "<leader>hd", gs.diffthis, {})
-		vim.keymap.set("n", "<leader>hD", function()
-			gs.diffthis("~")
-		end, {})
-		vim.keymap.set("n", "<leader>td", gs.toggle_deleted)
-
-		-- Text object
-		vim.keymap.set({ "o", "x" }, "<leader>ih", ":<C-U>Gitsigns select_hunk<CR>", {})
-	end,
-})
 
 -- execute a Vimscript command to listen to the HarpoonEnter event
 -- vim.api.nvim_exec([[
@@ -1681,44 +1583,6 @@ require("nvim-surround").setup({
 	-- Configuration here, or leave empty to use defaults
 })
 
-require("toggleterm").setup({
-	size = 20,
-	open_mapping = [[<c-\>]],
-	hide_numbers = true, -- hide the number column in toggleterm buffers
-	shade_filetypes = {},
-	highlights = {
-		-- highlights which map to a highlight group name and a table of it's values
-		-- NOTE: this is only a subset of values, any group placed here will be set for the terminal window split
-		-- Normal = {
-		-- 	guibg = "balck",
-		-- },
-		-- NormalFloat = {
-		-- 	link = 'Normal'
-		-- },
-		FloatBorder = {
-			guifg = "#0000ff",
-			guibg = "#0000ff",
-		},
-	},
-	shade_terminals = true, -- NOTE: this option takes priority over highlights specified so if you specify Normal highlights you should set this to false
-	shading_factor = 2,
-	start_in_insert = true,
-	insert_mappings = true, -- whether or not the open mapping applies in insert mode
-	terminal_mappings = true,
-	persist_size = true,
-	persist_mode = true, -- if set to true (default) the previous terminal mode will be remembered
-	direction = "float",
-	close_on_exit = true, -- close the terminal window when the process exit'
-	shell = vim.o.shell,
-	auto_scroll = true, -- automatically scroll to the bottom on terminal output
-	-- This field is only relevant if direction is set to 'float'
-	float_opts = {
-		border = "curved", -- ... other options supported by win open
-		-- like `size`, width, height, row, and col can be a number or function which is passed the current terminal
-		winblend = 0,
-	},
-})
-
 function _G.set_terminal_keymaps()
 	local opts = { buffer = 0 }
 	vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
@@ -1743,34 +1607,6 @@ require("git-worktree").setup({
 
 require("telescope").load_extension("git_worktree")
 
-local Worktree = require("git-worktree")
-
--- op = Operations.Switch, Operations.Create, Operations.Delete
--- metadata = table of useful values (structure dependent on op)
---      Switch
---          path = path you switched to
---          prev_path = previous worktree path
---      Create
---          path = path where worktree created
---          branch = branch name
---          upstream = upstream remote name
---      Delete
---          path = path where worktree deleted
-
-Worktree.on_tree_change(function(op, metadata)
-	if op == Worktree.Operations.Switch then
-		print("Switched from " .. metadata.prev_path .. " to " .. metadata.path)
-	end
-end)
-
-local deleteWorkTree = function(opts_del)
-	local cmd = "lua require('git-worktree').delete_worktree('" .. opts_del.args .. "')"
-	print(cmd)
-	vim.api.nvim_command(cmd)
-	return 0
-end
-
-vim.api.nvim_create_user_command("Gwdel", deleteWorkTree, { nargs = "?" })
 
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
@@ -1827,11 +1663,7 @@ require("ts_context_commentstring").setup({
 	enable_autocmd = false,
 })
 
-require("oil").setup({
-	default_file_explorer = false,
-})
 
--- init.lua
 -- local neogit = require("neogit")
 -- neogit.setup({})
 
