@@ -430,6 +430,17 @@ vim.keymap.set("n", "<leader>gh", ":lua require('telescope').extensions.git_work
 
 ------------------------------------------------------------------------------------
 
+-------------------------- keymap for NeoGit and DiffView ------------------------
+
+vim.keymap.set("n", "<leader>nf", ":Neogit kind=floating<CR>", {})
+vim.keymap.set("n", "<leader>nd", ":DiffviewOpen<CR>", {})
+vim.keymap.set("n", "<leader>nt", ":DiffviewToggleFiles<CR>", {})
+vim.keymap.set("n", "<leader>nc", ":DiffviewClose<CR>", {})
+vim.keymap.set("n", "<leader>nh", ":DiffviewFileHistory<CR>", {})
+vim.keymap.set("n", "<leader>nl", ":DiffviewLogs<CR>", {})
+
+----------------------------------------------------------------------------------
+
 ------------------------------ LazyGit Config ------------------------------------
 vim.g.lazygit_floating_window_winblend = 0 -- transparency of floating window
 vim.g.lazygit_floating_window_scaling_factor = 0.85 -- scaling factor for floating window
@@ -1833,3 +1844,6 @@ require("oil").setup({
 -- 		})
 -- 	end,
 -- })
+
+-- local neogit = require("neogit")
+-- neogit.setup({})
