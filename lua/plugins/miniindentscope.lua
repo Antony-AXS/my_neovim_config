@@ -41,5 +41,6 @@ return {
 				end
 			end,
 		})
+		require("mini.indentscope").setup({})
 	end,
 }

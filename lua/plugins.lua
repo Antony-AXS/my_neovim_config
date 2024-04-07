@@ -1,22 +1,8 @@
+local git = require("plugins/git")
 local dadbod = require("plugins/dadbod")
-local git = require("plugins/git_plugins")
+local colorschemes = require("plugins/colorschemes")
+
 return {
-	{
-		"catppuccin/nvim",
-		lazy = true,
-		name = "catppuccin",
-		priority = 1000,
-	},
-	{
-		"craftzdog/solarized-osaka.nvim",
-		lazy = true,
-		event = "VeryLazy",
-		priority = 1000,
-		opts = {},
-	},
-	{
-		"folke/tokyonight.nvim",
-	},
 	{
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.5",
@@ -31,13 +17,6 @@ return {
 		-- dependencies = {
 		-- 	"nvim-treesitter/nvim-treesitter-textobjects",
 		-- },
-	},
-	{
-		"nvim-tree/nvim-web-devicons",
-	},
-	{
-		"nvim-lualine/lualine.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
 	{
 		"williamboman/mason.nvim",
@@ -75,11 +54,6 @@ return {
 		lazy = true,
 	},
 	{
-		"nvimdev/dashboard-nvim",
-		event = "VimEnter",
-		dependencies = { { "nvim-tree/nvim-web-devicons" } },
-	},
-	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
 		opts = {}, -- this is equalent to setup({}) function
@@ -95,8 +69,19 @@ return {
 	{
 		"JoosepAlviste/nvim-ts-context-commentstring",
 	},
+	{
+
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "v3.x",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+			"MunifTanjim/nui.nvim",
+		},
+	},
 	git,
 	dadbod,
+	colorschemes,
 	-- {
 	-- 	"BurntSushi/ripgrep",
 	-- },

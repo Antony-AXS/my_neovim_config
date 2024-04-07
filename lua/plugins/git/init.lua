@@ -1,14 +1,6 @@
 return {
-
 	{
 		"tpope/vim-fugitive",
-	},
-	{
-		"kdheepak/lazygit.nvim",
-		-- optional for floating window border decoration
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-		},
 	},
 	{
 		"lewis6991/gitsigns.nvim",
@@ -35,7 +27,7 @@ return {
 				current_line_blame_opts = {
 					virt_text = true,
 					virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
-					delay = 1000,
+					delay = 700,
 					ignore_whitespace = false,
 					virt_text_priority = 100,
 				},
@@ -97,12 +89,14 @@ return {
 					-- map("n", "<leader>hS", gs.stage_buffer)
 					-- map("n", "<leader>hu", gs.undo_stage_hunk)
 					-- map("n", "<leader>hR", gs.reset_buffer)
+					---------------------------------- GIT Signs -------------------------------------
 					vim.keymap.set("n", "<leader>hp", gs.preview_hunk)
 					map("n", "<leader>hb", function()
 						gs.blame_line({ full = true })
 					end, {})
 					vim.keymap.set("n", "<leader>tb", gs.toggle_current_line_blame, {})
 					vim.keymap.set("n", "<leader>hd", gs.diffthis, {})
+					vim.keymap.set('n', '<leader>td', gs.toggle_deleted, {})
 					vim.keymap.set("n", "<leader>hD", function()
 						gs.diffthis("~")
 					end, {})
@@ -110,6 +104,7 @@ return {
 
 					-- Text object
 					vim.keymap.set({ "o", "x" }, "<leader>ih", ":<C-U>Gitsigns select_hunk<CR>", {})
+					----------------------------------------------------------------------------------
 				end,
 			})
 		end,
@@ -145,6 +140,55 @@ return {
 			end
 
 			vim.api.nvim_create_user_command("Gwdel", deleteWorkTree, { nargs = "?" })
+			----------------------------- keymap for Git WorkTree ----------------------------
+			-- Creates a worktree.  Requires the path, branch name, and the upstream
+			vim.keymap.set(
+				"n",
+				"<leader>gt",
+				":lua require('telescope').extensions.git_worktree.create_git_worktree()<CR>",
+				{}
+			)
+
+			-- switches to an existing worktree.  Requires the path name
+			vim.keymap.set(
+				"n",
+				"<leader>gh",
+				":lua require('telescope').extensions.git_worktree.git_worktrees()<CR>",
+				{}
+			)
+
+			-- deletes to an existing worktree.  Requires the path name
+			--vim.keymap.set("n", "<leader>gf", require("git-worktree").delete_worktree(), {})
+			----------------------------------------------------------------------------------
+
+			Worktree.setup({
+				change_directory_command = "cd",
+				update_on_change = true,
+				update_on_change_command = "e .",
+				clearjumps_on_change = true,
+				autopush = false,
+			})
+		end,
+	},
+	{
+		"kdheepak/lazygit.nvim",
+		-- optional for floating window border decoration
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		config = function()
+			------------------------------ LazyGit Config ------------------------------------
+			vim.g.lazygit_floating_window_winblend = 0 -- transparency of floating window
+			vim.g.lazygit_floating_window_scaling_factor = 0.85 -- scaling factor for floating window
+			vim.g.lazygit_floating_window_border_chars = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" } -- customize lazygit popup window border characters
+			vim.g.lazygit_floating_window_use_plenary = 0 -- use plenary.nvim to manage floating window if available
+			vim.g.lazygit_use_neovim_remote = 1 -- fallback to 0 if neovim-remote is not installed
+
+			vim.g.lazygit_use_custom_config_file_path = 0 -- config file path is evaluated if this value is 1
+			vim.g.lazygit_config_file_path = "" -- custom config file path
+			-- OR
+			-- vim.g.lazygit_config_file_path = {} -- table of custom config file paths
+			----------------------------------------------------------------------------------
 		end,
 	},
 	-- {
@@ -157,7 +201,20 @@ return {
 	-- 		"nvim-telescope/telescope.nvim", -- optional
 	-- 		"ibhagwan/fzf-lua", -- optional
 	-- 	},
-	-- 	config = true,
+	-- 	config = function()
+	--
+	---------------------------- keymap for NeoGit and DiffView ------------------------
+
+	-- vim.keymap.set("n", "<leader>nf", ":Neogit kind=floating<CR>", {})
+	-- vim.keymap.set("n", "<leader>nd", ":DiffviewOpen<CR>", {})
+	-- vim.keymap.set("n", "<leader>nt", ":DiffviewToggleFiles<CR>", {})
+	-- vim.keymap.set("n", "<leader>nc", ":DiffviewClose<CR>", {})
+	-- vim.keymap.set("n", "<leader>nh", ":DiffviewFileHistory<CR>", {})
+	-- vim.keymap.set("n", "<leader>nl", ":DiffviewLogs<CR>", {})
+	-- vim.keymap.set("n", "<leader>ns", ":Neogit kind=split_above<CR>", {})
+
+	------------------------------------------------------------------------------------
+	-- 	end,
 	-- 	lazy = true,
 	-- },
 }
