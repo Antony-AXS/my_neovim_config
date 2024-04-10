@@ -110,20 +110,6 @@ local shift_theme = function(opts_theme)
 		if TshiftToggleConst == "1" then
 			TshiftToggleConst = "2"
 			vim.api.nvim_command("colorscheme catppuccin")
-			require("nvim-web-devicons").set_icon({
-				js = {
-					icon = "󰌞",
-					color = "yellow",
-					cterm_color = "65",
-					name = "js",
-				},
-				cpp = {
-					icon = "",
-					color = "#937af5",
-					cterm_color = "65",
-					name = "cpp",
-				},
-			})
 		elseif TshiftToggleConst == "2" then
 			TshiftToggleConst = "3"
 			vim.api.nvim_command("colorscheme solarized-osaka")

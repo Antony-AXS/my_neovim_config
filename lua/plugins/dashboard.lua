@@ -7,7 +7,7 @@ return {
 		require("dashboard").setup({
 			theme = "hyper",
 			config = {
-				header = ascii.header_3,
+				header = ascii.header_0,
 				packages = { enable = true }, -- show how many plugins neovim loaded
 				-- limit how many projects list, action when you press key or enter it will run this action.
 				-- action can be a functino type, e.g.
