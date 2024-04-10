@@ -162,32 +162,30 @@ vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
 -----------------------------------------------------------------------------------
 
------------------------------ keymap for none-ls ---------------------------------
+------------------------------ keymap for none-ls ---------------------------------
 vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
 vim.keymap.set("v", "<Leader>1f", vim.lsp.buf.format, {})
-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
 
------------------------------ keymap for harpoon ---------------------------------
+------------------------------ keymap for harpoon ---------------------------------
 vim.keymap.set("n", "<leader>hh", require("harpoon.mark").add_file, {})
 vim.keymap.set("n", "<leader>z", require("harpoon.ui").toggle_quick_menu)
 vim.keymap.set("n", "<C-j>", require("harpoon.ui").nav_prev) -- navigates to previous mark
 vim.keymap.set("n", "<C-k>", require("harpoon.ui").nav_next) -- navigates to next mark
 vim.keymap.set("n", "<C-q>", require("harpoon.ui").nav_next) -- navigates to next mark
-vim.keymap.set("n", "<leader>'", require("harpoon.ui").nav_next) -- navigates to next mark
-vim.keymap.set("n", "<leader>;", require("harpoon.ui").nav_prev) -- navigates to previous mark
 vim.keymap.set("n", "<leader>th", ":Telescope harpoon marks<CR>", {})
-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
 
------------------------------ keymap for toggle-term -----------------------------
+------------------------------ keymap for toggle-term -----------------------------
 vim.keymap.set("n", "<leader>cf", ":ToggleTerm direction=float size=20<CR>", {})
 vim.keymap.set("n", "<leader>cv", ":ToggleTerm direction=vertical size=60<CR>", {})
 vim.keymap.set("n", "<leader>ch", ":ToggleTerm direction=horizontal size=12<CR>", {})
-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
 
---------------------------- keymap for buffer navigation -------------------------
+---------------------------- keymap for buffer navigation -------------------------
 vim.keymap.set("n", "<leader>we", ":bnext<CR>", {})
 vim.keymap.set("n", "<leader>wq", ":bprev<CR>", {})
-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
 
 vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
 
@@ -244,12 +242,6 @@ require("mason-lspconfig").setup({
 		"gopls",
 		"golangci_lint_ls",
 		"bashls",
-		-- "eslint",
-		-- "lwc_ls",
-		-- "sqlls",
-		--"pylyzer",
-		--"pyre",
-		--"pyright",
 	},
 })
 
@@ -280,12 +272,6 @@ lspconfig.golangci_lint_ls.setup({ capabilities = capabilities })
 lspconfig.gopls.setup({ capabilities = capabilities })
 lspconfig.jedi_language_server.setup({ capabilities = capabilities })
 lspconfig.bashls.setup({ capabilities = capabilities })
--- lspconfig.pyre.setup({ capabilities = capabilities })
--- lspconfig.pylyzer.setup({ capabilities = capabilities })
--- lspconfig.pyright.setup({ capabilities = capabilities })
--- lspconfig.sqlls.setup({ capabilities = capabilities })
--- lspconfig.eslint.setup({})
--- lspconfig.lwc_ls.setup({ capabilities = capabilities })
 
 local null_ls = require("null-ls")
 
@@ -454,27 +440,6 @@ require("nvim-treesitter.configs").setup({
 })
 
 vim.cmd.colorscheme("catppuccin")
-
--- Color table for highlights
--- stylua: ignore
-local colors = {
-	bg          = '#202328',
-	fg          = '#bbc2cf',
-	yellow      = '#ECBE7B',
-	p_yellow    = '#e4f00e',
-	cyan        = '#008080',
-	darkblue    = '#081633',
-	green       = '#98be65',
-	orange      = '#FF8800',
-	violet      = '#a9a1e1',
-	magenta     = '#c678dd',
-	blue        = '#51afef',
-	red         = '#ec5f67',
-	black       = '#090a04',
-	grey        = '#a0a1a7',
-	white       = '#f3f3f3',
-	light_green = '#83a598',
-}
 
 require("nvim-autopairs").setup({
 	disable_filetype = { "TelescopePrompt", "vim" },

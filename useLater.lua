@@ -409,3 +409,27 @@ end, {})
 -- 	toprint = toprint .. string.rep(" ", indent - 2) .. "}"
 -- 	return toprint
 -- end
+--
+--
+--
+-- Color table for highlights
+-- stylua: ignore
+-- local colors = {
+-- 	bg          = '#202328',
+-- 	fg          = '#bbc2cf',
+-- 	yellow      = '#ECBE7B',
+-- 	p_yellow    = '#e4f00e',
+-- 	cyan        = '#008080',
+-- 	darkblue    = '#081633',
+-- 	green       = '#98be65',
+-- 	orange      = '#FF8800',
+-- 	violet      = '#a9a1e1',
+-- 	magenta     = '#c678dd',
+-- 	blue        = '#51afef',
+-- 	red         = '#ec5f67',
+-- 	black       = '#090a04',
+-- 	grey        = '#a0a1a7',
+-- 	white       = '#f3f3f3',
+-- 	light_green = '#83a598',
+-- }
+
