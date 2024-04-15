@@ -3,10 +3,6 @@ return {
 	"ThePrimeagen/harpoon",
 	enabled = true,
 	lazy = false,
-	opts = function(_, opts)
-		opts = opts
-		tabline_prefix = "#"
-	end,
 	--config = function()
 	--	local Harpoon = require("harpoon")
 	--	Harpoon.setup({

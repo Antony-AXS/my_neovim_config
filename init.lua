@@ -122,7 +122,7 @@ end
 vim.api.nvim_create_user_command("Tshift", shift_theme, { nargs = "?" })
 vim.keymap.set("n", "<leader>cs", ":Tshift Toggle<CR>", {})
 
-local harpoon = require("telescope").load_extension("harpoon")
+-- local harpoon = require("telescope").load_extension("harpoon")
 
 --------------------------- keymap for diagnostics jump --------------------------
 vim.keymap.set("n", "]d", ":lua vim.diagnostic.goto_next()<CR>", {})
@@ -131,12 +131,18 @@ vim.keymap.set("n", "[d", ":lua vim.diagnostic.goto_prev()<CR>", {})
 
 ------------------------------ keymap for telescope ------------------------------
 vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
-vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
 vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
 vim.keymap.set("n", "<leader>fs", builtin.search_history, {})
 vim.keymap.set("n", "<leader>fe", builtin.resume, {})
 vim.keymap.set("n", "<leader>fp", builtin.pickers, {})
+vim.keymap.set("n", "<leader>fm", builtin.marks, {})
+vim.keymap.set("n", "<leader>fc", builtin.colorscheme, {})
+vim.keymap.set("n", "<leader>fo", builtin.oldfiles, {})
+vim.keymap.set("n", "<leader>fq", builtin.registers, {})
+vim.keymap.set("n", "<leader>fu", builtin.autocommands, {})
+vim.keymap.set("n", "<leader>fd", builtin.diagnostics, {})
+vim.keymap.set("n", "<leader>fg", ":Telescope live_grep theme=ivy<CR>")
 vim.keymap.set("n", "<leader>fr", ":Telescope live_grep theme=dropdown<CR>", {})
 vim.keymap.set("n", "<leader>fi", ":Telescope find_files hidden=true<CR>", {})
 vim.keymap.set("n", "<leader>fa", ":Telescope find_files find_command=rg,--ignore,--hidden,--files,-u<CR>", {})
@@ -204,7 +210,7 @@ require("mason").setup({
 		icons = {
 			package_installed = "✓",
 			package_pending = "➜",
-			package_uninstalled = "󱘈",
+			package_uninstalled = "󰳳",
 		},
 	},
 })
@@ -474,3 +480,4 @@ vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 require("ts_context_commentstring").setup({
 	enable_autocmd = false,
 })
+
