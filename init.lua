@@ -228,6 +228,8 @@ require("mason-lspconfig").setup({
 		"gopls",
 		"golangci_lint_ls",
 		"bashls",
+		"ltex",
+		"vale_ls",
 	},
 })
 
@@ -258,6 +260,8 @@ lspconfig.golangci_lint_ls.setup({ capabilities = capabilities })
 lspconfig.gopls.setup({ capabilities = capabilities })
 lspconfig.jedi_language_server.setup({ capabilities = capabilities })
 lspconfig.bashls.setup({ capabilities = capabilities })
+lspconfig.ltex.setup({ capabilities = capabilities })
+lspconfig.vale_ls.setup({ capabilities = capabilities })
 
 local null_ls = require("null-ls")
 

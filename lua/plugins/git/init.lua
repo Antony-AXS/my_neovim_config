@@ -103,7 +103,6 @@ return {
 					vim.keymap.set("n", "<leader>hD", function()
 						gs.diffthis("~")
 					end, {})
-					vim.keymap.set("n", "<leader>td", gs.toggle_deleted)
 
 					-- Text object
 					vim.keymap.set({ "o", "x" }, "<leader>ih", ":<C-U>Gitsigns select_hunk<CR>", {})
@@ -194,30 +193,29 @@ return {
 			----------------------------------------------------------------------------------
 		end,
 	},
-	-- {
-	-- 	"NeogitOrg/neogit",
-	-- 	dependencies = {
-	-- 		"nvim-lua/plenary.nvim", -- required
-	-- 		"sindrets/diffview.nvim", -- optional - Diff integration
+	{
+		"NeogitOrg/neogit",
+		dependencies = {
+			"nvim-lua/plenary.nvim", -- required
+			"sindrets/diffview.nvim", -- optional - Diff integration
 
-	-- 		-- Only one of these is needed, not both.
-	-- 		"nvim-telescope/telescope.nvim", -- optional
-	-- 		"ibhagwan/fzf-lua", -- optional
-	-- 	},
-	-- 	config = function()
-	--
-	---------------------------- keymap for NeoGit and DiffView ------------------------
-
-	-- vim.keymap.set("n", "<leader>nf", ":Neogit kind=floating<CR>", {})
-	-- vim.keymap.set("n", "<leader>nd", ":DiffviewOpen<CR>", {})
-	-- vim.keymap.set("n", "<leader>nt", ":DiffviewToggleFiles<CR>", {})
-	-- vim.keymap.set("n", "<leader>nc", ":DiffviewClose<CR>", {})
-	-- vim.keymap.set("n", "<leader>nh", ":DiffviewFileHistory<CR>", {})
-	-- vim.keymap.set("n", "<leader>nl", ":DiffviewLogs<CR>", {})
-	-- vim.keymap.set("n", "<leader>ns", ":Neogit kind=split_above<CR>", {})
-
-	------------------------------------------------------------------------------------
-	-- 	end,
-	-- 	lazy = true,
-	-- },
+			-- Only one of these is needed, not both.
+			"nvim-telescope/telescope.nvim", -- optional
+			"ibhagwan/fzf-lua", -- optional
+		},
+		config = function()
+			-- local neogit = require("neogit")
+			-- neogit.setup({})
+			------------------------ keymap for NeoGit and DiffView ----------------------
+			vim.keymap.set("n", "<leader>nf", ":Neogit kind=floating<CR>", {})
+			vim.keymap.set("n", "<leader>nd", ":DiffviewOpen<CR>", {})
+			vim.keymap.set("n", "<leader>nt", ":DiffviewToggleFiles<CR>", {})
+			vim.keymap.set("n", "<leader>nc", ":DiffviewClose<CR>", {})
+			vim.keymap.set("n", "<leader>nh", ":DiffviewFileHistory<CR>", {})
+			vim.keymap.set("n", "<leader>nl", ":DiffviewLogs<CR>", {})
+			vim.keymap.set("n", "<leader>ns", ":Neogit kind=split_above<CR>", {})
+			------------------------------------------------------------------------------
+		end,
+		-- lazy = true,
+	},
 }

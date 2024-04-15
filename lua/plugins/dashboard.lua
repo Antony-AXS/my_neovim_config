@@ -7,11 +7,11 @@ return {
 		require("dashboard").setup({
 			theme = "hyper",
 			config = {
-				header = ascii.header_0,
+				header = ascii.header_2,
 				packages = { enable = true }, -- show how many plugins neovim loaded
 				-- limit how many projects list, action when you press key or enter it will run this action.
 				-- action can be a functino type, e.g.
-				-- action = func(path) vim.cmd('Telescope find_files cwd=' .. path) end
+				action = function(path) vim.cmd('Telescope find_files cwd=' .. path) end,
 				project = {
 					enable = true,
 					limit = 3,
