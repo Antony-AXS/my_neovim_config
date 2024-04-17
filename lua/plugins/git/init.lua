@@ -30,7 +30,7 @@ return {
 				current_line_blame_opts = {
 					virt_text = true,
 					virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
-					delay = 600,
+					delay = 550,
 					ignore_whitespace = false,
 					virt_text_priority = 100,
 				},
@@ -212,6 +212,7 @@ return {
 			vim.keymap.set("n", "<leader>nt", ":DiffviewToggleFiles<CR>", {})
 			vim.keymap.set("n", "<leader>nc", ":DiffviewClose<CR>", {})
 			vim.keymap.set("n", "<leader>nh", ":DiffviewFileHistory<CR>", {})
+			vim.keymap.set("n", "<leader>nq", ":DiffviewFileHistory %<CR>", {})
 			vim.keymap.set("n", "<leader>nl", ":DiffviewLogs<CR>", {})
 			vim.keymap.set("n", "<leader>ns", ":Neogit kind=split_above<CR>", {})
 			------------------------------------------------------------------------------
