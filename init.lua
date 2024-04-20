@@ -475,8 +475,6 @@ vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
 
 require("telescope").load_extension("git_worktree")
 
-vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
-
 require("ts_context_commentstring").setup({
 	enable_autocmd = false,
 })

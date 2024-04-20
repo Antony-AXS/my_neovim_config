@@ -157,7 +157,7 @@ return {
 					{
 						function()
 							-- 󰨑 󰤼   󰝜  󰓪  󰱾  󱀂  󱀃  󰹈    󰧑  :query
-							return ("󰝜 " .. vim.fn.winnr())
+							return ("󰨑 " .. vim.fn.winnr())
 						end,
 						color = {
 							fg = "#a9ff0a",
