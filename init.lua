@@ -129,9 +129,10 @@ vim.keymap.set("n", "]d", ":lua vim.diagnostic.goto_next()<CR>", {})
 vim.keymap.set("n", "[d", ":lua vim.diagnostic.goto_prev()<CR>", {})
 ----------------------------------------------------------------------------------
 
------------------------------- keymap for telescope ------------------------------
+------------------------------- keymap for telescope ------------------------------
 vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
 vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
+vim.keymap.set("n", "<leader>fn", builtin.tags, {})
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
 vim.keymap.set("n", "<leader>fs", builtin.search_history, {})
 vim.keymap.set("n", "<leader>fe", builtin.resume, {})
@@ -139,14 +140,17 @@ vim.keymap.set("n", "<leader>fp", builtin.pickers, {})
 vim.keymap.set("n", "<leader>fm", builtin.marks, {})
 vim.keymap.set("n", "<leader>fc", builtin.colorscheme, {})
 vim.keymap.set("n", "<leader>fo", builtin.oldfiles, {})
-vim.keymap.set("n", "<leader>fq", builtin.registers, {})
-vim.keymap.set("n", "<leader>fu", builtin.autocommands, {})
+vim.keymap.set("n", "<leader>fq", builtin.quickfix, {})
+vim.keymap.set("n", "<leader>fc", builtin.registers, {})
+vim.keymap.set("n", "<leader>fy", builtin.autocommands, {})
 vim.keymap.set("n", "<leader>fd", builtin.diagnostics, {})
+vim.keymap.set("n", "<leader>fm", builtin.command_history, {})
 vim.keymap.set("n", "<leader>fg", ":Telescope live_grep theme=ivy<CR>")
+vim.keymap.set("n", "<leader>fu", ":Telescope autocommands theme=ivy<CR>")
 vim.keymap.set("n", "<leader>fr", ":Telescope live_grep theme=dropdown<CR>", {})
 vim.keymap.set("n", "<leader>fi", ":Telescope find_files hidden=true<CR>", {})
 vim.keymap.set("n", "<leader>fa", ":Telescope find_files find_command=rg,--ignore,--hidden,--files,-u<CR>", {})
-----------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
 
 ------------------------------ keymap for lsp-buffer ------------------------------
 vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
@@ -236,6 +240,7 @@ require("mason-lspconfig").setup({
 		"bashls",
 		"ltex",
 		"vale_ls",
+		"diagnosticls",
 	},
 })
 
@@ -268,6 +273,7 @@ lspconfig.jedi_language_server.setup({ capabilities = capabilities })
 lspconfig.bashls.setup({ capabilities = capabilities })
 lspconfig.ltex.setup({ capabilities = capabilities })
 lspconfig.vale_ls.setup({ capabilities = capabilities })
+lspconfig.diagnosticls.setup({ capabilities = capabilities })
 
 local null_ls = require("null-ls")
 
@@ -479,3 +485,47 @@ require("ts_context_commentstring").setup({
 	enable_autocmd = false,
 })
 
+--require'nvim-treesitter.configs'.setup {
+--  textobjects = {
+--    select = {
+--      enable = true,
+
+--      -- Automatically jump forward to textobj, similar to targets.vim
+--      lookahead = true,
+
+--      keymaps = {
+--        -- You can use the capture groups defined in textobjects.scm
+--        ["af"] = "@function.outer",
+--        ["if"] = "@function.inner",
+--        ["ac"] = "@class.outer",
+--        -- You can optionally set descriptions to the mappings (used in the desc parameter of
+--        -- nvim_buf_set_keymap) which plugins like which-key display
+--        ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+--        -- You can also use captures from other query groups like `locals.scm`
+--        ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+--      },
+--      -- You can choose the select mode (default is charwise 'v')
+--      --
+--      -- Can also be a function which gets passed a table with the keys
+--      -- * query_string: eg '@function.inner'
+--      -- * method: eg 'v' or 'o'
+--      -- and should return the mode ('v', 'V', or '<c-v>') or a table
+--      -- mapping query_strings to modes.
+--      selection_modes = {
+--        ['@parameter.outer'] = 'v', -- charwise
+--        ['@function.outer'] = 'V', -- linewise
+--        ['@class.outer'] = '<c-v>', -- blockwise
+--      },
+--      -- If you set this to `true` (default is `false`) then any textobject is
+--      -- extended to include preceding or succeeding whitespace. Succeeding
+--      -- whitespace has priority in order to act similarly to eg the built-in
+--      -- `ap`.
+--      --
+--      -- Can also be a function which gets passed a table with the keys
+--      -- * query_string: eg '@function.inner'
+--      -- * selection_mode: eg 'v'
+--      -- and should return true or false
+--      include_surrounding_whitespace = true,
+--    },
+--  },
+--}

@@ -31,6 +31,7 @@ return {
 					"neogitstatus",
 					"notify",
 					"startify",
+					"DiffviewFiles",
 					"toggleterm",
 					"Trouble",
 					"undotree",
