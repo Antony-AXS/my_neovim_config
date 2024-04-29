@@ -156,8 +156,17 @@ return {
 				lualine_x = {
 					{
 						function()
-							-- 󰨑 󰤼   󰝜  󰓪  󰱾  󱀂  󱀃  󰹈    󰧑  :query
-							return ("󰝜 " .. vim.fn.winnr() .. "|" .. (#vim.api.nvim_list_wins()))
+							-- 󰨑  󰤼    󰻭  󱇿  󰝜  󰩵  󱓺  󰓪  󰱾  󱀂  󱀃  󰹈    󰧑
+							-- 󰼏  󰼐  󰼑  󰼒  󰼓  󰼔  󰼕  󰼖  󰼗  󰼘  󰿪
+							local Icon = "󱇿 "
+							-- if #vim.api.nvim_list_wins() == 1 then
+							-- 	Icon = "󰼏 "
+							-- elseif #vim.api.nvim_list_wins() == 2 then
+							-- 	Icon = "󰼐 "
+							-- elseif #vim.api.nvim_list_wins() == 3 then
+							-- 	Icon = "󰼑 "
+							-- end
+							return (Icon .. vim.fn.winnr() .. "|" .. (#vim.api.nvim_list_wins()))
 						end,
 						color = {
 							fg = "#a9ff0a",
