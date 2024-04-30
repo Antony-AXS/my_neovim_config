@@ -143,9 +143,9 @@ vim.keymap.set("n", "<leader>fo", builtin.oldfiles, {})
 vim.keymap.set("n", "<leader>fq", builtin.quickfix, {})
 vim.keymap.set("n", "<leader>fc", builtin.registers, {})
 vim.keymap.set("n", "<leader>fy", builtin.autocommands, {})
-vim.keymap.set("n", "<leader>fd", builtin.diagnostics, {})
 vim.keymap.set("n", "<leader>fm", builtin.command_history, {})
 vim.keymap.set("n", "<leader>fg", ":Telescope live_grep theme=ivy<CR>")
+vim.keymap.set("n", "<leader>fd", ":Telescope diagnostics theme=ivy<CR>")
 vim.keymap.set("n", "<leader>fu", ":Telescope autocommands theme=ivy<CR>")
 vim.keymap.set("n", "<leader>fr", ":Telescope live_grep theme=dropdown<CR>", {})
 vim.keymap.set("n", "<leader>fi", ":Telescope find_files hidden=true<CR>", {})
@@ -423,6 +423,12 @@ require("telescope").setup({
 		},
 	},
 	defaults = {
+		defaults = {
+			-- layout_config = {
+			-- 	preview_cutoff = 250, -- Adjust this value to increase or decrease the size
+			-- },
+		},
+		-- mappings = { default_mappings = config.values.default_mappings },
 		history = {
 			path = "~/.local/share/nvim/databases/telescope_history.sqlite3",
 			limit = 100,
@@ -442,6 +448,12 @@ require("nvim-treesitter.configs").setup({
 })
 
 vim.cmd.colorscheme("catppuccin")
+
+vim.api.nvim_create_user_command("Cppath", function()
+	local path = vim.fn.expand("%:p")
+	vim.fn.setreg("+", path)
+	vim.notify('Copied "' .. path .. '" to the clipboard!')
+end, {})
 
 require("nvim-autopairs").setup({
 	disable_filetype = { "TelescopePrompt", "vim" },
@@ -529,3 +541,84 @@ require("ts_context_commentstring").setup({
 --    },
 --  },
 --}
+
+-- local file_map = function(path)
+-- 	local M = {}
+-- 	local key = tostring(#M + 1)
+-- 	M[key] = vim.fn.expand("%:p")
+-- 	vim.print(M)
+-- 	return M
+-- end
+
+-- vim.keymap.set("n", "<leader>op", file_map, {})
+
+-- function Taber()
+-- 	local current_file_path = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":.")
+-- 	local tabs = (require("harpoon").get_mark_config().marks)
+-- 	vim.print("TABS------------->>>>>>>", tabs)
+-- 	local index = require("harpoon.mark").get_index_of(vim.fn.bufname())
+-- 	local InnObj = {}
+-- 	for k, v in pairs(tabs) do
+-- 		InnObj[k] = {
+-- 			function()
+-- 				local index = require("harpoon.mark").get_index_of(vim.fn.bufname())
+-- 				vim.fn.bufname()
+-- 				local path = string.format(" %s ", tabs[k].filename)
+-- 				if path == current_file_path then
+-- 					return "hello"
+-- 				else
+-- 					return path
+-- 				end
+-- 			end,
+-- 			component = { right = "" },
+-- 		}
+-- 	end
+-- 	return InnObj
+-- end
+
+-- Define the content for the floating window
+-- local content = {
+--     "This is a floating window!",
+--     "You can put any content here.",
+--     "Feel free to customize it.",
+-- }
+
+-- -- Define the options for the floating window
+-- local opts = {
+--     relative = 'editor',  -- Position relative to the editor
+--     width = 2,           -- Width of the floating window
+--     height = 1,    -- Height of the floating window (auto-sized based on content)
+--     row = 1,             -- Row position of the floating window
+--     col = 90,             -- Column position of the floating window
+--     focusable = false,    -- Allow the floating window to receive focus
+--     style = 'minimal',    -- Style of the floating window
+--     border = 'single',    -- Border style of the floating window
+-- }
+
+-- -- Create the floating window
+-- local float_win = vim.api.nvim_open_win(0, true, opts)
+
+-- -- Set the content of the floating window
+-- -- vim.api.nvim_win_set_option(float_win, 'wrap', true)
+-- vim.api.nvim_buf_set_lines(0, 0, -1, false, content)
+-- local sss = function()
+-- 	-- Create an unlisted buffer
+-- 	local buf = vim.api.nvim_create_buf(false, true)
+
+-- 	-- Set the content of the buffer
+-- 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, { tostring(vim.fn.winnr()) })
+
+-- 	-- Open a temporary window to display the buffer content
+-- 	vim.api.nvim_open_win(buf, true, {
+-- 		relative = "editor",
+-- 		width = 20,
+-- 		height = 1,
+-- 		row = 1,
+-- 		col = 100,
+-- 		style = "minimal",
+-- 	})
+-- end
+
+-- vim.api.nvim_create_autocmd("WinLeave", {
+-- 	callback = sss,
+-- })

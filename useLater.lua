@@ -204,28 +204,29 @@
 -- 		return tabs[k].filename
 -- 	end
 -- end
--- function Taber()
--- 	local current_file_path = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":.")
--- 	local tabs = shorten_filenames(require("harpoon").get_mark_config().marks)
--- 	local index = require("harpoon.mark").get_index_of(vim.fn.bufname())
--- 	local InnObj = {}
--- 	for k, v in pairs(tabs) do
--- 		InnObj[k] = {
--- 			function()
--- 				local index = require("harpoon.mark").get_index_of(vim.fn.bufname())
--- 				vim.fn.bufname()
--- 				local path = string.format(" %s ", tabs[k].filename)
--- 				if path == current_file_path then
--- 					return "hello"
--- 				else
--- 					return path
--- 				end
--- 			end,
--- 			component = { right = "" },
--- 		}
--- 	end
--- 	return InnObj
--- end
+function Taber()
+	local current_file_path = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":.")
+	local tabs = (require("harpoon").get_mark_config().marks)
+	vim.print("TABS------------->>>>>>>", tabs)
+	local index = require("harpoon.mark").get_index_of(vim.fn.bufname())
+	local InnObj = {}
+	for k, v in pairs(tabs) do
+		InnObj[k] = {
+			function()
+				local index = require("harpoon.mark").get_index_of(vim.fn.bufname())
+				vim.fn.bufname()
+				local path = string.format(" %s ", tabs[k].filename)
+				if path == current_file_path then
+					return "hello"
+				else
+					return path
+				end
+			end,
+			component = { right = "" },
+		}
+	end
+	return InnObj
+end
 
 -- function Taber_2()
 -- 	return {
@@ -316,12 +317,6 @@
 
 -- 	log.debug("setup(): Tabline Setup", opts)
 -- end
-
-vim.api.nvim_create_user_command("Cppath", function()
-	local path = vim.fn.expand("%:p")
-	vim.fn.setreg("+", path)
-	vim.notify('Copied "' .. path .. '" to the clipboard!')
-end, {})
 
 -- execute a Vimscript command to listen to the HarpoonEnter event
 -- vim.api.nvim_exec([[
