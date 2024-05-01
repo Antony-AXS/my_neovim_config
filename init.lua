@@ -497,6 +497,10 @@ require("ts_context_commentstring").setup({
 	enable_autocmd = false,
 })
 
+vim.keymap.set("n", "<c-z>", function()
+	vim.notify("you just got saved from an unwanted headache !!!!!")
+end, {})
+
 --require'nvim-treesitter.configs'.setup {
 --  textobjects = {
 --    select = {
