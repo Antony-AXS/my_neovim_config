@@ -242,11 +242,11 @@ require("mason-lspconfig").setup({
 		"sqls",
 		"pylsp",
 		"gopls",
-		"golangci_lint_ls",
 		"bashls",
 		"ltex",
 		"vale_ls",
 		"diagnosticls",
+		-- "golangci_lint_ls",
 	},
 })
 
@@ -273,13 +273,13 @@ lspconfig.clangd.setup({ capabilities = capabilities })
 lspconfig.sqls.setup({ capabilities = capabilities })
 lspconfig.pylsp.setup({ capabilities = capabilities })
 lspconfig.emmet_ls.setup({ capabilities = capabilities })
-lspconfig.golangci_lint_ls.setup({ capabilities = capabilities })
 lspconfig.gopls.setup({ capabilities = capabilities })
 lspconfig.jedi_language_server.setup({ capabilities = capabilities })
 lspconfig.bashls.setup({ capabilities = capabilities })
 lspconfig.ltex.setup({ capabilities = capabilities })
 lspconfig.vale_ls.setup({ capabilities = capabilities })
 lspconfig.diagnosticls.setup({ capabilities = capabilities })
+-- lspconfig.golangci_lint_ls.setup({ capabilities = capabilities })
 
 local null_ls = require("null-ls")
 
