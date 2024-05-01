@@ -183,6 +183,12 @@ vim.keymap.set("n", "<leader>we", ":bnext<CR>", {})
 vim.keymap.set("n", "<leader>wq", ":bprev<CR>", {})
 -----------------------------------------------------------------------------------
 
+-------------------------- accidental closing prevention --------------------------
+vim.keymap.set("n", "<c-z>", function()
+	vim.notify("you just got saved from an unwanted headache !!!!!")
+end, {})
+-----------------------------------------------------------------------------------
+
 vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
 
 vim.diagnostic.get(0, {
@@ -497,9 +503,6 @@ require("ts_context_commentstring").setup({
 	enable_autocmd = false,
 })
 
-vim.keymap.set("n", "<c-z>", function()
-	vim.notify("you just got saved from an unwanted headache !!!!!")
-end, {})
 
 --require'nvim-treesitter.configs'.setup {
 --  textobjects = {
