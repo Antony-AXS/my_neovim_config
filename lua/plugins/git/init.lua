@@ -201,11 +201,11 @@ return {
 
 			-- Only one of these is needed, not both.
 			"nvim-telescope/telescope.nvim", -- optional
-			"ibhagwan/fzf-lua", -- optional
+			-- "ibhagwan/fzf-lua", -- optional
 		},
 		config = function()
-			-- local neogit = require("neogit")
-			-- neogit.setup({})
+			local neogit = require("neogit")
+			neogit.setup({})
 			------------------------ keymap for NeoGit and DiffView ----------------------
 			vim.keymap.set("n", "<leader>nf", ":Neogit kind=floating<CR>", {})
 			vim.keymap.set("n", "<leader>nd", ":DiffviewOpen<CR>", {})
