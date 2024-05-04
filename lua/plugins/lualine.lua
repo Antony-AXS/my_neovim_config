@@ -211,9 +211,9 @@ return {
 		end
 
 		-- Inserts a component in lualine_x at right section
-		local function ins_right(component)
-			table.insert(config.sections.lualine_x, component)
-		end
+		-- local function ins_right(component)
+		-- 	table.insert(config.sections.lualine_x, component)
+		-- end
 
 		-- ins_left({
 		-- 	function()

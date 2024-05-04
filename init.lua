@@ -256,8 +256,8 @@ require("mason-lspconfig").setup({
 		-- "golangci_lint_ls",
 	},
 })
-
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 local lspconfig = require("lspconfig")
 
@@ -332,6 +332,8 @@ null_ls.setup({
 			},
 			factory = h.formatter_factory,
 		}),
+		null_ls.builtins.formatting.shellharden,
+		null_ls.builtins.formatting.golines,
 		null_ls.builtins.completion.spell,
 		null_ls.builtins.code_actions.gitsigns,
 	},
