@@ -206,12 +206,34 @@ return {
 		config = function()
 			local neogit = require("neogit")
 			neogit.setup({})
+
+			local diffKeyMap = ""
+
+			function DiffViewOpen()
+				if diffKeyMap ~= "nd" then
+					vim.api.nvim_command("DiffviewOpen")
+					diffKeyMap = "nd"
+				end
+			end
+
+			function DiffViewHistory()
+				if diffKeyMap ~= "nh" then
+					vim.api.nvim_command("DiffviewFileHistory")
+					diffKeyMap = "nh"
+				end
+			end
+
+			function DiffViewClose()
+					vim.api.nvim_command("DiffviewClose")
+					diffKeyMap = ""
+			end
+
 			------------------------ keymap for NeoGit and DiffView ----------------------
 			vim.keymap.set("n", "<leader>nf", ":Neogit kind=floating<CR>", {})
-			vim.keymap.set("n", "<leader>nd", ":DiffviewOpen<CR>", {})
+			vim.keymap.set("n", "<leader>nd", DiffViewOpen, {})
+			vim.keymap.set("n", "<leader>nc", DiffViewClose, {})
+			vim.keymap.set("n", "<leader>nh", DiffViewHistory, {})
 			vim.keymap.set("n", "<leader>nt", ":DiffviewToggleFiles<CR>", {})
-			vim.keymap.set("n", "<leader>nc", ":DiffviewClose<CR>", {})
-			vim.keymap.set("n", "<leader>nh", ":DiffviewFileHistory<CR>", {})
 			vim.keymap.set("n", "<leader>nq", ":DiffviewFileHistory %<CR>", {})
 			vim.keymap.set("n", "<leader>nl", ":DiffviewLogs<CR>", {})
 			vim.keymap.set("n", "<leader>ns", ":Neogit kind=split_above<CR>", {})
