@@ -7,40 +7,39 @@ return {
 		require("dashboard").setup({
 			theme = "hyper",
 			week_header = {
-				enable = true,
+				enable = false,
 			},
 			config = {
 				header = ascii.header_0,
 				shortcut = {
 					{
-						icon = "  ",
+						icon = "  ", --   󰊤                
 						icon_hl = "@variable",
-						desc = "GitHub", --   󰊤                
+						desc = "Github",
 						group = "Label",
 						action = function()
-							local file = vim.fn.expand("%:p")
-							print("my file is " .. file)
 							vim.cmd("split | terminal")
-							local command = ':call jobsend(b:terminal_job_id, "xdg-open https://www.github.com/\\n")'
+							local URL = "https://www.github.com/"
+							local command = string.format(':call jobsend(b:terminal_job_id, "xdg-open %s\\n")', URL)
 							vim.cmd(command)
 						end,
-						key = "d",
+						key = "G",
+					},
+					{
+						icon = "  ",
+						icon_hl = "@variable",
+						desc = "Files",
+						group = "@property",
+						action = "Telescope find_files",
+						key = "F",
 					},
 					{
 						icon = "󰊳  ",
 						icon_hl = "@variable",
 						desc = "Update",
-						group = "@property",
-						action = "Lazy update",
-						key = "u",
-					},
-					{
-						icon = "  ",
-						icon_hl = "@variable",
-						desc = "Files",
 						group = "Label",
-						action = "Telescope find_files",
-						key = "f",
+						action = "Lazy update",
+						key = "U",
 					},
 				},
 				packages = { enable = true }, -- show how many plugins neovim loaded
@@ -54,7 +53,7 @@ return {
 					label = "folder(s)",
 					action = "Telescope find_files cwd=",
 				},
-				mru = { limit = 5, icon = "  ", label = "files(s)", cwd_only = false }, --       
+				mru = { limit = 5, icon = "  ", label = "file(s)", cwd_only = false }, --       
 			},
 		})
 	end,
