@@ -179,7 +179,7 @@ return {
 			"nvim-lua/plenary.nvim",
 		},
 		config = function()
-			------------------------------ LazyGit Config ------------------------------------
+			---------------------------------- LazyGit Config ------------------------------------
 			vim.g.lazygit_floating_window_winblend = 0 -- transparency of floating window
 			vim.g.lazygit_floating_window_scaling_factor = 0.85 -- scaling factor for floating window
 			vim.g.lazygit_floating_window_border_chars = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" } -- customize lazygit popup window border characters
@@ -190,7 +190,7 @@ return {
 			vim.g.lazygit_config_file_path = "" -- custom config file path
 			-- OR
 			-- vim.g.lazygit_config_file_path = {} -- table of custom config file paths
-			----------------------------------------------------------------------------------
+			--------------------------------------------------------------------------------------
 		end,
 	},
 	{
@@ -209,33 +209,54 @@ return {
 
 			local diffKeyMap = ""
 
+			local M = {
+				nd = false,
+				nh = false,
+			}
+
 			function DiffViewOpen()
 				if diffKeyMap ~= "nd" then
-					vim.api.nvim_command("DiffviewOpen")
+					if M.nh == true then
+						vim.api.nvim_command("DiffviewClose")
+						M.nd = false
+					else
+						vim.api.nvim_command("DiffviewOpen")
+						M.nh = true
+					end
 					diffKeyMap = "nd"
 				end
 			end
 
-			function DiffViewHistory()
+			function DiffViewHistoryAll()
 				if diffKeyMap ~= "nh" then
-					vim.api.nvim_command("DiffviewFileHistory")
+					if M.nd == true then
+						vim.api.nvim_command("DiffviewClose")
+						M.nh = false
+					else
+						vim.api.nvim_command("DiffviewFileHistory")
+						M.nd = true
+					end
 					diffKeyMap = "nh"
 				end
 			end
 
 			function DiffViewClose()
-					vim.api.nvim_command("DiffviewClose")
+				vim.api.nvim_command("DiffviewClose")
+				if diffKeyMap ~= "" then
 					diffKeyMap = ""
+					M.nh = false
+					M.nd = false
+				end
 			end
 
 			------------------------ keymap for NeoGit and DiffView ----------------------
-			vim.keymap.set("n", "<leader>nf", ":Neogit kind=floating<CR>", {})
 			vim.keymap.set("n", "<leader>nd", DiffViewOpen, {})
 			vim.keymap.set("n", "<leader>nc", DiffViewClose, {})
-			vim.keymap.set("n", "<leader>nh", DiffViewHistory, {})
+			vim.keymap.set("n", "<leader>nh", DiffViewHistoryAll, {})
+			vim.keymap.set("n", "<leader>nl", ":DiffviewLog<CR>", {})
 			vim.keymap.set("n", "<leader>nt", ":DiffviewToggleFiles<CR>", {})
 			vim.keymap.set("n", "<leader>nq", ":DiffviewFileHistory %<CR>", {})
-			vim.keymap.set("n", "<leader>nl", ":DiffviewLogs<CR>", {})
+			vim.keymap.set("n", "<leader>nf", ":Neogit kind=floating<CR>", {})
 			vim.keymap.set("n", "<leader>ns", ":Neogit kind=split_above<CR>", {})
 			------------------------------------------------------------------------------
 		end,
