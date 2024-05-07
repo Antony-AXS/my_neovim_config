@@ -165,30 +165,38 @@ vim.keymap.set("v", "<Leader>1f", vim.lsp.buf.format, {})
 
 ------------------------------ keymap for harpoon ---------------------------------
 vim.keymap.set("n", "<leader>hh", require("harpoon.mark").add_file, {})
-vim.keymap.set("n", "<leader>z", require("harpoon.ui").toggle_quick_menu)
+vim.keymap.set("n", "<leader>z", require("harpoon.ui").toggle_quick_menu, {})
 vim.keymap.set("n", "<C-j>", require("harpoon.ui").nav_prev) -- navigates to previous mark
 vim.keymap.set("n", "<C-k>", require("harpoon.ui").nav_next) -- navigates to next mark
 vim.keymap.set("n", "<C-q>", require("harpoon.ui").nav_next) -- navigates to next mark
 vim.keymap.set("n", "<leader>th", ":Telescope harpoon marks<CR>", {})
------------------------------------------------------------------------------------
+vim.keymap.set("n", "mb1", ':lua require("harpoon.ui").nav_file(1)<CR>', { silent = true })
+vim.keymap.set("n", "mb2", ':lua require("harpoon.ui").nav_file(2)<CR>', { silent = true })
+vim.keymap.set("n", "mb3", ':lua require("harpoon.ui").nav_file(3)<CR>', { silent = true })
+vim.keymap.set("n", "mb4", ':lua require("harpoon.ui").nav_file(4)<CR>', { silent = true })
+vim.keymap.set("n", "mb5", ':lua require("harpoon.ui").nav_file(5)<CR>', { silent = true })
+vim.keymap.set("n", "mb6", ':lua require("harpoon.ui").nav_file(6)<CR>', { silent = true })
+vim.keymap.set("n", "mb7", ':lua require("harpoon.ui").nav_file(7)<CR>', { silent = true })
+-------------------------------------------------------------------------------------
 
------------------------------ Harpoon Theme customize ----------------------------
+------------------------------- Harpoon Theme customize -----------------------------
 vim.cmd("highlight! HarpoonInactive guibg=NONE guifg=#63698c")
 vim.cmd("highlight! HarpoonActive guibg=NONE guifg=white")
 vim.cmd("highlight! HarpoonNumberActive guibg=NONE guifg=#7aa2f7")
 vim.cmd("highlight! HarpoonNumberInactive guibg=NONE guifg=#7aa2f7")
 vim.cmd("highlight! TabLineFill guibg=#d9280d guifg=#d9280d")
-----------------------------------------------------------------------------------
------------------------------- keymap for toggle-term -----------------------------
+-------------------------------------------------------------------------------------
+
+-------------------------------- keymap for toggle-term -----------------------------
 vim.keymap.set("n", "<leader>cf", ":ToggleTerm direction=float size=20<CR>", {})
 vim.keymap.set("n", "<leader>cv", ":ToggleTerm direction=vertical size=60<CR>", {})
 vim.keymap.set("n", "<leader>ch", ":ToggleTerm direction=horizontal size=12<CR>", {})
------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
 
----------------------------- keymap for buffer navigation -------------------------
+---------------------------- keymap for buffer navigation ---------------------------
 vim.keymap.set("n", "<leader>we", ":bnext<CR>", {})
 vim.keymap.set("n", "<leader>wq", ":bprev<CR>", {})
------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
 
 -------------------------- accidental closing prevention --------------------------
 vim.keymap.set("n", "<c-z>", function()
