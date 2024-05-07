@@ -207,20 +207,19 @@ return {
 			local neogit = require("neogit")
 			neogit.setup({})
 
+			local Array = {}
 			local diffKeyMap = ""
-
-			local M = {
-				nd = false,
-				nh = false,
-			}
+			local M = { nd = false, nh = false }
 
 			function DiffViewOpen()
 				if diffKeyMap ~= "nd" then
 					if M.nh == true then
 						vim.api.nvim_command("DiffviewClose")
 						M.nd = false
+						table.remove(Array, #Array)
 					else
 						vim.api.nvim_command("DiffviewOpen")
+						table.insert(Array, "nd")
 						M.nh = true
 					end
 					diffKeyMap = "nd"
@@ -232,8 +231,10 @@ return {
 					if M.nd == true then
 						vim.api.nvim_command("DiffviewClose")
 						M.nh = false
+						table.remove(Array, #Array)
 					else
 						vim.api.nvim_command("DiffviewFileHistory")
+						table.insert(Array, "nh")
 						M.nd = true
 					end
 					diffKeyMap = "nh"
@@ -242,10 +243,21 @@ return {
 
 			function DiffViewClose()
 				vim.api.nvim_command("DiffviewClose")
-				if diffKeyMap ~= "" then
-					diffKeyMap = ""
+				if #Array == 2 and Array[2] == "nh" then
+					M.nd = false
+					M.nh = true
+					diffKeyMap = "nd"
+					table.remove(Array, #Array)
+				elseif #Array == 2 and Array[2] == "nd" then
+					M.nd = true
+					M.nh = false
+					diffKeyMap = "nh"
+					table.remove(Array, #Array)
+				elseif #Array == 1 then
 					M.nh = false
 					M.nd = false
+					diffKeyMap = ""
+					table.remove(Array, #Array)
 				end
 			end
 
