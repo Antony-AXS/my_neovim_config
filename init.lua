@@ -170,13 +170,13 @@ vim.keymap.set("n", "<C-j>", require("harpoon.ui").nav_prev) -- navigates to pre
 vim.keymap.set("n", "<C-k>", require("harpoon.ui").nav_next) -- navigates to next mark
 vim.keymap.set("n", "<C-q>", require("harpoon.ui").nav_next) -- navigates to next mark
 vim.keymap.set("n", "<leader>th", ":Telescope harpoon marks<CR>", {})
-vim.keymap.set("n", "mb1", ':lua require("harpoon.ui").nav_file(1)<CR>', { silent = true })
-vim.keymap.set("n", "mb2", ':lua require("harpoon.ui").nav_file(2)<CR>', { silent = true })
-vim.keymap.set("n", "mb3", ':lua require("harpoon.ui").nav_file(3)<CR>', { silent = true })
-vim.keymap.set("n", "mb4", ':lua require("harpoon.ui").nav_file(4)<CR>', { silent = true })
-vim.keymap.set("n", "mb5", ':lua require("harpoon.ui").nav_file(5)<CR>', { silent = true })
-vim.keymap.set("n", "mb6", ':lua require("harpoon.ui").nav_file(6)<CR>', { silent = true })
-vim.keymap.set("n", "mb7", ':lua require("harpoon.ui").nav_file(7)<CR>', { silent = true })
+vim.keymap.set("n", "m1", ':lua require("harpoon.ui").nav_file(1)<CR>', { silent = true })
+vim.keymap.set("n", "m2", ':lua require("harpoon.ui").nav_file(2)<CR>', { silent = true })
+vim.keymap.set("n", "m3", ':lua require("harpoon.ui").nav_file(3)<CR>', { silent = true })
+vim.keymap.set("n", "m4", ':lua require("harpoon.ui").nav_file(4)<CR>', { silent = true })
+vim.keymap.set("n", "m5", ':lua require("harpoon.ui").nav_file(5)<CR>', { silent = true })
+vim.keymap.set("n", "m6", ':lua require("harpoon.ui").nav_file(6)<CR>', { silent = true })
+vim.keymap.set("n", "m7", ':lua require("harpoon.ui").nav_file(7)<CR>', { silent = true })
 -------------------------------------------------------------------------------------
 
 ------------------------------- Harpoon Theme customize -----------------------------
@@ -503,7 +503,7 @@ require("nvim-surround").setup({
 function _G.set_terminal_keymaps()
 	local opts = { buffer = 0 }
 	vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
-	vim.keymap.set("t", "jk", [[<C-\><C-n>]], opts)
+	-- vim.keymap.set("t", "jk", [[<C-\><C-n>]], opts)
 	vim.keymap.set("t", "<C-h>", [[<Cmd>wincmd h<CR>]], opts)
 	vim.keymap.set("t", "<C-j>", [[<Cmd>wincmd j<CR>]], opts)
 	--	vim.keymap.set("t", "<C-k>", [[<Cmd>wincmd k<CR>]], opts)
@@ -611,30 +611,6 @@ Harpoon.setup({
 -- end
 
 -- vim.keymap.set("n", "<leader>op", file_map, {})
-
--- function Taber()
--- 	local current_file_path = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":.")
--- 	local tabs = (require("harpoon").get_mark_config().marks)
--- 	vim.print("TABS------------->>>>>>>", tabs)
--- 	local index = require("harpoon.mark").get_index_of(vim.fn.bufname())
--- 	local InnObj = {}
--- 	for k, v in pairs(tabs) do
--- 		InnObj[k] = {
--- 			function()
--- 				local index = require("harpoon.mark").get_index_of(vim.fn.bufname())
--- 				vim.fn.bufname()
--- 				local path = string.format(" %s ", tabs[k].filename)
--- 				if path == current_file_path then
--- 					return "hello"
--- 				else
--- 					return path
--- 				end
--- 			end,
--- 			component = { right = "" },
--- 		}
--- 	end
--- 	return InnObj
--- end
 
 -- Define the content for the floating window
 -- local content = {
