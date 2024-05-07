@@ -13,7 +13,7 @@ return {
 				header = ascii.header_0,
 				shortcut = {
 					{
-						icon = "  ", --   󰊤                
+						icon = "  ", --     󰊤               
 						icon_hl = "@variable",
 						desc = "Github",
 						group = "Label",
