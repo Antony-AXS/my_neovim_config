@@ -290,6 +290,7 @@ lspconfig.pylsp.setup({ capabilities = capabilities })
 lspconfig.emmet_ls.setup({ capabilities = capabilities })
 lspconfig.gopls.setup({ capabilities = capabilities })
 lspconfig.jedi_language_server.setup({ capabilities = capabilities })
+lspconfig.dartls.setup({ capabilities = capabilities })
 lspconfig.bashls.setup({ capabilities = capabilities })
 lspconfig.ltex.setup({ capabilities = capabilities })
 lspconfig.vale_ls.setup({ capabilities = capabilities })
@@ -323,7 +324,7 @@ null_ls.setup({
 				dynamic_command = cmd_resolver.from_node_modules(),
 				cwd = h.cache.by_bufnr(function(params)
 					return u.root_pattern(
-						-- https://prettier.io/docs/en/configuration.html
+					-- https://prettier.io/docs/en/configuration.html
 						".prettierrc",
 						".prettierrc.json",
 						".prettierrc.yml",
@@ -408,7 +409,7 @@ cmp.setup({
 		{ name = "luasnip" }, -- For luasnip users.
 		{ name = "vim-dadbod-completion" },
 		{ name = "path" },
-		{ name = "buffer", keyword_length = 5 },
+		{ name = "buffer",               keyword_length = 5 },
 	}, {
 		{ name = "buffer" },
 	}),
@@ -658,3 +659,15 @@ Harpoon.setup({
 -- vim.api.nvim_create_autocmd("WinLeave", {
 -- 	callback = sss,
 -- })
+--
+
+vim.api.nvim_create_autocmd("BufEnter", {
+	callback = function()
+		vim.lsp.start({
+			name = "dart",
+			cmd = { "/home/antony/Downloads/dart-sdk/bin/dart" },
+			root_dir = vim.fn.getcwd()
+		})
+		vim.print("HEllo")
+	end
+})
