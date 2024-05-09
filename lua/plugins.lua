@@ -38,20 +38,23 @@ return {
 		lazy = true,
 	},
 	{
-		"hrsh7th/nvim-cmp",
-		lazy = true,
+		"hrsh7th/nvim-cmp", --  the completion plugin
+	},
+	{
+		"hrsh7th/cmp-nvim-lsp",
+	},
+	{
+		"hrsh7th/cmp-nvim-lua",
+	},
+	{
+		"hrsh7th/cmp-path",
 	},
 	{
 		"L3MON4D3/LuaSnip",
-		lazy = true,
 		dependencies = {
 			"saadparwaiz1/cmp_luasnip",
 			"rafamadriz/friendly-snippets",
 		},
-	},
-	{
-		"hrsh7th/cmp-nvim-lsp",
-		lazy = true,
 	},
 	{
 		"windwp/nvim-autopairs",
@@ -79,6 +82,7 @@ return {
 			"MunifTanjim/nui.nvim",
 		},
 	},
+
 	git,
 	dadbod,
 	colorschemes,
@@ -88,9 +92,6 @@ return {
 	-- {
 	-- 	"glepnir/dbsession.nvim",
 	-- 	cmd = { "SessionSave", "SessionDelete", "SessionLoad" },
-	-- },
-	-- {
-	-- 	"petertriho/nvim-scrollbar",
 	-- },
 	-- {
 	-- 	"mg979/vim-visual-multi",
