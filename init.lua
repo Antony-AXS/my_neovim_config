@@ -141,14 +141,14 @@ vim.keymap.set("n", "<leader>fm", builtin.marks, {})
 vim.keymap.set("n", "<leader>fc", builtin.colorscheme, {})
 vim.keymap.set("n", "<leader>fo", builtin.oldfiles, {})
 vim.keymap.set("n", "<leader>fq", builtin.quickfix, {})
-vim.keymap.set("n", "<leader>fc", builtin.registers, {})
+vim.keymap.set("n", "<leader>fi", builtin.registers, {})
 vim.keymap.set("n", "<leader>fy", builtin.autocommands, {})
 vim.keymap.set("n", "<leader>fm", builtin.command_history, {})
 vim.keymap.set("n", "<leader>fg", ":Telescope live_grep theme=ivy<CR>")
 vim.keymap.set("n", "<leader>fd", ":Telescope diagnostics theme=ivy<CR>")
 vim.keymap.set("n", "<leader>fu", ":Telescope autocommands theme=ivy<CR>")
 vim.keymap.set("n", "<leader>fr", ":Telescope live_grep theme=dropdown<CR>", {})
-vim.keymap.set("n", "<leader>fi", ":Telescope find_files hidden=true<CR>", {})
+vim.keymap.set("n", "<leader>ft", ":Telescope find_files hidden=true<CR>", {})
 vim.keymap.set("n", "<leader>fa", ":Telescope find_files find_command=rg,--ignore,--hidden,--files,-u<CR>", {})
 -----------------------------------------------------------------------------------
 
@@ -259,6 +259,7 @@ require("mason-lspconfig").setup({
 		"gopls",
 		"bashls",
 		"ltex",
+		"yamlls",
 		"vale_ls",
 		"diagnosticls",
 		-- "golangci_lint_ls",
@@ -293,6 +294,7 @@ lspconfig.jedi_language_server.setup({ capabilities = capabilities })
 lspconfig.dartls.setup({ capabilities = capabilities })
 lspconfig.bashls.setup({ capabilities = capabilities })
 lspconfig.ltex.setup({ capabilities = capabilities })
+lspconfig.yamlls.setup({ capabilities = capabilities })
 lspconfig.vale_ls.setup({ capabilities = capabilities })
 lspconfig.diagnosticls.setup({ capabilities = capabilities })
 -- lspconfig.golangci_lint_ls.setup({ capabilities = capabilities })
@@ -311,6 +313,9 @@ null_ls.setup({
 		null_ls.builtins.formatting.stylua,
 		null_ls.builtins.formatting.prettier.with({
 			method = { FORMATTING, RANGE_FORMATTING },
+			filetypes = { "javascript", "typescript", "html", "css", "json" },
+			-- set tab width to 2 and use tabs instead of spaces
+			args = { "--stdin-filepath", "$FILENAME", "--tab-width", "1", "--use-tabs" },
 			generator_opts = {
 				command = "prettier",
 				args = h.range_formatting_args_factory({
@@ -324,7 +329,7 @@ null_ls.setup({
 				dynamic_command = cmd_resolver.from_node_modules(),
 				cwd = h.cache.by_bufnr(function(params)
 					return u.root_pattern(
-					-- https://prettier.io/docs/en/configuration.html
+						-- https://prettier.io/docs/en/configuration.html
 						".prettierrc",
 						".prettierrc.json",
 						".prettierrc.yml",
@@ -343,6 +348,7 @@ null_ls.setup({
 		}),
 		null_ls.builtins.formatting.shellharden,
 		null_ls.builtins.formatting.golines,
+		null_ls.builtins.formatting.yamlfmt,
 		null_ls.builtins.completion.spell,
 		null_ls.builtins.code_actions.gitsigns,
 	},
@@ -373,16 +379,17 @@ null_ls.setup({
 -- 	end,
 -- })
 
-local formatting = null_ls.builtins.formatting
-null_ls.setup({
-	sources = {
-		formatting.prettier.with({
-			filetypes = { "javascript", "typescript", "html", "css", "json" },
-			-- set tab width to 2 and use tabs instead of spaces
-			args = { "--stdin-filepath", "$FILENAME", "--tab-width", "1", "--use-tabs" },
-		}),
-	},
-})
+-- local formatting = null_ls.builtins.formatting
+-- null_ls.setup({
+-- 	sources = {
+-- 		formatting.prettier.with({
+-- 			filetypes = { "javascript", "typescript", "html", "css", "json" },
+-- 			-- set tab width to 2 and use tabs instead of spaces
+-- 			args = { "--stdin-filepath", "$FILENAME", "--tab-width", "1", "--use-tabs" },
+-- 		}),
+-- 	},
+-- })
+
 local cmp = require("cmp")
 require("luasnip.loaders.from_vscode").lazy_load()
 
@@ -408,8 +415,9 @@ cmp.setup({
 		{ name = "nvim_lsp" },
 		{ name = "luasnip" }, -- For luasnip users.
 		{ name = "vim-dadbod-completion" },
+		{ name = "nvim_lua" },
 		{ name = "path" },
-		{ name = "buffer",               keyword_length = 5 },
+		{ name = "buffer", keyword_length = 5 },
 	}, {
 		{ name = "buffer" },
 	}),
@@ -423,6 +431,7 @@ cmp.setup({
 
 	-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
 	cmp.setup.cmdline("/", {
+		mapping = cmp.mapping.preset.cmdline(),
 		sources = {
 			{ name = "buffer" },
 		},
