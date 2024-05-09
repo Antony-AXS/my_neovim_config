@@ -13,14 +13,15 @@ return {
 				header = ascii.header_0,
 				shortcut = {
 					{
-						icon = "  ", --     󰊤               
+						icon = "  ", --     󰊤              
 						icon_hl = "@variable",
 						desc = "Github",
 						group = "Label",
 						action = function()
 							vim.cmd("split | terminal")
 							local URL = "https://www.github.com/"
-							local command = string.format(':call jobsend(b:terminal_job_id, "xdg-open %s\\n")', URL)
+							local open_cmd = "xdg-open" -- for debian linux, use "start" for windows
+							local command = string.format(':call jobsend(b:terminal_job_id, "%s %s\\n")', open_cmd, URL)
 							vim.cmd(command)
 						end,
 						key = "G",
