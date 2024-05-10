@@ -163,13 +163,13 @@ vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
 vim.keymap.set("v", "<Leader>1f", vim.lsp.buf.format, {})
 -----------------------------------------------------------------------------------
 
------------------------------- keymap for harpoon ---------------------------------
+---------------------------------- keymap for harpoon -------------------------------------
+vim.keymap.set("n", "<leader>th", ":Telescope harpoon marks<CR>", {})
 vim.keymap.set("n", "<leader>hh", require("harpoon.mark").add_file, {})
 vim.keymap.set("n", "<leader>z", require("harpoon.ui").toggle_quick_menu, {})
 vim.keymap.set("n", "<C-j>", require("harpoon.ui").nav_prev) -- navigates to previous mark
 vim.keymap.set("n", "<C-k>", require("harpoon.ui").nav_next) -- navigates to next mark
 vim.keymap.set("n", "<C-q>", require("harpoon.ui").nav_next) -- navigates to next mark
-vim.keymap.set("n", "<leader>th", ":Telescope harpoon marks<CR>", {})
 vim.keymap.set("n", "m1", ':lua require("harpoon.ui").nav_file(1)<CR>', { silent = true })
 vim.keymap.set("n", "m2", ':lua require("harpoon.ui").nav_file(2)<CR>', { silent = true })
 vim.keymap.set("n", "m3", ':lua require("harpoon.ui").nav_file(3)<CR>', { silent = true })
@@ -177,7 +177,9 @@ vim.keymap.set("n", "m4", ':lua require("harpoon.ui").nav_file(4)<CR>', { silent
 vim.keymap.set("n", "m5", ':lua require("harpoon.ui").nav_file(5)<CR>', { silent = true })
 vim.keymap.set("n", "m6", ':lua require("harpoon.ui").nav_file(6)<CR>', { silent = true })
 vim.keymap.set("n", "m7", ':lua require("harpoon.ui").nav_file(7)<CR>', { silent = true })
--------------------------------------------------------------------------------------
+vim.keymap.set("n", "m8", ':lua require("harpoon.ui").nav_file(8)<CR>', { silent = true })
+vim.keymap.set("n", "m9", ':lua require("harpoon.ui").nav_file(9)<CR>', { silent = true })
+--------------------------------------------------------------------------------------------
 
 ------------------------------- Harpoon Theme customize -----------------------------
 vim.cmd("highlight! HarpoonInactive guibg=NONE guifg=#63698c")
