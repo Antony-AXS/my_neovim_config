@@ -255,7 +255,6 @@ require("mason-lspconfig").setup({
 		"volar",
 		"angularls",
 		"clangd",
-		"jedi_language_server",
 		"sqls",
 		"pylsp",
 		"gopls",
@@ -264,7 +263,7 @@ require("mason-lspconfig").setup({
 		"yamlls",
 		"vale_ls",
 		"diagnosticls",
-		-- "golangci_lint_ls",
+		"jedi_language_server",
 	},
 })
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -292,14 +291,13 @@ lspconfig.sqls.setup({ capabilities = capabilities })
 lspconfig.pylsp.setup({ capabilities = capabilities })
 lspconfig.emmet_ls.setup({ capabilities = capabilities })
 lspconfig.gopls.setup({ capabilities = capabilities })
-lspconfig.jedi_language_server.setup({ capabilities = capabilities })
 lspconfig.dartls.setup({ capabilities = capabilities })
 lspconfig.bashls.setup({ capabilities = capabilities })
 lspconfig.ltex.setup({ capabilities = capabilities })
 lspconfig.yamlls.setup({ capabilities = capabilities })
 lspconfig.vale_ls.setup({ capabilities = capabilities })
 lspconfig.diagnosticls.setup({ capabilities = capabilities })
--- lspconfig.golangci_lint_ls.setup({ capabilities = capabilities })
+lspconfig.jedi_language_server.setup({ capabilities = capabilities })
 
 local null_ls = require("null-ls")
 
@@ -315,9 +313,6 @@ null_ls.setup({
 		null_ls.builtins.formatting.stylua,
 		null_ls.builtins.formatting.prettier.with({
 			method = { FORMATTING, RANGE_FORMATTING },
-			filetypes = { "javascript", "typescript", "html", "css", "json" },
-			-- set tab width to 2 and use tabs instead of spaces
-			args = { "--stdin-filepath", "$FILENAME", "--tab-width", "1", "--use-tabs" },
 			generator_opts = {
 				command = "prettier",
 				args = h.range_formatting_args_factory({
@@ -381,16 +376,16 @@ null_ls.setup({
 -- 	end,
 -- })
 
--- local formatting = null_ls.builtins.formatting
--- null_ls.setup({
--- 	sources = {
--- 		formatting.prettier.with({
--- 			filetypes = { "javascript", "typescript", "html", "css", "json" },
--- 			-- set tab width to 2 and use tabs instead of spaces
--- 			args = { "--stdin-filepath", "$FILENAME", "--tab-width", "1", "--use-tabs" },
--- 		}),
--- 	},
--- })
+local formatting = null_ls.builtins.formatting
+null_ls.setup({
+	sources = {
+		formatting.prettier.with({
+			filetypes = { "javascript", "typescript", "html", "css", "json" },
+			-- set tab width to 2 and use tabs instead of spaces
+			args = { "--stdin-filepath", "$FILENAME", "--tab-width", "1", "--use-tabs" },
+		}),
+	},
+})
 
 local cmp = require("cmp")
 require("luasnip.loaders.from_vscode").lazy_load()
@@ -566,108 +561,3 @@ Harpoon.setup({
 		height = vim.api.nvim_win_get_height(0) - 18,
 	},
 })
-
--- local harpoon = require("telescope").load_extension("harpoon")
-
---require'nvim-treesitter.configs'.setup {
---  textobjects = {
---    select = {
---      enable = true,
-
---      -- Automatically jump forward to textobj, similar to targets.vim
---      lookahead = true,
-
---      keymaps = {
---        -- You can use the capture groups defined in textobjects.scm
---        ["af"] = "@function.outer",
---        ["if"] = "@function.inner",
---        ["ac"] = "@class.outer",
---        -- You can optionally set descriptions to the mappings (used in the desc parameter of
---        -- nvim_buf_set_keymap) which plugins like which-key display
---        ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
---        -- You can also use captures from other query groups like `locals.scm`
---        ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
---      },
---      -- You can choose the select mode (default is charwise 'v')
---      --
---      -- Can also be a function which gets passed a table with the keys
---      -- * query_string: eg '@function.inner'
---      -- * method: eg 'v' or 'o'
---      -- and should return the mode ('v', 'V', or '<c-v>') or a table
---      -- mapping query_strings to modes.
---      selection_modes = {
---        ['@parameter.outer'] = 'v', -- charwise
---        ['@function.outer'] = 'V', -- linewise
---        ['@class.outer'] = '<c-v>', -- blockwise
---      },
---      -- If you set this to `true` (default is `false`) then any textobject is
---      -- extended to include preceding or succeeding whitespace. Succeeding
---      -- whitespace has priority in order to act similarly to eg the built-in
---      -- `ap`.
---      --
---      -- Can also be a function which gets passed a table with the keys
---      -- * query_string: eg '@function.inner'
---      -- * selection_mode: eg 'v'
---      -- and should return true or false
---      include_surrounding_whitespace = true,
---    },
---  },
---}
-
--- local file_map = function(path)
--- 	local M = {}
--- 	local key = tostring(#M + 1)
--- 	M[key] = vim.fn.expand("%:p")
--- 	vim.print(M)
--- 	return M
--- end
-
--- vim.keymap.set("n", "<leader>op", file_map, {})
-
--- Define the content for the floating window
--- local content = {
---     "This is a floating window!",
---     "You can put any content here.",
---     "Feel free to customize it.",
--- }
-
--- -- Define the options for the floating window
--- local opts = {
---     relative = 'editor',  -- Position relative to the editor
---     width = 2,           -- Width of the floating window
---     height = 1,    -- Height of the floating window (auto-sized based on content)
---     row = 1,             -- Row position of the floating window
---     col = 90,             -- Column position of the floating window
---     focusable = false,    -- Allow the floating window to receive focus
---     style = 'minimal',    -- Style of the floating window
---     border = 'single',    -- Border style of the floating window
--- }
-
--- -- Create the floating window
--- local float_win = vim.api.nvim_open_win(0, true, opts)
-
--- -- Set the content of the floating window
--- -- vim.api.nvim_win_set_option(float_win, 'wrap', true)
--- vim.api.nvim_buf_set_lines(0, 0, -1, false, content)
--- local sss = function()
--- 	-- Create an unlisted buffer
--- 	local buf = vim.api.nvim_create_buf(false, true)
-
--- 	-- Set the content of the buffer
--- 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, { tostring(vim.fn.winnr()) })
-
--- 	-- Open a temporary window to display the buffer content
--- 	vim.api.nvim_open_win(buf, true, {
--- 		relative = "editor",
--- 		width = 20,
--- 		height = 1,
--- 		row = 1,
--- 		col = 100,
--- 		style = "minimal",
--- 	})
--- end
-
--- vim.api.nvim_create_autocmd("WinLeave", {
--- 	callback = sss,
--- })
---
