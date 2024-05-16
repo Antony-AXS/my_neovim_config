@@ -17,9 +17,9 @@ return {
 		vim.api.nvim_create_user_command("Ngs", NeoTreeGitStatus, { nargs = "?" })
 
 		------------------------------- keymap for neo-tree -------------------------------
-		vim.keymap.set("n", "<leader>p", ":Neotree<CR>", {})
-		vim.keymap.set("n", "<leader>ng", ":Neotree float git_status<CR>", {})
-		vim.keymap.set("n", "<c-t>", ":Neotree source=filesystem reveal left toggle=true<CR>", {})
+		vim.keymap.set("n", "<leader>p", ":Neotree<CR>", { silent = true })
+		vim.keymap.set("n", "<leader>ng", ":Neotree float git_status<CR>", { silent = true })
+		vim.keymap.set("n", "<c-t>", ":Neotree source=filesystem reveal left toggle=true<CR>", { silent = true })
 		vim.keymap.set(
 			"n",
 			"<leader>nb",
