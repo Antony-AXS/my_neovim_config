@@ -19,7 +19,7 @@ return {
 						group = "Label",
 						action = function()
 							vim.cmd("split | terminal")
-							local URL = "https://www.github.com/"
+							local URL = "https://www.github.com/neovim/neovim"
 							local open_cmd = "xdg-open" -- for debian linux, use "start" for windows
 							local command = string.format(':call jobsend(b:terminal_job_id, "%s %s\\n")', open_cmd, URL)
 							vim.cmd(command)
