@@ -271,10 +271,41 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 local lspconfig = require("lspconfig")
 
-lspconfig.lua_ls.setup({ capabilities = capabilities })
+lspconfig.lua_ls.setup({
+	capabilities = capabilities,
+	settings = {
+		Lua = { hint = { enable = true } },
+	},
+})
 lspconfig.rust_analyzer.setup({ capabilities = capabilities })
 lspconfig.tsserver.setup({
 	capabilities = capabilities,
+	settings = {
+		typescript = {
+			inlayHints = {
+				includeInlayParameterNameHints = "all",
+				includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+				includeInlayFunctionParameterTypeHints = true,
+				includeInlayVariableTypeHints = true,
+				includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+				includeInlayPropertyDeclarationTypeHints = true,
+				includeInlayFunctionLikeReturnTypeHints = true,
+				includeInlayEnumMemberValueHints = true,
+			},
+		},
+		javascript = {
+			inlayHints = {
+				includeInlayParameterNameHints = "all",
+				includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+				includeInlayFunctionParameterTypeHints = true,
+				includeInlayVariableTypeHints = true,
+				includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+				includeInlayPropertyDeclarationTypeHints = true,
+				includeInlayFunctionLikeReturnTypeHints = true,
+				includeInlayEnumMemberValueHints = true,
+			},
+		},
+	},
 	on_attach = function(client)
 		client.server_capabilities.documentFormattingProvider = false
 		client.server_capabilities.documentRangeFormattingProvider = false
@@ -445,6 +476,10 @@ cmp.setup({
 })
 
 -- require("cmp").setup.buffer({ sources = { { name = "vim-dadbod-completion" } } })
+
+vim.keymap.set("n", "<leader>ih", function()
+	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+end)
 
 require("telescope").setup({
 	extensions = {
