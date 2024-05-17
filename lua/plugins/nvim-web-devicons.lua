@@ -17,6 +17,12 @@ return {
 						cterm_color = "65",
 						name = "js",
 					},
+					ts = {
+						icon = "󰛦",
+						color = "#0096FF",
+						cterm_color = "65",
+						name = "ts",
+					},
 					cpp = {
 						icon = "",
 						color = "#937af5",
