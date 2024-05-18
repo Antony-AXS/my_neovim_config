@@ -148,6 +148,7 @@ vim.keymap.set("n", "<leader>fg", ":Telescope live_grep theme=ivy<CR>")
 vim.keymap.set("n", "<leader>fd", ":Telescope diagnostics theme=ivy<CR>")
 vim.keymap.set("n", "<leader>fu", ":Telescope autocommands theme=ivy<CR>")
 vim.keymap.set("n", "<leader>fr", ":Telescope live_grep theme=dropdown<CR>", {})
+vim.keymap.set("n", "<leader>fx", ":Telescope find_files theme=ivy<CR>", {})
 vim.keymap.set("n", "<leader>ft", ":Telescope find_files hidden=true<CR>", {})
 vim.keymap.set("n", "<leader>fa", ":Telescope find_files find_command=rg,--ignore,--hidden,--files,-u<CR>", {})
 -----------------------------------------------------------------------------------
@@ -333,9 +334,9 @@ lspconfig.jedi_language_server.setup({ capabilities = capabilities })
 local null_ls = require("null-ls")
 
 local h = require("null-ls.helpers")
-local cmd_resolver = require("null-ls.helpers.command_resolver")
+-- local cmd_resolver = require("null-ls.helpers.command_resolver")
 local methods = require("null-ls.methods")
-local u = require("null-ls.utils")
+-- local u = require("null-ls.utils")
 
 local FORMATTING = methods.internal.FORMATTING
 local RANGE_FORMATTING = methods.internal.RANGE_FORMATTING
@@ -343,35 +344,36 @@ null_ls.setup({
 	sources = {
 		null_ls.builtins.formatting.stylua,
 		null_ls.builtins.formatting.prettier.with({
+			filetypes = { "javascript", "typescript", "html", "css", "json" },
 			method = { FORMATTING, RANGE_FORMATTING },
-			generator_opts = {
-				command = "prettier",
-				args = h.range_formatting_args_factory({
-					"--stdin-filepath",
-					"$FILENAME",
-				}, "--range-start", "--range-end", { row_offset = -1, col_offset = -1 }),
-				"--tab-width",
-				"-1",
-				"--use-tabs",
-				to_stdin = true,
-				dynamic_command = cmd_resolver.from_node_modules(),
-				cwd = h.cache.by_bufnr(function(params)
-					return u.root_pattern(
-						-- https://prettier.io/docs/en/configuration.html
-						".prettierrc",
-						".prettierrc.json",
-						".prettierrc.yml",
-						".prettierrc.yaml",
-						".prettierrc.json5",
-						".prettierrc.js",
-						".prettierrc.cjs",
-						".prettierrc.toml",
-						"prettier.config.js",
-						"prettier.config.cjs",
-						"package.json"
-					)(params.bufname)
-				end),
-			},
+			-- generator_opts = {
+			-- 	command = "prettier",
+			-- 	args = h.range_formatting_args_factory({
+			-- 		"--stdin-filepath",
+			-- 		"$FILENAME",
+			-- 	}, "--range-start", "--range-end", { row_offset = -1, col_offset = -1 }),
+			-- 	"--tab-width",
+			-- 	"-1",
+			-- 	"--use-tabs",
+			-- 	to_stdin = true,
+			-- 	dynamic_command = cmd_resolver.from_node_modules(),
+			-- 	cwd = h.cache.by_bufnr(function(params)
+			-- 		return u.root_pattern(
+			-- 			-- https://prettier.io/docs/en/configuration.html
+			-- 			".prettierrc",
+			-- 			".prettierrc.json",
+			-- 			".prettierrc.yml",
+			-- 			".prettierrc.yaml",
+			-- 			".prettierrc.json5",
+			-- 			".prettierrc.js",
+			-- 			".prettierrc.cjs",
+			-- 			".prettierrc.toml",
+			-- 			"prettier.config.js",
+			-- 			"prettier.config.cjs",
+			-- 			"package.json"
+			-- 		)(params.bufname)
+			-- 	end),
+			-- },
 			factory = h.formatter_factory,
 		}),
 		null_ls.builtins.formatting.shellharden,
@@ -407,16 +409,16 @@ null_ls.setup({
 -- 	end,
 -- })
 
-local formatting = null_ls.builtins.formatting
-null_ls.setup({
-	sources = {
-		formatting.prettier.with({
-			filetypes = { "javascript", "typescript", "html", "css", "json" },
-			-- set tab width to 2 and use tabs instead of spaces
-			args = { "--stdin-filepath", "$FILENAME", "--tab-width", "1", "--use-tabs" },
-		}),
-	},
-})
+-- local formatting = null_ls.builtins.formatting
+-- null_ls.setup({
+-- 	sources = {
+-- 		formatting.prettier.with({
+-- 			filetypes = { "javascript", "typescript", "html", "css", "json" },
+-- 			-- set tab width to 2 and use tabs instead of spaces
+-- 			args = { "--stdin-filepath", "$FILENAME", "--tab-width", "1", "--use-tabs" },
+-- 		}),
+-- 	},
+-- })
 
 local cmp = require("cmp")
 require("luasnip.loaders.from_vscode").lazy_load()

@@ -5,7 +5,7 @@ local colorschemes = require("plugins/colorschemes")
 return {
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.5",
+		-- tag = "0.1.5",
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 	{
@@ -54,22 +54,6 @@ return {
 		},
 	},
 	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		opts = {}, -- this is equalent to setup({}) function
-	},
-	{
-		"kylechui/nvim-surround",
-		version = "*", -- Use for stability; omit to use `main` branch for the latest features
-		event = "VeryLazy",
-	},
-	{
-		"tpope/vim-commentary",
-	},
-	{
-		"JoosepAlviste/nvim-ts-context-commentstring",
-	},
-	{
 
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v3.x",
@@ -79,10 +63,27 @@ return {
 			"MunifTanjim/nui.nvim",
 		},
 	},
+	{
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		opts = {}, -- this is equalent to setup({}) function
+	},
+	{
+		"kylechui/nvim-surround",
+		version = "*", -- Use for stability; omit to use `main` branch for the latest features
+		event = "VeryLazy",
+	},
 
 	git,
 	dadbod,
 	colorschemes,
+
+	{
+		"tpope/vim-commentary",
+	},
+	{
+		"JoosepAlviste/nvim-ts-context-commentstring",
+	},
 	-- {
 	-- 	"BurntSushi/ripgrep",
 	-- },
