@@ -1,7 +1,7 @@
 return {
 	"nvimdev/dashboard-nvim",
 	event = "VimEnter",
-	dependencies = { { "nvim-tree/nvim-web-devicons" } },
+	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
 		local ascii = require("ascii")
 		require("dashboard").setup({
@@ -58,4 +58,5 @@ return {
 			},
 		})
 	end,
+	requires = { "nvim-tree/nvim-web-devicons" },
 }
