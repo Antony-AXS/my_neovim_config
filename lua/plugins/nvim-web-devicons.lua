@@ -18,7 +18,7 @@ return {
 						name = "js",
 					},
 					ts = {
-						icon = "󰛦",
+						icon = "",
 						color = "#0096FF",
 						cterm_color = "65",
 						name = "ts",
