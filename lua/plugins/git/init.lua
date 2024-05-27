@@ -261,7 +261,7 @@ return {
 				end
 			end
 
-			------------------------ keymap for NeoGit and DiffView ----------------------
+			----------------------- keymap for NeoGit and DiffView -----------------------
 			vim.keymap.set("n", "<leader>nd", DiffViewOpen, {})
 			vim.keymap.set("n", "<leader>nc", DiffViewClose, {})
 			vim.keymap.set("n", "<leader>nh", DiffViewHistoryAll, {})
