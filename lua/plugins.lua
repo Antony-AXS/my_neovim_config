@@ -52,6 +52,7 @@ return {
 			"saadparwaiz1/cmp_luasnip",
 			"rafamadriz/friendly-snippets",
 		},
+		build = "make install_jsregexp"
 	},
 	{
 
@@ -78,12 +79,12 @@ return {
 	dadbod,
 	colorschemes,
 
-	{
-		"tpope/vim-commentary",
-	},
-	{
-		"JoosepAlviste/nvim-ts-context-commentstring",
-	},
+	-- {
+	-- 	"tpope/vim-commentary",
+	-- },
+	-- {
+	-- 	"JoosepAlviste/nvim-ts-context-commentstring",
+	-- },
 	-- {
 	-- 	"BurntSushi/ripgrep",
 	-- },

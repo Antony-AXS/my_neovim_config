@@ -560,9 +560,9 @@ vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
 
 require("telescope").load_extension("git_worktree")
 
-require("ts_context_commentstring").setup({
-	enable_autocmd = false,
-})
+-- require("ts_context_commentstring").setup({
+-- 	enable_autocmd = false,
+-- })
 
 local Harpoon = require("harpoon")
 Harpoon.setup({
