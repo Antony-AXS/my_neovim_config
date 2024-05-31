@@ -378,6 +378,7 @@ null_ls.setup({
 			factory = h.formatter_factory,
 		}),
 		null_ls.builtins.formatting.shellharden,
+		null_ls.builtins.formatting.shfmt,
 		null_ls.builtins.formatting.golines,
 		null_ls.builtins.formatting.yamlfmt,
 		null_ls.builtins.completion.spell,
