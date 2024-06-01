@@ -29,6 +29,12 @@ return {
 						cterm_color = "65",
 						name = "cpp",
 					},
+					geojson = {
+						icon = "󰘦",
+						color = "yellow",
+						cterm_color = "65",
+						name = "geojson",
+					},
 				})
 			end,
 		})
