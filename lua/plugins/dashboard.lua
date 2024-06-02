@@ -54,7 +54,7 @@ return {
 					label = "folder(s)",
 					action = "Telescope find_files cwd=",
 				},
-				mru = { limit = 5, icon = "  ", label = "file(s)", cwd_only = false }, --       
+				mru = { limit = 5, icon = "  ", label = "file(s)", cwd_only = false }, --         
 			},
 		})
 	end,
