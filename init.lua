@@ -4,6 +4,7 @@ vim.opt.mouse = ""
 vim.opt.wrap = false
 vim.opt.number = true
 vim.opt.laststatus = 3
+vim.opt.termguicolors = true
 vim.opt.relativenumber = true
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -248,7 +249,7 @@ require("mason-lspconfig").setup({
 	ensure_installed = {
 		"lua_ls",
 		"rust_analyzer",
-		"quick_lint_js",
+		-- "quick_lint_js",
 		"tsserver",
 		"html",
 		"jsonls",
@@ -313,7 +314,7 @@ lspconfig.tsserver.setup({
 		client.server_capabilities.documentRangeFormattingProvider = false
 	end,
 })
-lspconfig.quick_lint_js.setup({ capabilities = capabilities })
+-- lspconfig.quick_lint_js.setup({ capabilities = capabilities })
 lspconfig.html.setup({ capabilities = capabilities })
 lspconfig.cssls.setup({ capabilities = capabilities })
 lspconfig.jsonls.setup({ capabilities = capabilities })

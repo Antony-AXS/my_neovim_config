@@ -1,5 +1,6 @@
 return {
 	"folke/trouble.nvim",
+	event = "VeryLazy",
 	opts = {
 		modes = {
 			preview_float = {
