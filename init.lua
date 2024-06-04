@@ -5,7 +5,7 @@ vim.opt.wrap = false
 vim.opt.number = true
 vim.opt.laststatus = 3
 vim.opt.cursorline = true
-vim.opt.inccommand = 'split'
+vim.opt.inccommand = "split"
 vim.opt.termguicolors = true
 vim.opt.relativenumber = true
 
