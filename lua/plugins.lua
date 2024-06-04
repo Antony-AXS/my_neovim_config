@@ -14,9 +14,11 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-		-- dependencies = {
-		-- 	"nvim-treesitter/nvim-treesitter-textobjects",
-		-- },
+		dependencies = {
+			"j-hui/fidget.nvim",
+			opts = {},
+			-- 	"nvim-treesitter/nvim-treesitter-textobjects",
+		},
 	},
 	{
 		"williamboman/mason.nvim",
@@ -27,15 +29,28 @@ return {
 		opts = {
 			auto_install = true,
 		},
+		dependencies = {
+			"j-hui/fidget.nvim",
+			opts = {},
+			-- 	"nvim-treesitter/nvim-treesitter-textobjects",
+		},
 		lazy = true,
 	},
 	{
 		"neovim/nvim-lspconfig",
 		lazy = true,
+		dependencies = {
+			"j-hui/fidget.nvim",
+			opts = {},
+		},
 	},
 	{
 		"nvimtools/none-ls.nvim",
 		lazy = true,
+		dependencies = {
+			"j-hui/fidget.nvim",
+			opts = {},
+		},
 	},
 	{
 		"hrsh7th/nvim-cmp", --  the completion plugin
@@ -52,7 +67,7 @@ return {
 			"saadparwaiz1/cmp_luasnip",
 			"rafamadriz/friendly-snippets",
 		},
-		build = "make install_jsregexp"
+		build = "make install_jsregexp",
 	},
 	{
 
