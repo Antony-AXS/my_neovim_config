@@ -4,7 +4,6 @@ vim.opt.mouse = ""
 vim.opt.wrap = false
 vim.opt.number = true
 vim.opt.laststatus = 3
-vim.opt.cursorline = true
 vim.opt.inccommand = "split"
 vim.opt.termguicolors = true
 vim.opt.relativenumber = true
@@ -127,6 +126,10 @@ vim.keymap.set("n", "<leader>cs", ":Tshift Toggle<CR>", {})
 
 -- local harpoon = require("telescope").load_extension("harpoon")
 
+---------------------------- keymap for search escape ----------------------------
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+----------------------------------------------------------------------------------
+
 --------------------------- keymap for diagnostics jump --------------------------
 vim.keymap.set("n", "]d", ":lua vim.diagnostic.goto_next()<CR>", {})
 vim.keymap.set("n", "[d", ":lua vim.diagnostic.goto_prev()<CR>", {})
@@ -237,9 +240,9 @@ vim.diagnostic.config({
 	},
 })
 
-vim.api.nvim_create_autocmd('TextYankPost', {
-	desc = 'Highlight when yanking (copying) text',
-	group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = "Highlight when yanking (copying) text",
+	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
 	callback = function()
 		vim.highlight.on_yank()
 	end,
@@ -460,7 +463,7 @@ cmp.setup({
 		{ name = "vim-dadbod-completion" },
 		{ name = "nvim_lua" },
 		{ name = "path" },
-		{ name = "buffer",               keyword_length = 5 },
+		{ name = "buffer", keyword_length = 5 },
 	}, {
 		{ name = "buffer" },
 	}),
