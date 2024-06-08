@@ -173,11 +173,10 @@ vim.keymap.set("v", "<Leader>1f", vim.lsp.buf.format, {})
 
 ---------------------------------- keymap for harpoon -------------------------------------
 vim.keymap.set("n", "<leader>th", ":Telescope harpoon marks<CR>", {})
-vim.keymap.set("n", "<leader>hh", require("harpoon.mark").add_file, {})
-vim.keymap.set("n", "<leader>z", require("harpoon.ui").toggle_quick_menu, {})
 vim.keymap.set("n", "<C-j>", require("harpoon.ui").nav_prev) -- navigates to previous mark
 vim.keymap.set("n", "<C-k>", require("harpoon.ui").nav_next) -- navigates to next mark
 vim.keymap.set("n", "<C-q>", require("harpoon.ui").nav_next) -- navigates to next mark
+vim.keymap.set("n", "<leader>z", require("harpoon.ui").toggle_quick_menu, {})
 vim.keymap.set("n", "m1", ':lua require("harpoon.ui").nav_file(1)<CR>', { silent = true })
 vim.keymap.set("n", "m2", ':lua require("harpoon.ui").nav_file(2)<CR>', { silent = true })
 vim.keymap.set("n", "m3", ':lua require("harpoon.ui").nav_file(3)<CR>', { silent = true })
@@ -187,6 +186,10 @@ vim.keymap.set("n", "m6", ':lua require("harpoon.ui").nav_file(6)<CR>', { silent
 vim.keymap.set("n", "m7", ':lua require("harpoon.ui").nav_file(7)<CR>', { silent = true })
 vim.keymap.set("n", "m8", ':lua require("harpoon.ui").nav_file(8)<CR>', { silent = true })
 vim.keymap.set("n", "m9", ':lua require("harpoon.ui").nav_file(9)<CR>', { silent = true })
+vim.keymap.set("n", "<leader>hh", function()
+	require("harpoon.mark").add_file()
+	vim.cmd("edit")
+end, {})
 --------------------------------------------------------------------------------------------
 
 ------------------------------- Harpoon Theme customize -----------------------------
@@ -208,11 +211,16 @@ vim.keymap.set("n", "<leader>we", ":bnext<CR>", {})
 vim.keymap.set("n", "<leader>wq", ":bprev<CR>", {})
 -------------------------------------------------------------------------------------
 
--------------------------- accidental closing prevention --------------------------
+---------------------------- keymap for tab navigation ------------------------------
+vim.keymap.set("n", "<leader>ty", ":tabnext<CR>", {}) -- next tab
+vim.keymap.set("n", "<leader>tr", ":tabprevious<CR>", {}) -- previous tab
+-------------------------------------------------------------------------------------
+
+--------------------------- Accidental closing prevention ---------------------------
 vim.keymap.set("n", "<c-z>", function()
 	vim.notify("you just got saved from an unwanted headache !!!!!")
 end, {})
------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
 
 vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
 
@@ -240,13 +248,13 @@ vim.diagnostic.config({
 	},
 })
 
-vim.api.nvim_create_autocmd("TextYankPost", {
-	desc = "Highlight when yanking (copying) text",
-	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
-	callback = function()
-		vim.highlight.on_yank()
-	end,
-})
+-- vim.api.nvim_create_autocmd("TextYankPost", {
+-- 	desc = "Highlight when yanking (copying) text",
+-- 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+-- 	callback = function()
+-- 		vim.highlight.on_yank()
+-- 	end,
+-- })
 
 require("mason").setup({
 	ui = {
