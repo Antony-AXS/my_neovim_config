@@ -156,7 +156,27 @@ return {
 				lualine_x = {
 					{
 						function()
-							-- 󰨑  󰤼    󰻭  󱇿  󰝜  󰩵  󱓺  󰓪  󰱾  󱀂  󱀃  󰹈    󰧑
+							-- 󰨑  󰤼    󰻭  󱇿  󰝜  󰩵    󱂬  󱓺  󰓪  󰱾  󱀂  󱀃  󰹈    󰧑
+							-- 󰼏  󰼐  󰼑  󰼒  󰼓  󰼔  󰼕  󰼖  󰼗  󰼘  󰿪
+							local Icon = " "
+							-- if #vim.api.nvim_list_wins() == 1 then
+							-- 	Icon = "󰼏 "
+							-- elseif #vim.api.nvim_list_wins() == 2 then
+							-- 	Icon = "󰼐 "
+							-- elseif #vim.api.nvim_list_wins() == 3 then
+							-- 	Icon = "󰼑 "
+							-- end
+							return (Icon .. vim.fn.tabpagenr() .. "|" .. (#vim.api.nvim_list_tabpages()))
+						end,
+						color = {
+							fg = "#89CFF0",
+							gui = "bold",
+						},
+						padding = { left = 1, right = 1 },
+					},
+					{
+						function()
+							-- 󰨑  󰤼    󰻭    󱇿  󰝜  󰩵  󱓺  󰓪  󰱾  󱀂  󱀃  󰹈    󰧑
 							-- 󰼏  󰼐  󰼑  󰼒  󰼓  󰼔  󰼕  󰼖  󰼗  󰼘  󰿪
 							local Icon = "󱇿 "
 							-- if #vim.api.nvim_list_wins() == 1 then
@@ -166,7 +186,14 @@ return {
 							-- elseif #vim.api.nvim_list_wins() == 3 then
 							-- 	Icon = "󰼑 "
 							-- end
-							return (Icon .. vim.fn.winnr() .. "|" .. (#vim.api.nvim_list_wins()))
+							return (
+								Icon
+								.. vim.fn.winnr()
+								.. "|"
+								.. (#vim.api.nvim_tabpage_list_wins(0))
+								.. "|"
+								.. (#vim.api.nvim_list_wins())
+							)
 						end,
 						color = {
 							fg = "#a9ff0a",
@@ -316,7 +343,7 @@ return {
 				end
 				return msg
 			end,
-			icon = "", --               󰍶  󰍵      󰦓   
+			icon = "", --               󰍶  󰍵      󰦓
 			color = { fg = "#ffffff", gui = "bold" },
 			-- color = { fg = colors.green, gui = "bold" },
 		})
