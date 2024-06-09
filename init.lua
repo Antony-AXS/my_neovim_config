@@ -10,7 +10,7 @@ vim.opt.relativenumber = true
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
-if not vim.loop.fs_stat(lazypath) then
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
 		"clone",
@@ -212,8 +212,10 @@ vim.keymap.set("n", "<leader>wq", ":bprev<CR>", {})
 -------------------------------------------------------------------------------------
 
 ---------------------------- keymap for tab navigation ------------------------------
+vim.keymap.set("n", "<leader>tt", ":tabnext<CR>", {}) -- next tab
 vim.keymap.set("n", "<leader>ty", ":tabnext<CR>", {}) -- next tab
 vim.keymap.set("n", "<leader>tr", ":tabprevious<CR>", {}) -- previous tab
+vim.keymap.set("n", "<leader>tc", ":tabclose<CR>", {}) -- next tab
 -------------------------------------------------------------------------------------
 
 --------------------------- Accidental closing prevention ---------------------------
@@ -248,13 +250,13 @@ vim.diagnostic.config({
 	},
 })
 
--- vim.api.nvim_create_autocmd("TextYankPost", {
--- 	desc = "Highlight when yanking (copying) text",
--- 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
--- 	callback = function()
--- 		vim.highlight.on_yank()
--- 	end,
--- })
+vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = "Highlight when yanking (copying) text",
+	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+})
 
 require("mason").setup({
 	ui = {
@@ -544,6 +546,10 @@ vim.api.nvim_create_user_command("Cppath", function()
 	local path = vim.fn.expand("%:p")
 	vim.fn.setreg("+", path)
 	vim.notify('Copied "' .. path .. '" to the clipboard!')
+end, {})
+
+vim.api.nvim_create_user_command("Tc", function()
+	vim.cmd("tabclose")
 end, {})
 
 require("nvim-autopairs").setup({
