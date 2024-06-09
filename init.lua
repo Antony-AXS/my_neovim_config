@@ -277,6 +277,7 @@ require("mason-lspconfig").setup({
 		"html",
 		"jsonls",
 		"cssls",
+		"vimls",
 		"emmet_ls",
 		"volar",
 		"angularls",
@@ -351,6 +352,7 @@ lspconfig.gopls.setup({ capabilities = capabilities })
 lspconfig.dartls.setup({ capabilities = capabilities })
 lspconfig.bashls.setup({ capabilities = capabilities })
 lspconfig.ltex.setup({ capabilities = capabilities })
+lspconfig.vimls.setup({ capabilities = capabilities })
 lspconfig.yamlls.setup({ capabilities = capabilities })
 lspconfig.vale_ls.setup({ capabilities = capabilities })
 lspconfig.diagnosticls.setup({ capabilities = capabilities })
