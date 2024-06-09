@@ -1,5 +1,4 @@
 return {
-
 	{
 		"tpope/vim-dadbod",
 		opt = true,
