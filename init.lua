@@ -289,6 +289,7 @@ require("mason-lspconfig").setup({
 		"ltex",
 		"yamlls",
 		"vale_ls",
+		"intelephense",
 		"diagnosticls",
 		"jedi_language_server",
 	},
@@ -355,6 +356,7 @@ lspconfig.ltex.setup({ capabilities = capabilities })
 lspconfig.vimls.setup({ capabilities = capabilities })
 lspconfig.yamlls.setup({ capabilities = capabilities })
 lspconfig.vale_ls.setup({ capabilities = capabilities })
+lspconfig.intelephense.setup({ capabilities = capabilities })
 lspconfig.diagnosticls.setup({ capabilities = capabilities })
 lspconfig.jedi_language_server.setup({ capabilities = capabilities })
 
@@ -405,9 +407,7 @@ null_ls.setup({
 		}),
 		null_ls.builtins.formatting.shellharden,
 		null_ls.builtins.formatting.shfmt,
-		null_ls.builtins.formatting.golines,
 		null_ls.builtins.formatting.yamlfmt,
-		null_ls.builtins.completion.spell,
 		null_ls.builtins.code_actions.gitsigns,
 	},
 	-- on_attach = function(current_client, bufnr)
