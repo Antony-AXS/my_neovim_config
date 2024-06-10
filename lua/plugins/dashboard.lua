@@ -58,5 +58,4 @@ return {
 			},
 		})
 	end,
-	requires = { "nvim-tree/nvim-web-devicons" },
 }
