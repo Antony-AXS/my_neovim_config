@@ -2,6 +2,7 @@ return {
 	{
 		"catppuccin/nvim",
 		lazy = false,
+		event = "VeryLazy",
 		name = "catppuccin",
 		priority = 1000,
 		config = function()
@@ -182,5 +183,6 @@ return {
 	},
 	{
 		"folke/tokyonight.nvim",
+		event = "VeryLazy",
 	},
 }
