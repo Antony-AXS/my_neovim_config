@@ -1,12 +1,14 @@
 return {
 	{
 		"tpope/vim-fugitive",
+		event = "VeryLazy",
 		config = function()
 			vim.keymap.set("n", "gr", ":Git reset<CR>", {})
 		end,
 	},
 	{
 		"lewis6991/gitsigns.nvim",
+		event = "VeryLazy",
 		config = function()
 			require("gitsigns").setup({
 				signs = {
@@ -113,6 +115,7 @@ return {
 	},
 	{
 		"polarmutex/git-worktree.nvim",
+		event = "VeryLazy",
 		config = function()
 			local Worktree = require("git-worktree")
 
@@ -195,6 +198,7 @@ return {
 	},
 	{
 		"NeogitOrg/neogit",
+		event = "VeryLazy",
 		dependencies = {
 			"nvim-lua/plenary.nvim", -- required
 			"sindrets/diffview.nvim", -- optional - Diff integration
