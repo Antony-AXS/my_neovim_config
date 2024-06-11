@@ -165,11 +165,15 @@ return {
 								return ""
 							end
 						end,
-						color = {
-							fg = "#89CFF0",
-							gui = "bold",
-						},
-						padding = { left = 1, right = 1 },
+						color = function()
+							if #vim.api.nvim_list_tabpages() > 1 then
+								return { fg = "#89CFF0", gui = "bold" }
+							else
+								return { fg = "grey", gui = "bold" }
+							end
+						end,
+
+						padding = { left = 1, right = 0 },
 					},
 					{
 						function()
