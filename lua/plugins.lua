@@ -14,10 +14,12 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
+		event = "VeryLazy",
 		dependencies = {
 			"j-hui/fidget.nvim",
 			opts = {},
 			-- 	"nvim-treesitter/nvim-treesitter-textobjects",
+			-- 	{ "RRethy/nvim-treesitter-endwise", cond = not locals.treesitter_dev }
 		},
 	},
 	{
