@@ -1,6 +1,7 @@
 return {
 	"nvim-lualine/lualine.nvim",
 	event = "VeryLazy",
+	lazy = true,
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
 		local lualine = require("lualine")
@@ -159,7 +160,7 @@ return {
 						function()
 							-- 󰨑  󰤼    󰻭  󱇿  󰝜  󰩵    󱂬  󱓺  󰓪  󰱾  󱀂  󱀃  󰹈    󰧑
 							-- 󰼏  󰼐  󰼑  󰼒  󰼓  󰼔  󰼕  󰼖  󰼗  󰼘  󰿪
-							local Icon = " "
+							local Icon = "󱗖 "
 							if #vim.api.nvim_list_tabpages() > 1 then
 								return (Icon .. vim.fn.tabpagenr() .. "|" .. (#vim.api.nvim_list_tabpages()))
 							else
@@ -174,7 +175,7 @@ return {
 							end
 						end,
 
-						padding = { left = 1, right = 0 },
+						padding = { left = 1, right = 1 },
 					},
 					{
 						function()
