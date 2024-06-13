@@ -25,6 +25,7 @@ return {
 	{
 		"williamboman/mason.nvim",
 		lazy = true,
+		event = "VeryLazy",
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
@@ -37,10 +38,12 @@ return {
 			-- 	"nvim-treesitter/nvim-treesitter-textobjects",
 		},
 		lazy = true,
+		event = "VeryLazy",
 	},
 	{
 		"neovim/nvim-lspconfig",
 		lazy = true,
+		event = "VeryLazy",
 		dependencies = {
 			"j-hui/fidget.nvim",
 			opts = {},
@@ -49,6 +52,7 @@ return {
 	{
 		"nvimtools/none-ls.nvim",
 		lazy = true,
+		event = "VeryLazy",
 		dependencies = {
 			"j-hui/fidget.nvim",
 			opts = {},
@@ -56,15 +60,19 @@ return {
 	},
 	{
 		"hrsh7th/nvim-cmp", --  the completion plugin
+		event = "VeryLazy",
 	},
 	{
 		"hrsh7th/cmp-nvim-lsp",
+		event = "VeryLazy",
 	},
 	{
 		"hrsh7th/cmp-nvim-lua",
+		event = "VeryLazy",
 	},
 	{
 		"L3MON4D3/LuaSnip",
+		event = "VeryLazy",
 		dependencies = {
 			"saadparwaiz1/cmp_luasnip",
 			"rafamadriz/friendly-snippets",
