@@ -2,7 +2,7 @@ return {
 	{
 		"catppuccin/nvim",
 		lazy = false,
-		event = "VeryLazy",
+		-- event = "VeryLazy",
 		name = "catppuccin",
 		priority = 1000,
 		config = function()
@@ -111,7 +111,7 @@ return {
 	{
 		"craftzdog/solarized-osaka.nvim",
 		lazy = true,
-		event = "VeryLazy",
+		-- event = "VeryLazy",
 		priority = 1000,
 		opts = {},
 		config = function()
@@ -183,6 +183,6 @@ return {
 	},
 	{
 		"folke/tokyonight.nvim",
-		event = "VeryLazy",
+		-- event = "VeryLazy",
 	},
 }
