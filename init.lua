@@ -218,6 +218,16 @@ vim.keymap.set("n", "<leader>tr", ":tabprevious<CR>", {}) -- previous tab
 vim.keymap.set("n", "<leader>tc", ":tabclose<CR>", {}) -- next tab
 -------------------------------------------------------------------------------------
 
+----------------------------- window binding in a tab -------------------------------
+vim.keymap.set("n", "<leader>ba", function()
+	local curr_line_num = tostring(vim.api.nvim__buf_stats(0).current_lnum)
+	vim.cmd("windo" .. " " .. curr_line_num)
+	vim.cmd("windo set cursorbind cursorline")
+	vim.notify("binded all windows")
+end, {})
+vim.keymap.set("n", "<leader>bn", ":windo set nocursorbind nocursorline<CR>", {})
+-------------------------------------------------------------------------------------
+
 --------------------------- Accidental closing prevention ---------------------------
 vim.keymap.set("n", "<c-z>", function()
 	vim.notify("you just got saved from an unwanted headache !!!!!")
