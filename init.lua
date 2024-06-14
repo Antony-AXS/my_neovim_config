@@ -352,7 +352,7 @@ lspconfig.emmet_ls.setup({ capabilities = capabilities })
 lspconfig.gopls.setup({ capabilities = capabilities })
 lspconfig.dartls.setup({ capabilities = capabilities })
 lspconfig.bashls.setup({ capabilities = capabilities })
-lspconfig.ltex.setup({ capabilities = capabilities })
+-- lspconfig.ltex.setup({ capabilities = capabilities })
 lspconfig.vimls.setup({ capabilities = capabilities })
 lspconfig.yamlls.setup({ capabilities = capabilities })
 lspconfig.vale_ls.setup({ capabilities = capabilities })
@@ -488,21 +488,21 @@ cmp.setup({
 	}),
 
 	-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-	cmp.setup.cmdline("/", {
-		mapping = cmp.mapping.preset.cmdline(),
-		sources = {
-			{ name = "buffer" },
-		},
-	}),
+	-- cmp.setup.cmdline("/", {
+	-- 	mapping = cmp.mapping.preset.cmdline(),
+	-- 	sources = {
+	-- 		{ name = "buffer" },
+	-- 	},
+	-- }),
 
 	-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-	cmp.setup.cmdline(":", {
-		sources = cmp.config.sources({
-			{ name = "path" },
-		}, {
-			{ name = "cmdline" },
-		}),
-	}),
+	-- cmp.setup.cmdline(":", {
+	-- 	sources = cmp.config.sources({
+	-- 		{ name = "path" },
+	-- 	}, {
+	-- 		{ name = "cmdline" },
+	-- 	}),
+	-- }),
 })
 
 -- require("cmp").setup.buffer({ sources = { { name = "vim-dadbod-completion" } } })
