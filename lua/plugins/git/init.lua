@@ -2,9 +2,6 @@ return {
 	{
 		"tpope/vim-fugitive",
 		event = "VeryLazy",
-		config = function()
-			vim.keymap.set("n", "gr", ":Git reset<CR>", {})
-		end,
 	},
 	{
 		"lewis6991/gitsigns.nvim",
