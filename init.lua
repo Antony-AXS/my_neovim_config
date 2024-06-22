@@ -640,3 +640,65 @@ Harpoon.setup({
 		height = vim.api.nvim_win_get_height(0) - 18,
 	},
 })
+
+-- Global variable to store the window ID
+_G.my_floating_window_id = nil
+
+-- Function to create a floating window
+local function create_floating_window()
+	-- Create a new buffer
+	local buf = vim.api.nvim_create_buf(false, true) -- {listed: false, scratch: true}
+
+	-- Determine the width and height of the window
+	local width = vim.api.nvim_get_option("columns")
+	local height = vim.api.nvim_get_option("lines")
+
+	-- Set the dimensions and position of the floating window
+	local win_width = math.ceil(width * 0.8)
+	local win_height = math.ceil(height * 0.5)
+	local row = math.ceil((height - win_height) / 2) - 1
+	local col = math.ceil((width - win_width) / 2)
+
+	-- Set the window options
+	local opts = {
+		style = "minimal",
+		relative = "editor",
+		width = win_width,
+		height = win_height,
+		row = row,
+		col = col,
+		border = "rounded",
+	}
+
+	-- Create the floating window
+	local win = vim.api.nvim_open_win(buf, true, opts)
+
+	-- Store the window ID
+	_G.my_floating_window_id = win
+
+	-- Optionally, you can set some buffer options
+	vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
+	vim.api.nvim_buf_set_lines(buf, 0, -1, false, {
+		"This is a floating window",
+		"You can add any content here",
+		"Line 3",
+		"Line 4",
+	})
+end
+
+-- Function to close the floating window
+
+-- Make the functions available globally
+_G.create_floating_window = create_floating_window
+
+local function close_floating_window()
+	if _G.my_floating_window_id then
+		vim.api.nvim_win_close(_G.my_floating_window_id, true)
+		_G.my_floating_window_id = nil
+	else
+		print("No floating window to close")
+	end
+end
+
+vim.keymap.set("n", "<leader>wy", create_floating_window, {})
+vim.keymap.set("n", "<leader>wx", close_floating_window, {})
