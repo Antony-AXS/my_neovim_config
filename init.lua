@@ -223,9 +223,12 @@ vim.keymap.set("n", "<leader>ba", function()
 	local curr_line_num = tostring(vim.api.nvim__buf_stats(0).current_lnum)
 	vim.cmd("windo" .. " " .. curr_line_num)
 	vim.cmd("windo set cursorbind cursorline")
-	vim.notify("binded all windows")
+	vim.notify("Binded all Windows")
 end, {})
-vim.keymap.set("n", "<leader>bn", ":windo set nocursorbind nocursorline<CR>", {})
+vim.keymap.set("n", "<leader>bn", function()
+	vim.cmd("windo set nocursorbind nocursorline")
+	vim.notify("Unbinded all Windows")
+end, {})
 -------------------------------------------------------------------------------------
 
 --------------------------- Accidental closing prevention ---------------------------
