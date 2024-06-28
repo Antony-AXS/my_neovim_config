@@ -41,7 +41,7 @@
 "    let g:undotree_WindowLayout = 2
 "endif
 "
-"let g:vim_dadbod_completion_mark = 'MYMARK'
+let g:vim_dadbod_completion_mark = 'MYMARK'
 
 set laststatus =2
 set statusline +=\ %1*\ %f\ %* 
