@@ -19,8 +19,6 @@ return {
                                 "if !exists('g:undotree_WindowLayout')
                                     let g:undotree_WindowLayout = 2
                                 "endif
-
-                                let g:vim_dadbod_completion_mark = 'MYMARK'
                         ]],
 			{ output = false }
 		)
