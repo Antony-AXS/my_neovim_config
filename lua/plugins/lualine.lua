@@ -160,7 +160,7 @@ return {
 						function()
 							-- 󰨑  󰤼    󰻭  󱇿  󰝜  󰩵    󱂬  󱓺  󰓪  󰱾  󱀂  󱀃  󰹈    󰧑
 							-- 󰼏  󰼐  󰼑  󰼒  󰼓  󰼔  󰼕  󰼖  󰼗  󰼘  󰿪
-							local Icon = "󰂽 " -- 󱗖  󱉟  󰗚  󰂾        󰭣  󰂽
+							local Icon = "󱓷 " -- 󱗖  󱉟  󰗚  󰂾        󰭣  󰂽  󱓷 
 							if #vim.api.nvim_list_tabpages() > 1 then
 								return (Icon .. vim.fn.tabpagenr() .. "|" .. (#vim.api.nvim_list_tabpages()))
 							else
