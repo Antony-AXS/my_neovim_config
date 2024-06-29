@@ -35,7 +35,62 @@ return {
 		dependencies = {
 			"j-hui/fidget.nvim",
 			opts = {},
-			-- 	"nvim-treesitter/nvim-treesitter-textobjects",
+			{
+				"nvim-treesitter/nvim-treesitter-textobjects",
+				event = "VeryLazy",
+				config = function()
+					require("nvim-treesitter.configs").setup({
+						textobjects = {
+							select = {
+								enable = true,
+
+								-- Automatically jump forward to textobj, similar to targets.vim
+								lookahead = true,
+
+								keymaps = {
+									-- You can use the capture groups defined in textobjects.scm
+									["af"] = "@function.outer",
+									["if"] = "@function.inner",
+									["ik"] = "@conditional.inner",
+									["ak"] = "@conditional.outer",
+									["ac"] = "@class.outer",
+									-- You can optionally set descriptions to the mappings (used in the desc parameter of
+									-- nvim_buf_set_keymap) which plugins like which-key display
+									["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+									-- You can also use captures from other query groups like `locals.scm`
+									["as"] = {
+										query = "@scope",
+										query_group = "locals",
+										desc = "Select language scope",
+									},
+								},
+								-- You can choose the select mode (default is charwise 'v')
+								--
+								-- Can also be a function which gets passed a table with the keys
+								-- * query_string: eg '@function.inner'
+								-- * method: eg 'v' or 'o'
+								-- and should return the mode ('v', 'V', or '<c-v>') or a table
+								-- mapping query_strings to modes.
+								selection_modes = {
+									["@parameter.outer"] = "v", -- charwise
+									["@function.outer"] = "V", -- linewise
+									["@class.outer"] = "<c-v>", -- blockwise
+								},
+								-- If you set this to `true` (default is `false`) then any textobject is
+								-- extended to include preceding or succeeding whitespace. Succeeding
+								-- whitespace has priority in order to act similarly to eg the built-in
+								-- `ap`.
+								--
+								-- Can also be a function which gets passed a table with the keys
+								-- * query_string: eg '@function.inner'
+								-- * selection_mode: eg 'v'
+								-- and should return true or false
+								include_surrounding_whitespace = true,
+							},
+						},
+					})
+				end,
+			},
 		},
 		lazy = true,
 		event = "VeryLazy",
@@ -63,8 +118,28 @@ return {
 		event = "VeryLazy",
 	},
 	{
+		"folke/lazydev.nvim",
+		event = "VeryLazy",
+		ft = "lua", -- only load on lua files
+		opts = {
+			library = {
+				-- See the configuration section for more details
+				-- Load luvit types when the `vim.uv` word is found
+				{ path = "luvit-meta/library", words = { "vim%.uv" } },
+			},
+		},
+	},
+	{ "Bilal2453/luvit-meta", event = "VeryLazy", lazy = true },
+	{
 		"hrsh7th/cmp-nvim-lsp",
 		event = "VeryLazy",
+		opts = function(_, opts)
+			opts.sources = opts.sources or {}
+			table.insert(opts.sources, {
+				name = "lazydev",
+				group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+			})
+		end,
 	},
 	{
 		"hrsh7th/cmp-nvim-lua",
