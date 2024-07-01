@@ -21,7 +21,7 @@ return {
 				transparent_background = true,
 				styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
 					comments = { "italic" }, -- Change the style of comments
-					conditionals = { "italic" },
+					conditionals = { --[["italic"]] },
 					loops = {},
 					functions = { "bold" },
 					keywords = {},
