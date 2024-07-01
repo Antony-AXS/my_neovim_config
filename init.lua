@@ -56,7 +56,6 @@ treesitter_configs.setup({
 	},
 	auto_install = true,
 	sync_install = false,
-
 	highlight = {
 		enable = true,
 		-- custom_captures = {
