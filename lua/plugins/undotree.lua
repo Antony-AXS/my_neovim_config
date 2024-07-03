@@ -25,7 +25,7 @@ return {
 
 		local undoTreeLayoutMemory = 2
 
-		------------------------------ keymap for undo-tree -------------------------------
+		------------------------------- keymap for undo-tree -------------------------------
 		vim.keymap.set("n", "<leader>q", ":UndotreeToggle<CR>", { silent = true })
 		vim.keymap.set("n", "<leader>a", ":UndotreeFocus<CR>", { silent = true })
 		vim.keymap.set("n", "<leader>ut", function()
