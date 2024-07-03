@@ -720,6 +720,7 @@ local function create_floating_window()
 		height = win_height,
 		row = row,
 		col = col,
+		focusable = false,
 		border = "rounded",
 	}
 
