@@ -32,6 +32,7 @@ return {
 					"notify",
 					"startify",
 					"DiffviewFiles",
+					"fugitiveblame",
 					"toggleterm",
 					"Trouble",
 					"undotree",
