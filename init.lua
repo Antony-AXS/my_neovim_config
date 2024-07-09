@@ -698,13 +698,23 @@ Harpoon.setup({
 _G.my_floating_window_id = nil
 
 -- Function to create a floating window
-local function create_floating_window()
+local function close_floating_window()
+	print("floating window ID ---------->>>>>>>>", _G.my_floating_window_id)
+	if _G.my_floating_window_id then
+		vim.api.nvim_win_close(_G.my_floating_window_id, true)
+		_G.my_floating_window_id = nil
+	else
+		print("No floating window to close")
+	end
+end
+
+local function create_floating_window(content)
 	-- Create a new buffer
 	local buf = vim.api.nvim_create_buf(false, true) -- {listed: false, scratch: true}
 
 	-- Determine the width and height of the window
-	local width = vim.api.nvim_get_option("columns")
-	local height = vim.api.nvim_get_option("lines")
+	local width = vim.api.nvim_get_option_value("columns", {})
+	local height = vim.api.nvim_get_option_value("lines", {})
 
 	-- Set the dimensions and position of the floating window
 	local win_width = math.ceil(width * 0.8)
