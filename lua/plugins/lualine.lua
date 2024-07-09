@@ -169,7 +169,7 @@ return {
 						end,
 						color = function()
 							if #vim.api.nvim_list_tabpages() > 1 then
-								return { fg = "#89CFF0", gui = "bold" }
+								return { fg = "#FFA500", gui = "bold" }
 							else
 								return { fg = "grey", gui = "bold" }
 							end
