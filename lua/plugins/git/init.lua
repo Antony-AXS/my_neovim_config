@@ -100,8 +100,8 @@ return {
 						gs.diffthis("~")
 					end, {})
 
-					vim.keymap.set("n", "<leader>sh", ":Gitsigns stage_hunk", {})
-					vim.keymap.set("n", "<leader>uh", ":Gitsigns undo_stage_hunk", {})
+					vim.keymap.set("n", "<leader>sh", ":Gitsigns stage_hunk<CR>", {})
+					vim.keymap.set("n", "<leader>uh", ":Gitsigns undo_stage_hunk<CR>", {})
 					vim.keymap.set({ "o", "x" }, "<leader>ih", ":<C-U>Gitsigns select_hunk<CR>", {})
 					----------------------------------------------------------------------------------
 				end,
