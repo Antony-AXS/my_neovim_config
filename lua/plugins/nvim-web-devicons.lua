@@ -1,5 +1,6 @@
 return {
 	"nvim-tree/nvim-web-devicons",
+	event = "VeryLazy",
 	config = function()
 		require("nvim-web-devicons").get_icons()
 
@@ -8,7 +9,7 @@ return {
 		-- require("nvim-web-devicons").get_icon_color_by_filetype(filetype, opts)
 		-- require("nvim-web-devicons").get_icon_cterm_color_by_filetype(filetype, opts)
 
-		vim.api.nvim_create_autocmd("colorscheme", {
+		vim.api.nvim_create_autocmd("BufEnter", {
 			callback = function()
 				require("nvim-web-devicons").set_icon({
 					js = {
