@@ -52,7 +52,7 @@ treesitter_configs.setup({
 		"gitattributes",
 		"gitcommit",
 		"gitignore",
-		--"regex",
+		"regex",
 	},
 	auto_install = true,
 	sync_install = false,
