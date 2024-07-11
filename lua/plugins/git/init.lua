@@ -88,7 +88,7 @@ return {
 					-- map("n", "<leader>hS", gs.stage_buffer)
 					-- map("n", "<leader>hu", gs.undo_stage_hunk)
 					-- map("n", "<leader>hR", gs.reset_buffer)
-					---------------------------------- GIT Signs -------------------------------------
+					-------------------------------- GIT Signs keymaps -------------------------------
 					vim.keymap.set("n", "<leader>hp", gs.preview_hunk)
 					map("n", "<leader>hb", function()
 						gs.blame_line({ full = true })
@@ -100,7 +100,8 @@ return {
 						gs.diffthis("~")
 					end, {})
 
-					-- Text object
+					vim.keymap.set("n", "<leader>sh", ":Gitsigns stage_hunk", {})
+					vim.keymap.set("n", "<leader>uh", ":Gitsigns undo_stage_hunk", {})
 					vim.keymap.set({ "o", "x" }, "<leader>ih", ":<C-U>Gitsigns select_hunk<CR>", {})
 					----------------------------------------------------------------------------------
 				end,
