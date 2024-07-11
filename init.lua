@@ -571,7 +571,7 @@ cmp.setup({
 -- require("cmp").setup.buffer({ sources = { { name = "vim-dadbod-completion" } } })
 
 vim.keymap.set("n", "<leader>ih", function()
-	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
 end)
 
 require("telescope").setup({
