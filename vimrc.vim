@@ -9,15 +9,15 @@
 
 " set nu
 " set rnu
-"set ignorecase
+" set ignorecase
 " set mouse=
 " set display=lastline
-"set laststatus=3
-"set winheight=500
-"set mouse=a
-"set mousescroll=ver:1 
-"map <ScrollWheelDown> j
-"map <ScrollWheelUp> k
+" set laststatus=3
+" set winheight=500
+" set mouse=a
+" set mousescroll=ver:1 
+" map <ScrollWheelDown> j
+" map <ScrollWheelUp> k
 
 " nnoremap <C-q> :TerminalSplit bash<CR>
 " 
