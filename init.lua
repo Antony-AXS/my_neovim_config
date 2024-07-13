@@ -205,18 +205,18 @@ vim.keymap.set("n", "<leader>fr", ":Telescope live_grep theme=dropdown<CR>", {})
 vim.keymap.set("n", "<leader>fx", ":Telescope find_files theme=ivy<CR>", {})
 vim.keymap.set("n", "<leader>ft", ":Telescope find_files hidden=true<CR>", {})
 vim.keymap.set("n", "<leader>fa", ":Telescope find_files find_command=rg,--ignore,--hidden,--files,-u<CR>", {})
------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 
------------------------------- keymap for lsp-buffer ------------------------------
+---------------------------------- keymap for lsp-buffer ----------------------------------
 vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
 vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 
------------------------------- keymap for none-ls ---------------------------------
+---------------------------------- keymap for none-ls -------------------------------------
 vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
 vim.keymap.set("v", "<Leader>1f", vim.lsp.buf.format, {})
------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 
 ---------------------------------- keymap for harpoon -------------------------------------
 vim.keymap.set("n", "<leader>th", ":Telescope harpoon marks<CR>", {})
@@ -237,35 +237,35 @@ vim.keymap.set("n", "<leader>hh", function()
 	require("harpoon.mark").add_file()
 	vim.cmd("edit")
 end, {})
---------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 
-------------------------------- Harpoon Theme customize -----------------------------
+---------------------------------- Harpoon Theme customize --------------------------------
 vim.cmd("highlight! HarpoonInactive guibg=NONE guifg=#63698c")
 vim.cmd("highlight! HarpoonActive guibg=NONE guifg=white")
 vim.cmd("highlight! HarpoonNumberActive guibg=NONE guifg=#7aa2f7")
 vim.cmd("highlight! HarpoonNumberInactive guibg=NONE guifg=#7aa2f7")
 vim.cmd("highlight! TabLineFill guibg=#d9280d guifg=#d9280d")
--------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 
--------------------------------- keymap for toggle-term -----------------------------
+---------------------------------- keymap for toggle-term ---------------------------------
 vim.keymap.set("n", "<leader>cf", ":ToggleTerm direction=float size=20<CR>", {})
 vim.keymap.set("n", "<leader>cv", ":ToggleTerm direction=vertical size=60<CR>", {})
 vim.keymap.set("n", "<leader>ch", ":ToggleTerm direction=horizontal size=12<CR>", {})
--------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 
----------------------------- keymap for buffer navigation ---------------------------
+------------------------------- keymap for buffer navigation ------------------------------
 vim.keymap.set("n", "<leader>we", ":bnext<CR>", {})
 vim.keymap.set("n", "<leader>wq", ":bprev<CR>", {})
--------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 
----------------------------- keymap for tab navigation ------------------------------
+------------------------------- keymap for tab navigation ---------------------------------
 vim.keymap.set("n", "<leader>tt", ":tabnext<CR>", {}) -- next tab
 vim.keymap.set("n", "<leader>ty", ":tabnext<CR>", {}) -- next tab
 vim.keymap.set("n", "<leader>tr", ":tabprevious<CR>", {}) -- previous tab
 vim.keymap.set("n", "<leader>tc", ":tabclose<CR>", {}) -- next tab
--------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 
------------------------------ window binding in a tab -------------------------------
+--------------------------------- window binding in a tab ---------------------------------
 vim.keymap.set("n", "<leader>ba", function()
 	local curr_line_num = tostring(vim.api.nvim__buf_stats(0).current_lnum)
 	vim.cmd("windo" .. " " .. curr_line_num)
@@ -276,13 +276,13 @@ vim.keymap.set("n", "<leader>bn", function()
 	vim.cmd("windo set nocursorbind nocursorline")
 	vim.notify("Unbinded all Windows")
 end, {})
--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
 
---------------------------- Accidental closing prevention ---------------------------
+------------------------------- Accidental closing prevention ------------------------------
 vim.keymap.set("n", "<c-z>", function()
 	vim.notify("you just got saved from an unwanted headache !!!!!")
 end, {})
--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
 
 vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
 
