@@ -613,6 +613,11 @@ vim.api.nvim_create_user_command("Cppath", function()
 	vim.notify('Copied "' .. path .. '" to the clipboard!')
 end, {})
 
+vim.api.nvim_create_user_command("Ppath", function()
+	local path = vim.fn.expand("%:p")
+	vim.notify(path)
+end, {})
+
 vim.api.nvim_create_user_command("Tc", function()
 	vim.cmd("tabclose")
 end, {})
