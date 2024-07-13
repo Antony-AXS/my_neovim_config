@@ -614,7 +614,7 @@ vim.api.nvim_create_user_command("Cppath", function()
 end, {})
 
 vim.api.nvim_create_user_command("Ppath", function()
-	local path = vim.fn.expand("%:p")
+	local path = vim.fn.expand("%")
 	vim.notify(path)
 end, {})
 
