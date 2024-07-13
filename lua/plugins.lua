@@ -16,9 +16,14 @@ return {
 		build = ":TSUpdate",
 		event = "VeryLazy",
 		dependencies = {
-			"j-hui/fidget.nvim",
-			opts = {},
-			-- 	"nvim-treesitter/nvim-treesitter-textobjects",
+			{
+				"j-hui/fidget.nvim",
+				opts = {},
+			},
+			{
+				"nvim-treesitter/nvim-treesitter-textobjects",
+				event = "VeryLazy",
+			},
 			-- 	{ "RRethy/nvim-treesitter-endwise", cond = not locals.treesitter_dev }
 		},
 	},
@@ -33,11 +38,9 @@ return {
 			auto_install = true,
 		},
 		dependencies = {
-			"j-hui/fidget.nvim",
-			opts = {},
 			{
-				"nvim-treesitter/nvim-treesitter-textobjects",
-				event = "VeryLazy",
+				"j-hui/fidget.nvim",
+				opts = {},
 			},
 		},
 		lazy = true,
