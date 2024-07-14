@@ -335,6 +335,7 @@ require("mason-lspconfig").setup({
 		-- "quick_lint_js",
 		"tsserver",
 		"html",
+		"lwc_ls",
 		"jsonls",
 		"cssls",
 		"vimls",
@@ -352,6 +353,7 @@ require("mason-lspconfig").setup({
 		"intelephense",
 		"diagnosticls",
 		"jedi_language_server",
+		"twiggy_language_server"
 	},
 })
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -404,6 +406,7 @@ lspconfig.tsserver.setup({
 })
 -- lspconfig.quick_lint_js.setup({ capabilities = capabilities })
 lspconfig.html.setup({ capabilities = capabilities })
+lspconfig.lwc_ls.setup({ capabilities = capabilities })
 lspconfig.cssls.setup({ capabilities = capabilities })
 lspconfig.jsonls.setup({ capabilities = capabilities })
 lspconfig.volar.setup({ capabilities = capabilities })
@@ -422,6 +425,7 @@ lspconfig.vale_ls.setup({ capabilities = capabilities })
 lspconfig.intelephense.setup({ capabilities = capabilities })
 lspconfig.diagnosticls.setup({ capabilities = capabilities })
 lspconfig.jedi_language_server.setup({ capabilities = capabilities })
+lspconfig.twiggy_language_server.setup({ capabilities = capabilities })
 
 local null_ls = require("null-ls")
 
