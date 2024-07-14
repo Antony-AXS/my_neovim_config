@@ -774,4 +774,3 @@ vim.keymap.set("n", "<leader>wx", close_floating_window, {})
 
 vim.g.lazydev_enabled = true
 
--- dejdiejdiedjeid
