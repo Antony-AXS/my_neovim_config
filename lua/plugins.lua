@@ -47,6 +47,9 @@ return {
 		event = "VeryLazy",
 	},
 	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+	},
+	{
 		"neovim/nvim-lspconfig",
 		lazy = true,
 		event = "VeryLazy",
