@@ -831,7 +831,7 @@ local function create_floating_window(content)
 	_G.my_floating_window_id = win
 
 	-- Optionally, you can set some buffer options
-	vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
+	vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = buf })
 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, {
 		"This is a floating window",
 		"You can add any content here",
