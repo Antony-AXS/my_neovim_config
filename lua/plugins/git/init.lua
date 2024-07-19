@@ -126,13 +126,21 @@ return {
 			--      Delete
 			--          path = path where worktree deleted
 
-			Worktree.on_tree_change(function(op, metadata)
-				if op == Worktree.Operations.Switch then
-					vim.notify(
-						"Switched from " .. '"' .. metadata.prev_path .. '"' .. " to " .. '"' .. metadata.path .. '"'
-					)
-				end
+			require("telescope").load_extension("git_worktree")
+
+			local Hooks = require("git-worktree.hooks")
+			-- Hooks.register(Hooks.type.SWITCH, Hooks.builtins.update_current_buffer_on_switch)
+			Hooks.register(Hooks.type.SWITCH, function(path, prev_path)
+				vim.notify("switched from " .. prev_path .. " to " .. path)
 			end)
+
+			-- Worktree.on_tree_change(function(op, metadata)
+			-- 	if op == Worktree.Operations.Switch then
+			-- 		vim.notify(
+			-- 			"Switched from " .. '"' .. metadata.prev_path .. '"' .. " to " .. '"' .. metadata.path .. '"'
+			-- 		)
+			-- 	end
+			-- end)
 
 			local deleteWorkTree = function(opts_del)
 				local cmd = "lua require('git-worktree').delete_worktree('" .. opts_del.args .. "')"
@@ -142,6 +150,7 @@ return {
 			end
 
 			vim.api.nvim_create_user_command("Gwdel", deleteWorkTree, { nargs = "?" })
+
 			----------------------------- keymap for Git WorkTree ----------------------------
 			-- Creates a worktree.  Requires the path, branch name, and the upstream
 			vim.keymap.set(
@@ -163,13 +172,13 @@ return {
 			--vim.keymap.set("n", "<leader>gf", require("git-worktree").delete_worktree(), {})
 			----------------------------------------------------------------------------------
 
-			Worktree.setup({
-				change_directory_command = "cd",
-				update_on_change = true,
-				update_on_change_command = "e .",
-				clearjumps_on_change = true,
-				autopush = false,
-			})
+			-- Worktree.setup({
+			-- 	change_directory_command = "cd",
+			-- 	update_on_change = true,
+			-- 	update_on_change_command = "e .",
+			-- 	clearjumps_on_change = true,
+			-- 	autopush = false,
+			-- })
 		end,
 	},
 	{
