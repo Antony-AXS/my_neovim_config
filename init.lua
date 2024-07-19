@@ -270,11 +270,11 @@ vim.keymap.set("n", "<leader>ba", function()
 	local curr_line_num = tostring(vim.api.nvim__buf_stats(0).current_lnum)
 	vim.cmd("windo" .. " " .. curr_line_num)
 	vim.cmd("windo set cursorbind cursorline")
-	vim.notify("Binded all Windows")
+	vim.notify("Binded all Windows in this tab")
 end, {})
 vim.keymap.set("n", "<leader>bn", function()
 	vim.cmd("windo set nocursorbind nocursorline")
-	vim.notify("Unbinded all Windows")
+	vim.notify("Unbinded all Windows in this tab")
 end, {})
 --------------------------------------------------------------------------------------------
 
@@ -742,8 +742,6 @@ end
 
 -- if you only want these mappings for toggle term use term://*toggleterm#* instead
 vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
-
-require("telescope").load_extension("git_worktree")
 
 -- require("ts_context_commentstring").setup({
 -- 	enable_autocmd = false,
