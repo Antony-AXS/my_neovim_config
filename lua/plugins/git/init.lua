@@ -111,8 +111,10 @@ return {
 	{
 		"polarmutex/git-worktree.nvim",
 		event = "VeryLazy",
+		version = "^2",
+		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
-			local Worktree = require("git-worktree")
+			-- local Worktree = require("git-worktree")
 
 			-- op = Operations.Switch, Operations.Create, Operations.Delete
 			-- metadata = table of useful values (structure dependent on op)
@@ -164,7 +166,7 @@ return {
 			vim.keymap.set(
 				"n",
 				"<leader>gh",
-				":lua require('telescope').extensions.git_worktree.git_worktrees()<CR>",
+				":lua require('telescope').extensions.git_worktree.git_worktree()<CR>",
 				{}
 			)
 
