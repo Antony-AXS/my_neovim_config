@@ -24,6 +24,7 @@
 " inoremap <silent><expr> <tab> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<TAB>"
 " inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<c-g>u\<CR>"
 
+let g:python3_host_prog = '/usr/bin/python3'
 let g:vim_dadbod_completion_mark = 'MYMARK'
 
 set laststatus =2
