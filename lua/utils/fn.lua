@@ -3,7 +3,8 @@ local M = {}
 M.taber = function()
 	local tabs = require("harpoon").get_mark_config().marks
 	local returnObj = {}
-	-- local index = require("harpoon.mark")
+	local index = require("harpoon.mark")
+	vim.print(index)
 	for k, v in pairs(tabs) do
 		returnObj[k] = {
 			function()
@@ -11,7 +12,7 @@ M.taber = function()
 			end,
 		}
 	end
-	vim.print(returnObj)
+	-- vim.print(returnObj)
 	return returnObj
 end
 
