@@ -21,7 +21,13 @@ return {
 						action = function()
 							vim.cmd("split | terminal")
 							local URL = "https://www.github.com/neovim/neovim"
-							local open_cmd = "xdg-open" -- for debian linux, use "start" for windows
+							local sysname = vim.loop.os_uname().sysname
+							local open_cmd
+							if sysname == "Linux" then
+								open_cmd = "open"
+							elseif sysname == "Windows" then
+								open_cmd = "start"
+							end
 							local command = string.format(':call jobsend(b:terminal_job_id, "%s %s\\n")', open_cmd, URL)
 							vim.cmd(command)
 						end,
