@@ -11,23 +11,31 @@ return {
 				enable = false,
 			},
 			config = {
-				header = ascii.header_0,
+				header = ascii.header_3,
 				shortcut = {
 					{
-						icon = "  ", --     󰊤              
+						icon = "  ", --   󰊤                
 						icon_hl = "@variable",
 						desc = "Github",
 						group = "Label",
 						action = function()
 							vim.cmd("split | terminal")
-							local URL = "https://www.github.com/neovim/neovim"
-							local sysname = vim.loop.os_uname().sysname
+
 							local open_cmd
-							if sysname == "Linux" then
-								open_cmd = "open"
-							elseif sysname == "Windows" then
-								open_cmd = "start"
+							local shell_type = vim.o.shell
+							local URL = "https://www.github.com/neovim/neovim"
+
+							local function match_pattern(s, pattern)
+								local result = string.match(s, pattern)
+								return { match = result, bool = (result ~= nil) }
 							end
+
+							if match_pattern(shell_type, "cmd").match == "cmd" then
+								open_cmd = "start"
+							else
+								open_cmd = "xdg-open"
+							end
+
 							local command = string.format(':call jobsend(b:terminal_job_id, "%s %s\\n")', open_cmd, URL)
 							vim.cmd(command)
 						end,
