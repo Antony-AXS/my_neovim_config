@@ -39,3 +39,4 @@ set statusline +=\ <<
 set statusline +=\ %l:%c
 set statusline +=\ >>
 
+" hi User1 ctermbg=black ctermfg=white
