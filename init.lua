@@ -707,7 +707,7 @@ vim.api.nvim_create_user_command("Tc", function()
 	vim.cmd("tabclose")
 end, {})
 
-vim.api.nvim_create_user_command("Gcclog", function() 
+vim.api.nvim_create_user_command("Gcclog", function()
 	vim.cmd("tabnew | Gclog")
 end, {})
 
