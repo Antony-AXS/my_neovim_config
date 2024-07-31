@@ -392,7 +392,7 @@ require("mason-tool-installer").setup({
 		"shellharden",
 		"shfmt",
 		"yamlfmt",
-		-- "gitsigns",
+		"gitleaks",
 		"gitlint",
 		"vint",
 	},
