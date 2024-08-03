@@ -429,3 +429,7 @@
 -- 	light_green = '#83a598',
 -- }
 
+-- local function match_pattern(s, pattern)
+-- 	local result = string.match(s, pattern)
+-- 	return { match = result, bool = (result ~= nil) }
+-- end
