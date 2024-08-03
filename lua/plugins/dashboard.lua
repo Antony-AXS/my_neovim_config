@@ -22,19 +22,16 @@ return {
 							vim.cmd("split | terminal")
 
 							local open_cmd
-							local shell_type = vim.o.shell
+							local sysname = vim.loop.os_uname().sysname
 							local URL = "https://www.github.com/neovim/neovim"
 
-							local function match_pattern(s, pattern)
-								local result = string.match(s, pattern)
-								return { match = result, bool = (result ~= nil) }
-							end
+							local open_cmd_table = {
+								Linux = "xdg-open",
+								macOS = "open",
+								Windows = "explorer.exe"
+							}
 
-							if match_pattern(shell_type, "cmd").match == "cmd" then
-								open_cmd = "start"
-							else
-								open_cmd = "xdg-open"
-							end
+							open_cmd = open_cmd_table[sysname]
 
 							local command = string.format(':call jobsend(b:terminal_job_id, "%s %s\\n")', open_cmd, URL)
 							vim.cmd(command)
