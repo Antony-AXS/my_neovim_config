@@ -285,6 +285,5 @@ return {
 			vim.keymap.set("n", "<leader>ns", ":Neogit kind=split_above<CR>", {})
 			------------------------------------------------------------------------------
 		end,
-		-- lazy = true,
 	},
 }
