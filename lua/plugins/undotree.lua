@@ -42,15 +42,15 @@ return {
 			end
 		end, {})
 		vim.keymap.set("n", "<leader>ur", function()
+			local message
 			local response = vim.fn.system("rm ~/.undodir/* -vrf")
-			-- window_fn.create_window(undo_ascii.header_11)
+
 			if response:match("[a-zA-Z]") ~= nil then
-				local message = "REMOVED ALL UNDO FILES\n" .. response
-				vim.notify(message)
+				message = "REMOVED ALL UNDO FILES\n" .. response
 			else
-				local message = "no files to remove from undo-directory"
-				vim.notify(message)
+				message = "no files to remove from undo-directory"
 			end
+			vim.notify(message)
 		end, {})
 		---------------------------------------------------------------------------------------
 	end,
