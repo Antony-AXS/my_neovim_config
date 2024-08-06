@@ -24,6 +24,9 @@ return {
 			{ output = false }
 		)
 
+		-- local window_fn = require("utils/fn")
+		-- local undo_ascii = require("ascii")
+
 		local undoTreeLayoutMemory = 2
 
 		--------------------------------- keymap for undo-tree --------------------------------
@@ -37,6 +40,11 @@ return {
 				vim.api.nvim_exec2("let g:undotree_WindowLayout = 1", { output = false })
 				undoTreeLayoutMemory = 1
 			end
+		end, {})
+		vim.keymap.set("n", "<leader>ur", function()
+			local response = vim.fn.system("rm ~/.undodir/* -vrf")
+			-- window_fn.create_window(undo_ascii.header_11)
+			vim.notify("REMOVED ALL UNDO FILES\n" .. response)
 		end, {})
 		---------------------------------------------------------------------------------------
 	end,
