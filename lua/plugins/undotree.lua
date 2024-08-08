@@ -43,7 +43,13 @@ return {
 		end, {})
 		vim.keymap.set("n", "<leader>ur", function()
 			local message
-			local response = vim.fn.system("rm ~/.undodir/* -vrf")
+			local shell_list = {
+				["cmd.exe"] = "del /Q %HOMEPATH%\\.undodir\\*",
+				["/bin/bash"] = "rm ~/.undodir/* -vrf",
+			}
+
+			local command = shell_list[vim.o.shell]
+			local response = vim.fn.system(command)
 
 			if response:match("[a-zA-Z]") ~= nil then
 				message = "REMOVED ALL UNDO FILES\n" .. response
