@@ -58,7 +58,7 @@ return {
 			end
 			vim.notify(message)
 		end, {})
-		vim.keymap.set("n", "<leader>up", function()
+		vim.keymap.set("n", "<leader>uf", function()
 			local function split_string(input_str)
 				local i = 1
 				local P = {}
@@ -89,7 +89,7 @@ return {
 
 			local lines = split_string(input_str)
 			window_fn.create_window(lines)
-		end)
+		end, {})
 		---------------------------------------------------------------------------------------
 	end,
 }
