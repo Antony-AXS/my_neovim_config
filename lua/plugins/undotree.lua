@@ -87,8 +87,8 @@ return {
 				return 1
 			end
 
-			local lines = split_string(input_str)
-			window_fn.create_window(lines)
+			local content = split_string(input_str)
+			window_fn.create_window_with_title("UndoTree", content)
 		end, {})
 		---------------------------------------------------------------------------------------
 	end,
