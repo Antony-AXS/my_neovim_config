@@ -51,15 +51,15 @@ M.create_window = function(content)
 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
 end
 
-M.create_window_with_title = function(title, content)
+M.create_window_with_title = function(title, content, modifiable)
 	local width = 90
 	local height = 12
 	local bufnr = vim.api.nvim_create_buf(false, true)
 	local borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
 
-	vim.api.nvim_set_hl(0, "UndoBorder", { bg = nil, fg = "#3cb9fc" })
+	vim.api.nvim_set_hl(0, "TitleWinBorder", { bg = nil, fg = "#3cb9fc" })
 
-	local Harpoon_win_id, win = popup.create(bufnr, {
+	local Popup_win_id, win = popup.create(bufnr, {
 		title = title,
 		line = math.floor(((vim.o.lines - height) / 1.8) - 1),
 		col = math.floor((vim.o.columns - width) / 2),
@@ -67,19 +67,20 @@ M.create_window_with_title = function(title, content)
 		minheight = height,
 		borderchars = borderchars,
 		highlight = "NormalFloat",
-		borderhighlight = "UndoBorder",
+		borderhighlight = "TitleWinBorder",
 		focusable = false,
 	})
 
 	-- vim.api.nvim_win_set_option(win.border.win_id, "winhl", "Normal:HarpoonBorder")
 
-	vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
 	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, content)
+	vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
+	vim.api.nvim_set_option_value("modifiable", modifiable or false, { buf = bufnr })
 
 	return {
 		win = win,
 		bufnr = bufnr,
-		win_id = Harpoon_win_id,
+		win_id = Popup_win_id,
 	}
 end
 
