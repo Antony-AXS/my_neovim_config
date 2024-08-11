@@ -43,10 +43,7 @@ M.create_window = function(content)
 	}
 
 	-- Create the floating window
-	local win = vim.api.nvim_open_win(buf, true, opts)
-
-	-- Store the window ID
-	_G.my_floating_window_id = win
+	vim.api.nvim_open_win(buf, true, opts)
 
 	-- Optionally, you can set some buffer options
 	vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = buf })
