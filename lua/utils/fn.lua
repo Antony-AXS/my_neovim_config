@@ -39,7 +39,7 @@ M.create_window = function(content)
 		row = row,
 		col = col,
 		focusable = false,
-		border = "rounded",
+		border = { { "╭" }, { "─" }, { "╮" }, { "│" }, { "╯" }, { "─" }, { "╰" }, { "│" } },
 	}
 
 	-- Create the floating window
