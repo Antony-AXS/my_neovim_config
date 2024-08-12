@@ -29,7 +29,7 @@ return {
 
 		local undoTreeLayoutMemory = 2
 
-		function switchWinLayout()
+		local function switchWinLayout()
 			if undoTreeLayoutMemory == 1 then
 				vim.api.nvim_exec2("let g:undotree_WindowLayout = 2", { output = false })
 				undoTreeLayoutMemory = 2
@@ -39,7 +39,7 @@ return {
 			end
 		end
 
-		function deleteAllUndoFiles()
+		local function deleteAllUndoFiles()
 			local message
 			local shell_list = {
 				["cmd.exe"] = "del /Q %HOMEPATH%\\.undodir\\*",
@@ -57,7 +57,7 @@ return {
 			vim.notify(message)
 		end
 
-		function deleteAllUndoFilesFloat()
+		local function deleteAllUndoFilesFloat()
 			local function split_string(input_str)
 				local i = 1
 				local P = {}
