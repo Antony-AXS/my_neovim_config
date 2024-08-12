@@ -29,10 +29,7 @@ return {
 
 		local undoTreeLayoutMemory = 2
 
-		--------------------------------- keymap for undo-tree --------------------------------
-		vim.keymap.set("n", "<leader>q", ":UndotreeToggle<CR>", { silent = true })
-		vim.keymap.set("n", "<leader>a", ":UndotreeFocus<CR>", { silent = true })
-		vim.keymap.set("n", "<leader>ut", function()
+		function switchWinLayout()
 			if undoTreeLayoutMemory == 1 then
 				vim.api.nvim_exec2("let g:undotree_WindowLayout = 2", { output = false })
 				undoTreeLayoutMemory = 2
@@ -40,8 +37,9 @@ return {
 				vim.api.nvim_exec2("let g:undotree_WindowLayout = 1", { output = false })
 				undoTreeLayoutMemory = 1
 			end
-		end, {})
-		vim.keymap.set("n", "<leader>ur", function()
+		end
+
+		function deleteAllUndoFiles()
 			local message
 			local shell_list = {
 				["cmd.exe"] = "del /Q %HOMEPATH%\\.undodir\\*",
@@ -57,8 +55,9 @@ return {
 				message = "no files to remove from undo-directory"
 			end
 			vim.notify(message)
-		end, {})
-		vim.keymap.set("n", "<leader>uf", function()
+		end
+
+		function deleteAllUndoFilesFloat()
 			local function split_string(input_str)
 				local i = 1
 				local P = {}
@@ -89,7 +88,14 @@ return {
 
 			local content = split_string(input_str)
 			window_fn.create_window_with_title("UndoTree", content)
-		end, {})
+		end
+
+		--------------------------------- keymap for undo-tree --------------------------------
+		vim.keymap.set("n", "<leader>q", ":UndotreeToggle<CR>", { silent = true })
+		vim.keymap.set("n", "<leader>a", ":UndotreeFocus<CR>", { silent = true })
+		vim.keymap.set("n", "<leader>ut", switchWinLayout, { silent = true })
+		vim.keymap.set("n", "<leader>ur", deleteAllUndoFiles, { silent = true })
+		vim.keymap.set("n", "<leader>uf", deleteAllUndoFilesFloat, { silent = true })
 		---------------------------------------------------------------------------------------
 	end,
 }
