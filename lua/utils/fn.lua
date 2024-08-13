@@ -51,7 +51,6 @@ end
 
 M.create_float_window_V2 = function(title, content, options)
 	local bufnr = vim.api.nvim_create_buf(false, true)
-	vim.api.nvim_set_hl(0, "TitleWinBorder", { bg = nil, fg = "#3cb9fc" })
 
 	local width = (options and options.size and options.size.width) or 90
 	local height = (options and options.size and options.size.height) or 12
@@ -93,7 +92,6 @@ M.create_float_window_V2 = function(title, content, options)
 	local y_pos = positions(type, axis)["vertical"]
 
 	local win_id
-	local curr_win = vim.api.nvim_get_current_win()
 
 	if options.highlight then
 		vim.api.nvim_set_hl(
@@ -106,6 +104,7 @@ M.create_float_window_V2 = function(title, content, options)
 	local highlight = (options.highlight and options.highlight.name) or "NormalFloat"
 
 	if title then
+		vim.api.nvim_set_hl(0, "TitleWinBorder", { bg = nil, fg = "#3cb9fc" })
 		local popup_win_id, win = popup.create(bufnr, {
 			title = title,
 			line = y_pos,
