@@ -17,7 +17,7 @@ M.taber = function()
 	return returnObj
 end
 
-M.create_window = function(content)
+M.create_float_window = function(content)
 	-- Create a new buffer
 	local buf = vim.api.nvim_create_buf(false, true) -- {listed: false, scratch: true}
 
@@ -51,37 +51,90 @@ M.create_window = function(content)
 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
 end
 
-M.create_window_with_title = function(title, content, modifiable)
-	local width = 90
-	local height = 12
+M.create_float_window_V2 = function(title, content, options)
 	local bufnr = vim.api.nvim_create_buf(false, true)
-	local borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
-
 	vim.api.nvim_set_hl(0, "TitleWinBorder", { bg = nil, fg = "#3cb9fc" })
 
-	local Popup_win_id, win = popup.create(bufnr, {
-		title = title,
-		line = math.floor(((vim.o.lines - height) / 1.8) - 1),
-		col = math.floor((vim.o.columns - width) / 2),
-		minwidth = width,
-		minheight = height,
-		borderchars = borderchars,
-		highlight = "NormalFloat",
-		borderhighlight = "TitleWinBorder",
-		focusable = false,
-	})
+	local width = (options and options.size and options.size.width) or 90
+	local height = (options and options.size and options.size.height) or 12
 
+	local function positions(type, axis)
+		local static = {
+			middle = {
+				vertical = 1.8,
+				horizontal = 2,
+			},
+			top_right_corner = {
+				vertical = 15,
+				horizontal = 0.5,
+			},
+		}
+		local dynamic = function(axis)
+			return {
+				vertical = axis.vertical,
+				horizontal = axis.horizontal,
+			}
+		end
+
+		local response
+		if type == "static" then
+			response = static[axis]
+		elseif type == "dynamic" then
+			response = dynamic(axis)
+		end
+		return response
+	end
+
+	local type = (options.position and options.position.type) or "static"
+	local axis = (options.position and options.position.axis) or "middle"
+
+	local x_pos = positions(type, axis)["horizontal"]
+	local y_pos = positions(type, axis)["vertical"]
+
+	local win_id
+	-- local curr_win = vim.api.nvim_get_current_win()
+
+	if title then
+		local popup_win_id, win = popup.create(bufnr, {
+			title = title,
+			line = y_pos + 2,
+			col = vim.o.columns - width,
+			minwidth = width,
+			minheight = height,
+			highlight = "NormalFloat",
+			borderhighlight = "TitleWinBorder",
+			focusable = false,
+			borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+		})
+		win_id = popup_win_id
+	else
+		local opts = {
+			style = "minimal",
+			relative = "editor",
+			row = y_pos + 2,
+			col = vim.o.columns - width,
+			width = width,
+			height = height,
+			anchor = "NW",
+			focusable = false,
+			border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+		}
+
+		win_id = vim.api.nvim_open_win(bufnr, options.foucs, opts)
+	end
 	-- vim.api.nvim_win_set_option(win.border.win_id, "winhl", "Normal:HarpoonBorder")
 
-	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, content)
-	vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
-	vim.api.nvim_set_option_value("modifiable", modifiable or false, { buf = bufnr })
+	local if_modifiable = (options and options.modifiable) or false
+	local if_cursorline = (options and options.cursorline) or false
 
-	return {
-		win = win,
-		bufnr = bufnr,
-		win_id = Popup_win_id,
-	}
+	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, content)
+	vim.api.nvim_buf_add_highlight(bufnr, -1, "Bold", 0, 0, -1)
+	vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
+	vim.api.nvim_set_option_value("modifiable", if_modifiable, { buf = bufnr })
+	vim.api.nvim_set_option_value("cursorline", if_cursorline, { win = win_id })
+	-- vim.api.nvim_set_current_win(curr_win)
+
+	return { bufnr = bufnr, win_id = win_id }
 end
 
 return M
