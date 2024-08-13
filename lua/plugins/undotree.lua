@@ -24,8 +24,7 @@ return {
 			{ output = false }
 		)
 
-		local window_fn = require("utils/fn")
-		-- local undo_ascii = require("ascii")
+		local fn = require("utils.fn")
 
 		local undoTreeLayoutMemory = 2
 
@@ -87,7 +86,7 @@ return {
 			end
 
 			local content = split_string(input_str)
-			window_fn.create_window_with_title("UndoTree", content)
+			fn.create_float_window_V2("UndoTree", content, { cusorline = true })
 		end
 
 		--------------------------------- keymap for undo-tree --------------------------------
