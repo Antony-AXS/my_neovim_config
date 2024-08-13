@@ -860,3 +860,39 @@ vim.keymap.set("n", "<leader>wy", create_floating_window, {})
 vim.keymap.set("n", "<leader>wx", close_floating_window, {})
 
 vim.g.lazydev_enabled = true
+
+local fn = require("utils.fn")
+
+vim.keymap.set("n", "<leader>bx", function()
+	local win_id = vim.api.nvim_get_current_win()
+	local Po_tbl = vim.api.nvim_win_get_position(win_id)
+	local win_res = fn.create_float_window_V2(nil --[[mandatory]], { " " .. tostring(vim.fn.winnr()) }, {
+		-- position = { type = "static", axis = "top_right_corner" },
+		focus = false, -- mandatory field
+		position = {
+			type = "dynamic",
+			axis = {
+				vertical = Po_tbl[1],
+				horizontal = 0.5,
+			},
+		},
+		size = {
+			width = 3,
+			height = 1,
+		},
+	})
+	vim.defer_fn(function()
+		vim.api.nvim_win_close(win_res.win_id, true) -- (window, force)
+	end, 1000)
+end, { silent = true })
+
+-- local file_path = "output.txt"
+-- local file = io.open(file_path, "w") -- "w" mode is for writing (will overwrite the file)
+--
+-- if file then
+-- 	local rrr = vim.inspect(package.loaded)
+-- 	file:write(rrr)
+-- 	file:close() -- Don't forget to close the file!
+-- else
+-- 	print("Could not open file for writing.")
+-- end
