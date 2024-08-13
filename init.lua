@@ -864,16 +864,18 @@ vim.g.lazydev_enabled = true
 local fn = require("utils.fn")
 
 vim.keymap.set("n", "<leader>bx", function()
-	local win_id = vim.api.nvim_get_current_win()
-	local Po_tbl = vim.api.nvim_win_get_position(win_id)
+	local curr_win_id = vim.api.nvim_get_current_win()
+	local row, col = unpack(vim.api.nvim_win_get_position(curr_win_id))
+	local _width = vim.api.nvim_win_get_width(curr_win_id)
+
 	local win_res = fn.create_float_window_V2(nil --[[mandatory]], { " " .. tostring(vim.fn.winnr()) }, {
-		-- position = { type = "static", axis = "top_right_corner" },
 		focus = false, -- mandatory field
+		highlight = { name = "winNR", fg_color = "#000000", bg_color = "#FFFF00" },
 		position = {
 			type = "dynamic",
 			axis = {
-				vertical = Po_tbl[1],
-				horizontal = 0.5,
+				vertical = row + 2,
+				horizontal = (col + _width) - (3 + 2),
 			},
 		},
 		size = {
@@ -881,9 +883,10 @@ vim.keymap.set("n", "<leader>bx", function()
 			height = 1,
 		},
 	})
+	vim.api.nvim_set_current_win(curr_win_id)
 	vim.defer_fn(function()
 		vim.api.nvim_win_close(win_res.win_id, true) -- (window, force)
-	end, 1000)
+	end, 1500)
 end, { silent = true })
 
 -- local file_path = "output.txt"
