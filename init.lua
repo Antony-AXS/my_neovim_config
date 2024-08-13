@@ -863,7 +863,7 @@ vim.g.lazydev_enabled = true
 
 local fn = require("utils.fn")
 
-vim.keymap.set("n", "<leader>bx", function()
+local function indicator(timer)
 	local curr_win_id = vim.api.nvim_get_current_win()
 	local row, col = unpack(vim.api.nvim_win_get_position(curr_win_id))
 	local _width = vim.api.nvim_win_get_width(curr_win_id)
@@ -874,7 +874,7 @@ vim.keymap.set("n", "<leader>bx", function()
 		position = {
 			type = "dynamic",
 			axis = {
-				vertical = row + 2,
+				vertical = row,
 				horizontal = (col + _width) - (3 + 2),
 			},
 		},
@@ -883,10 +883,27 @@ vim.keymap.set("n", "<leader>bx", function()
 			height = 1,
 		},
 	})
-	vim.api.nvim_set_current_win(curr_win_id)
+	-- vim.api.nvim_set_current_win(curr_win_id)
+
 	vim.defer_fn(function()
-		vim.api.nvim_win_close(win_res.win_id, true) -- (window, force)
-	end, 1500)
+		if vim.api.nvim_win_is_valid(win_res.win_id) then
+			vim.api.nvim_win_close(win_res.win_id, true) -- (window, force)
+		end
+	end, (timer or 1500))
+end
+
+vim.keymap.set("n", "<leader>bx", indicator, { silent = true })
+vim.keymap.set("n", "<leader>by", function()
+	vim.api.nvim_create_autocmd("WinEnter", {
+		desc = "Trigger always when entering a new Buffer",
+		group = vim.api.nvim_create_augroup("window-indicator-function", { clear = true }),
+		callback = function()
+			indicator(500)
+		end,
+	})
+end, { silent = true })
+vim.keymap.set("n", "<leader>bz", function()
+	vim.api.nvim_clear_autocmds({ group = "window-indicator-function" })
 end, { silent = true })
 
 -- local file_path = "output.txt"
