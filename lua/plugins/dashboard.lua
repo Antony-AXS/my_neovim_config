@@ -4,7 +4,7 @@ return {
 	lazy = true,
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	config = function()
-		local ascii = require("ascii")
+		local ascii = require("ascii.headers")
 		require("dashboard").setup({
 			theme = "hyper",
 			week_header = {
