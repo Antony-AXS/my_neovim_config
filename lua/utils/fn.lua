@@ -5,7 +5,6 @@ M.taber = function()
 	local tabs = require("harpoon").get_mark_config().marks
 	local returnObj = {}
 	local index = require("harpoon.mark")
-	vim.print(index)
 	for k, v in pairs(tabs) do
 		returnObj[k] = {
 			function()
@@ -13,7 +12,6 @@ M.taber = function()
 			end,
 		}
 	end
-	-- vim.print(returnObj)
 	return returnObj
 end
 
@@ -58,11 +56,14 @@ M.create_float_window_V2 = function(title, content, options)
 	local width = (options and options.size and options.size.width) or 90
 	local height = (options and options.size and options.size.height) or 12
 
+	local row = math.floor(((vim.o.lines - height) / 1.8) - 1)
+	local col = math.floor((vim.o.columns - width) / 2)
+
 	local function positions(type, axis)
 		local static = {
 			middle = {
-				vertical = 1.8,
-				horizontal = 2,
+				vertical = row,
+				horizontal = col,
 			},
 			top_right_corner = {
 				vertical = 15,
@@ -92,16 +93,26 @@ M.create_float_window_V2 = function(title, content, options)
 	local y_pos = positions(type, axis)["vertical"]
 
 	local win_id
-	-- local curr_win = vim.api.nvim_get_current_win()
+	local curr_win = vim.api.nvim_get_current_win()
+
+	if options.highlight then
+		vim.api.nvim_set_hl(
+			0,
+			options.highlight.name,
+			{ bg = options.highlight.bg_color, fg = options.highlight.fg_color }
+		)
+	end
+
+	local highlight = (options.highlight and options.highlight.name) or "NormalFloat"
 
 	if title then
 		local popup_win_id, win = popup.create(bufnr, {
 			title = title,
-			line = y_pos + 2,
-			col = vim.o.columns - width,
+			line = y_pos,
+			col = x_pos,
 			minwidth = width,
 			minheight = height,
-			highlight = "NormalFloat",
+			highlight = highlight,
 			borderhighlight = "TitleWinBorder",
 			focusable = false,
 			borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
@@ -111,8 +122,8 @@ M.create_float_window_V2 = function(title, content, options)
 		local opts = {
 			style = "minimal",
 			relative = "editor",
-			row = y_pos + 2,
-			col = vim.o.columns - width,
+			row = y_pos,
+			col = x_pos,
 			width = width,
 			height = height,
 			anchor = "NW",
@@ -121,6 +132,7 @@ M.create_float_window_V2 = function(title, content, options)
 		}
 
 		win_id = vim.api.nvim_open_win(bufnr, options.foucs, opts)
+		vim.api.nvim_set_option_value("winhighlight", "Normal:" .. highlight, { win = win_id })
 	end
 	-- vim.api.nvim_win_set_option(win.border.win_id, "winhl", "Normal:HarpoonBorder")
 
@@ -132,7 +144,6 @@ M.create_float_window_V2 = function(title, content, options)
 	vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
 	vim.api.nvim_set_option_value("modifiable", if_modifiable, { buf = bufnr })
 	vim.api.nvim_set_option_value("cursorline", if_cursorline, { win = win_id })
-	-- vim.api.nvim_set_current_win(curr_win)
 
 	return { bufnr = bufnr, win_id = win_id }
 end
