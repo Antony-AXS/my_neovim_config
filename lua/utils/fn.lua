@@ -49,7 +49,7 @@ M.create_float_window = function(content)
 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
 end
 
-M.create_float_window_V2 = function(title, content, options)
+M.create_float_window_V2 = function(content, options)
 	local bufnr = vim.api.nvim_create_buf(false, true)
 
 	local width = (options and options.size and options.size.width) or 90
@@ -103,17 +103,16 @@ M.create_float_window_V2 = function(title, content, options)
 
 	local highlight = (options.highlight and options.highlight.name) or "NormalFloat"
 
-	if title then
+	if options and options.title then
 		vim.api.nvim_set_hl(0, "TitleWinBorder", { bg = nil, fg = "#3cb9fc" })
 		local popup_win_id, win = popup.create(bufnr, {
-			title = title,
+			title = options.title,
 			line = y_pos,
 			col = x_pos,
 			minwidth = width,
 			minheight = height,
 			highlight = highlight,
 			borderhighlight = "TitleWinBorder",
-			focusable = false,
 			borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
 		})
 		win_id = popup_win_id
@@ -139,10 +138,10 @@ M.create_float_window_V2 = function(title, content, options)
 	local if_cursorline = (options and options.cursorline) or false
 
 	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, content)
-	vim.api.nvim_buf_add_highlight(bufnr, -1, "Bold", 0, 0, -1)
 	vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
 	vim.api.nvim_set_option_value("modifiable", if_modifiable, { buf = bufnr })
 	vim.api.nvim_set_option_value("cursorline", if_cursorline, { win = win_id })
+	vim.api.nvim_buf_add_highlight(bufnr, -1, options.font or "Normal", 0, 0, -1)
 
 	return { bufnr = bufnr, win_id = win_id }
 end
