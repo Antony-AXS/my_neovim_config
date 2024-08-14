@@ -868,7 +868,7 @@ local function indicator(timer)
 	local row, col = unpack(vim.api.nvim_win_get_position(curr_win_id))
 	local _width = vim.api.nvim_win_get_width(curr_win_id)
 
-	local win_res = fn.create_float_window_V2(nil --[[mandatory]], { " " .. tostring(vim.fn.winnr()) }, {
+	local win_res = fn.create_float_window_V2({ " " .. tostring(vim.fn.winnr()) }, {
 		focus = false, -- mandatory field
 		highlight = { name = "winNR", fg_color = "#000000", bg_color = "#FFFF00" },
 		position = {
