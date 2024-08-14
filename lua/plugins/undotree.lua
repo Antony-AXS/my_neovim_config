@@ -86,7 +86,7 @@ return {
 			end
 
 			local content = split_string(input_str)
-			fn.create_float_window_V2("UndoTree", content, { cusorline = true })
+			fn.create_float_window_V2("UndoTree", content, { cursorline = true })
 		end
 
 		--------------------------------- keymap for undo-tree --------------------------------
