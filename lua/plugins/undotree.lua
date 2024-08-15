@@ -88,8 +88,11 @@ return {
 			fn.create_float_window_V2(content, {
 				title = "UndoTree",
 				cursorline = true,
-				font = "bold",
-				header = { line = "hello", align = "All Undodir Files Removed !!!" },
+				header = {
+					font = "Bold",
+					align = "Center",
+					line = "All Undodir Files Removed !!!",
+				},
 			})
 		end
 
