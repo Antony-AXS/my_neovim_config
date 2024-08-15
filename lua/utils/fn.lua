@@ -92,6 +92,8 @@ M.create_float_window_V2 = function(content, options)
 	local y_pos = positions(type, axis)["vertical"]
 
 	local win_id
+	local border_val
+	local highlight_name
 
 	if options.highlight then
 		vim.api.nvim_set_hl(
@@ -99,9 +101,22 @@ M.create_float_window_V2 = function(content, options)
 			options.highlight.name,
 			{ bg = options.highlight.bg_color, fg = options.highlight.fg_color }
 		)
+
+		highlight_name = options.highlight.name
+	else
+		highlight_name = "NormalFloat"
 	end
 
-	local highlight = (options.highlight and options.highlight.name) or "NormalFloat"
+	if options and options.border == "default" and options.title then
+		border_val = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
+	elseif options and options.border == "default" and options.title == nil then
+		border_val = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
+	elseif options and options.border then
+		border_val = options.border
+	else
+		border_val = nil
+	end
+	-- different border types : single, double, rounded, solid, shadow
 
 	if options and options.title then
 		vim.api.nvim_set_hl(0, "TitleWinBorder", { bg = nil, fg = "#3cb9fc" })
@@ -111,9 +126,9 @@ M.create_float_window_V2 = function(content, options)
 			col = x_pos,
 			minwidth = width,
 			minheight = height,
-			highlight = highlight,
+			highlight = highlight_name,
 			borderhighlight = "TitleWinBorder",
-			borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+			borderchars = border_val,
 		})
 		win_id = popup_win_id
 	else
@@ -126,11 +141,11 @@ M.create_float_window_V2 = function(content, options)
 			height = height,
 			anchor = "NW",
 			focusable = false,
-			border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+			border = border_val,
 		}
 
 		win_id = vim.api.nvim_open_win(bufnr, options.foucs, opts)
-		vim.api.nvim_set_option_value("winhighlight", "Normal:" .. highlight, { win = win_id })
+		vim.api.nvim_set_option_value("winhighlight", "Normal:" .. highlight_name, { win = win_id })
 	end
 	-- vim.api.nvim_win_set_option(win.border.win_id, "winhl", "Normal:HarpoonBorder")
 
