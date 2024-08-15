@@ -140,14 +140,16 @@ M.create_float_window_V2 = function(content, options)
 	local next_line
 	if options.header then
 		local line
-		if options.header.align == "center" then
+		if options.header.align == "Center" then
 			local line_length = #options.header.line
 			local win_width = vim.api.nvim_win_get_width(win_id)
 			local padding = math.floor((win_width - line_length) / 2)
 			local centered_line = string.rep(" ", padding) .. options.header.line
 			line = centered_line
 		end
+		local font = options.header.font
 		vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, { line })
+		vim.api.nvim_buf_add_highlight(bufnr, -1, font or "Normal", 0, 0, -1)
 		next_line = 1
 	else
 		next_line = 0
@@ -157,7 +159,6 @@ M.create_float_window_V2 = function(content, options)
 	vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
 	vim.api.nvim_set_option_value("modifiable", if_modifiable, { buf = bufnr })
 	vim.api.nvim_set_option_value("cursorline", if_cursorline, { win = win_id })
-	vim.api.nvim_buf_add_highlight(bufnr, -1, options.font or "Normal", 0, 0, -1)
 
 	return { bufnr = bufnr, win_id = win_id }
 end
