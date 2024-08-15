@@ -60,7 +60,6 @@ return {
 			local function split_string(input_str)
 				local i = 1
 				local P = {}
-				table.insert(P, "All Undodir Files Removed !!!")
 				table.insert(P, " ")
 				table.insert(P, "list of all files removed:")
 
@@ -86,7 +85,12 @@ return {
 			end
 
 			local content = split_string(input_str)
-			fn.create_float_window_V2(content, { title = "UndoTree", cursorline = true, font = "bold" })
+			fn.create_float_window_V2(content, {
+				title = "UndoTree",
+				cursorline = true,
+				font = "bold",
+				header = { line = "hello", align = "All Undodir Files Removed !!!" },
+			})
 		end
 
 		--------------------------------- keymap for undo-tree --------------------------------
