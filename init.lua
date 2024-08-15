@@ -786,83 +786,12 @@ Harpoon.setup({
 	},
 })
 
--- Global variable to store the window ID
-_G.my_floating_window_id = nil
-
--- Function to create a floating window
--- local function close_floating_window()
--- 	print("floating window ID ---------->>>>>>>>", _G.my_floating_window_id)
--- 	if _G.my_floating_window_id then
--- 		vim.api.nvim_win_close(_G.my_floating_window_id, true)
--- 		_G.my_floating_window_id = nil
--- 	else
--- 		print("No floating window to close")
--- 	end
--- end
-
-local function create_floating_window(content)
-	-- Create a new buffer
-	local buf = vim.api.nvim_create_buf(false, true) -- {listed: false, scratch: true}
-
-	-- Determine the width and height of the window
-	local width = vim.api.nvim_get_option_value("columns", {})
-	local height = vim.api.nvim_get_option_value("lines", {})
-
-	-- Set the dimensions and position of the floating window
-	local win_width = math.ceil(width * 0.8)
-	local win_height = math.ceil(height * 0.5)
-	local row = math.ceil((height - win_height) / 2) - 1
-	local col = math.ceil((width - win_width) / 2)
-
-	-- Set the window options
-	local opts = {
-		style = "minimal",
-		relative = "editor",
-		width = win_width,
-		height = win_height,
-		row = row,
-		col = col,
-		focusable = false,
-		border = "rounded",
-	}
-
-	-- Create the floating window
-	local win = vim.api.nvim_open_win(buf, true, opts)
-
-	-- Store the window ID
-	_G.my_floating_window_id = win
-
-	-- Optionally, you can set some buffer options
-	vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = buf })
-	vim.api.nvim_buf_set_lines(buf, 0, -1, false, {
-		"This is a floating window",
-		"You can add any content here",
-		"Line 3",
-		"Line 4",
-	})
-end
-
--- Function to close the floating window
-
--- Make the functions available globally
-_G.create_floating_window = create_floating_window
-
-local function close_floating_window()
-	if _G.my_floating_window_id then
-		vim.api.nvim_win_close(_G.my_floating_window_id, true)
-		_G.my_floating_window_id = nil
-	else
-		print("No floating window to close")
-	end
-end
-
-vim.keymap.set("n", "<leader>wy", create_floating_window, {})
-vim.keymap.set("n", "<leader>wx", close_floating_window, {})
-
 vim.g.lazydev_enabled = true
 
 local fn = require("utils.fn")
 local ascii = require("ascii.numbers")
+
+local indicator_running = false
 
 local function indicator(timer, win_id, bloat)
 	local curr_win_id = win_id or vim.api.nvim_get_current_win()
@@ -880,12 +809,12 @@ local function indicator(timer, win_id, bloat)
 	if bloat then
 		content = num_ascii
 		highlight_color = nil
-		hor_constant = 12
+		hor_constant = 10
 		height = 6
 		width = 10
 	else
 		content = { " " .. number }
-		highlight_color = { name = "winNR", fg_color = "#000000", bg_color = "#FFFF00" }
+		highlight_color = { name = "Indicator-Win", fg_color = "#000000", bg_color = "#FFFF00" }
 		hor_constant = 5
 		height = 1
 		width = 3
@@ -911,23 +840,38 @@ local function indicator(timer, win_id, bloat)
 	vim.defer_fn(function()
 		if vim.api.nvim_win_is_valid(win_res.win_id) then
 			vim.api.nvim_win_close(win_res.win_id, true) -- (window, force)
+			indicator_running = false
 		end
 	end, (timer or 1500))
 end
 
-local function indicateAll()
+local function indicateAll(bloat)
 	local current_tabpage = vim.api.nvim_get_current_tabpage()
 	local window_ids = vim.api.nvim_tabpage_list_wins(current_tabpage)
 
 	for _, win_id in ipairs(window_ids) do
-		indicator(1500, win_id, true)
+		indicator(1500, win_id, bloat)
 	end
 end
 
-vim.keymap.set("n", "<leader>bx", indicator, { silent = true })
-vim.keymap.set("n", "<leader>bv", indicateAll, { silent = true })
+local autocmd_id
+vim.keymap.set("n", "<leader>bx", function()
+	if indicator_running == false then
+		indicator()
+	end
+end, { silent = true })
+vim.keymap.set("n", "<leader>bv", function()
+	if indicator_running == false then
+		indicateAll(true)
+	end
+end, { silent = true })
+vim.keymap.set("n", "<leader>bc", function()
+	if indicator_running == false then
+		indicateAll(false)
+	end
+end, { silent = true })
 vim.keymap.set("n", "<leader>by", function()
-	vim.api.nvim_create_autocmd("WinEnter", {
+	autocmd_id = vim.api.nvim_create_autocmd("WinEnter", {
 		desc = "Trigger always when entering a new Buffer",
 		group = vim.api.nvim_create_augroup("window-indicator-function", { clear = true }),
 		callback = function()
@@ -936,7 +880,14 @@ vim.keymap.set("n", "<leader>by", function()
 	})
 end, { silent = true })
 vim.keymap.set("n", "<leader>bz", function()
-	vim.api.nvim_clear_autocmds({ group = "window-indicator-function" })
+	if indicator_running == false then
+		if autocmd_id then
+			vim.api.nvim_del_autocmd(autocmd_id)
+			autocmd_id = nil
+		else
+			vim.notify("Indicator already Disabled")
+		end
+	end
 end, { silent = true })
 
 -- local file_path = "output.txt"
