@@ -863,12 +863,13 @@ vim.g.lazydev_enabled = true
 
 local fn = require("utils.fn")
 
-local function indicator(timer)
-	local curr_win_id = vim.api.nvim_get_current_win()
+local function indicator(timer, win_id)
+	local curr_win_id = win_id or vim.api.nvim_get_current_win()
 	local row, col = unpack(vim.api.nvim_win_get_position(curr_win_id))
 	local _width = vim.api.nvim_win_get_width(curr_win_id)
 
-	local win_res = fn.create_float_window_V2({ " " .. tostring(vim.fn.winnr()) }, {
+	local number = (win_id and vim.api.nvim_win_get_number(win_id)) or vim.fn.winnr()
+	local win_res = fn.create_float_window_V2({ " " .. tostring(number) }, {
 		focus = false, -- mandatory field
 		highlight = { name = "winNR", fg_color = "#000000", bg_color = "#FFFF00" },
 		position = {
@@ -892,7 +893,17 @@ local function indicator(timer)
 	end, (timer or 1500))
 end
 
+local function indicateAll()
+	local current_tabpage = vim.api.nvim_get_current_tabpage()
+	local window_ids = vim.api.nvim_tabpage_list_wins(current_tabpage)
+
+	for _, win_id in ipairs(window_ids) do
+		indicator(1000, win_id)
+	end
+end
+
 vim.keymap.set("n", "<leader>bx", indicator, { silent = true })
+vim.keymap.set("n", "<leader>bv", indicateAll, { silent = true })
 vim.keymap.set("n", "<leader>by", function()
 	vim.api.nvim_create_autocmd("WinEnter", {
 		desc = "Trigger always when entering a new Buffer",
