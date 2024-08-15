@@ -799,12 +799,36 @@ local function indicator(timer, win_id, bloat)
 	local _width = vim.api.nvim_win_get_width(curr_win_id)
 
 	local number = tostring(vim.api.nvim_win_get_number(win_id or 0))
-	local num_ascii = ascii[number]
 	local highlight_color
 	local hor_constant
+	local num_ascii
 	local content
 	local height
 	local width
+
+	if #number > 1 then
+		local digits = {}
+		for digit in number:gmatch("%d") do
+			table.insert(digits, digit)
+		end
+		local num_tbl = {}
+		for _, d_str in ipairs(digits) do
+			table.insert(num_tbl, ascii[tostring(d_str)])
+		end
+		local fin_tbl = {}
+		for _, d_ascii in ipairs(num_tbl) do
+			for i, line in ipairs(d_ascii) do
+				if fin_tbl[i] then
+					fin_tbl[i] = fin_tbl[i] .. line
+				else
+					table.insert(fin_tbl, line)
+				end
+			end
+		end
+		num_ascii = fin_tbl
+	else
+		num_ascii = ascii[number]
+	end
 
 	if bloat then
 		content = num_ascii
