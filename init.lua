@@ -862,26 +862,48 @@ vim.keymap.set("n", "<leader>wx", close_floating_window, {})
 vim.g.lazydev_enabled = true
 
 local fn = require("utils.fn")
+local ascii = require("ascii.numbers")
 
-local function indicator(timer, win_id)
+local function indicator(timer, win_id, bloat)
 	local curr_win_id = win_id or vim.api.nvim_get_current_win()
 	local row, col = unpack(vim.api.nvim_win_get_position(curr_win_id))
 	local _width = vim.api.nvim_win_get_width(curr_win_id)
 
-	local number = (win_id and vim.api.nvim_win_get_number(win_id)) or vim.fn.winnr()
-	local win_res = fn.create_float_window_V2({ " " .. tostring(number) }, {
+	local number = tostring(vim.api.nvim_win_get_number(win_id or 0))
+	local num_ascii = ascii[number]
+	local highlight_color
+	local hor_constant
+	local content
+	local height
+	local width
+
+	if bloat then
+		content = num_ascii
+		highlight_color = nil
+		hor_constant = 12
+		height = 6
+		width = 10
+	else
+		content = { " " .. number }
+		highlight_color = { name = "winNR", fg_color = "#000000", bg_color = "#FFFF00" }
+		hor_constant = 5
+		height = 1
+		width = 3
+	end
+	local win_res = fn.create_float_window_V2(content, {
 		focus = false, -- mandatory field
-		highlight = { name = "winNR", fg_color = "#000000", bg_color = "#FFFF00" },
+		highlight = highlight_color,
+		border = nil,
 		position = {
 			type = "dynamic",
 			axis = {
 				vertical = row,
-				horizontal = (col + _width) - (3 + 2),
+				horizontal = (col + _width) - hor_constant,
 			},
 		},
 		size = {
-			width = 3,
-			height = 1,
+			height = height,
+			width = width,
 		},
 	})
 	-- vim.api.nvim_set_current_win(curr_win_id)
@@ -898,7 +920,7 @@ local function indicateAll()
 	local window_ids = vim.api.nvim_tabpage_list_wins(current_tabpage)
 
 	for _, win_id in ipairs(window_ids) do
-		indicator(1000, win_id)
+		indicator(1500, win_id, true)
 	end
 end
 
