@@ -895,24 +895,26 @@ vim.keymap.set("n", "<leader>bc", function()
 	end
 end, { silent = true })
 vim.keymap.set("n", "<leader>by", function()
-	autocmd_id = vim.api.nvim_create_autocmd("WinEnter", {
-		desc = "Trigger always when entering a new Buffer",
-		group = vim.api.nvim_create_augroup("window-indicator-function", { clear = true }),
-		callback = function()
-			indicator(500, nil, true)
-		end,
-	})
-	vim.notify("Indicator Event Triggered")
+	if autocmd_id == nil then
+		autocmd_id = vim.api.nvim_create_autocmd("WinEnter", {
+			desc = "Trigger always when entering a new Buffer",
+			group = vim.api.nvim_create_augroup("window-indicator-function", { clear = true }),
+			callback = function()
+				indicator(500, nil, true)
+			end,
+		})
+		vim.notify("Indicator Event Triggered")
+	else
+		vim.notify("Indicator Event Already Triggered")
+	end
 end, { silent = true })
 vim.keymap.set("n", "<leader>bz", function()
-	if indicator_running == false then
-		if autocmd_id then
-			vim.api.nvim_del_autocmd(autocmd_id)
-			autocmd_id = nil
-			vim.notify("Indicator Event Disabled")
-		else
-			vim.notify("Indicator Event already Disabled")
-		end
+	if autocmd_id then
+		vim.api.nvim_del_autocmd(autocmd_id)
+		autocmd_id = nil
+		vim.notify("Indicator Event Disabled")
+	else
+		vim.notify("Indicator Event already Disabled")
 	end
 end, { silent = true })
 
