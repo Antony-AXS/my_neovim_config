@@ -881,7 +881,7 @@ end
 local autocmd_id
 vim.keymap.set("n", "<leader>bx", function()
 	if indicator_running == false then
-		indicator()
+		indicator(nil, nil, true)
 	end
 end, { silent = true })
 vim.keymap.set("n", "<leader>bv", function()
@@ -899,24 +899,26 @@ vim.keymap.set("n", "<leader>by", function()
 		desc = "Trigger always when entering a new Buffer",
 		group = vim.api.nvim_create_augroup("window-indicator-function", { clear = true }),
 		callback = function()
-			indicator(500)
+			indicator(500, nil, true)
 		end,
 	})
+	vim.notify("Indicator Event Triggered")
 end, { silent = true })
 vim.keymap.set("n", "<leader>bz", function()
 	if indicator_running == false then
 		if autocmd_id then
 			vim.api.nvim_del_autocmd(autocmd_id)
 			autocmd_id = nil
+			vim.notify("Indicator Event Disabled")
 		else
-			vim.notify("Indicator already Disabled")
+			vim.notify("Indicator Event already Disabled")
 		end
 	end
 end, { silent = true })
 
 local function window_highlight()
 	local win_id = vim.api.nvim_get_current_win()
-	vim.api.nvim_set_hl(0, "ThisWinHighLight", { bg = "#36454F", fg = nil })
+	vim.api.nvim_set_hl(0, "ThisWinHighLight", { bg = "#2c3135", fg = nil }) -- #36454F #2c3135 #29343b
 	vim.api.nvim_set_option_value("winhighlight", "Normal:ThisWinHighLight", { win = win_id })
 
 	vim.defer_fn(function()
