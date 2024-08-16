@@ -88,6 +88,7 @@ return {
 			fn.create_float_window_V2(content, {
 				title = "UndoTree",
 				cursorline = true,
+				border = "default",
 				header = {
 					font = "Bold",
 					align = "Center",
