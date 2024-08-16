@@ -838,7 +838,7 @@ local function indicator(timer, win_id, bloat)
 		width = 10
 	else
 		content = { " " .. number }
-		highlight_color = { name = "Indicator-Win", fg_color = "#000000", bg_color = "#FFFF00" }
+		highlight_color = { name = "IndicatorWin", fg_color = "#000000", bg_color = "#ffff00" }
 		hor_constant = 5
 		height = 1
 		width = 3
@@ -913,6 +913,36 @@ vim.keymap.set("n", "<leader>bz", function()
 		end
 	end
 end, { silent = true })
+
+local function window_highlight()
+	local win_id = vim.api.nvim_get_current_win()
+	vim.api.nvim_set_hl(0, "ThisWinHighLight", { bg = "#36454F", fg = nil })
+	vim.api.nvim_set_option_value("winhighlight", "Normal:ThisWinHighLight", { win = win_id })
+
+	vim.defer_fn(function()
+		if vim.api.nvim_win_is_valid(win_id) then
+			vim.api.nvim_set_hl(0, "thisWinHighLight", { bg = nil, fg = nil })
+			vim.api.nvim_set_option_value("winhighlight", "Noarmal:thisWinHighLight", { win = win_id })
+		end
+	end, 300)
+end
+
+local win_hilght_acmd_id
+
+vim.keymap.set("n", "<leader>iq", function()
+	win_hilght_acmd_id = vim.api.nvim_create_autocmd("WinEnter", { callback = window_highlight })
+	vim.notify("Window HighLight Enabled")
+end, {})
+
+vim.keymap.set("n", "<leader>iw", function()
+	if win_hilght_acmd_id ~= nil then
+		vim.api.nvim_del_autocmd(win_hilght_acmd_id)
+		win_hilght_acmd_id = nil
+		vim.notify("Window HighLight Disabled")
+	else
+		vim.notify("Window HighLight Already Disabled")
+	end
+end, {})
 
 -- local file_path = "output.txt"
 -- local file = io.open(file_path, "w") -- "w" mode is for writing (will overwrite the file)
