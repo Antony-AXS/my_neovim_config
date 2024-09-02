@@ -798,3 +798,50 @@ vim.g.lazydev_enabled = true
 -- else
 -- 	print("Could not open file for writing.")
 -- end
+
+
+-- Function to handle keypress
+-- local function track_keypress(key)
+-- 	print("Key pressed: " .. vim.api.nvim_replace_termcodes(key, true, true, true))
+-- end
+--
+-- -- Set up the keypress tracker
+-- vim.on_key(track_keypress)
+
+-- local fn = require("utils.fn")
+
+-- Function to log command-line inputs
+-- local function log_cmdline_input()
+	-- if file th
+	-- 	local rrr = vim.inspect(vim.fn.getcmdline())
+	-- 	file:write(rrr)
+	-- 	file:close() -- Don't forget to close the file!
+	-- else
+	-- 	print("Could not open file for writing.")
+	-- end
+	-- if cmdline == "G<CR>" or cmdline == ":G<CR>" then
+	-- 	fn.create_float_window_V2({ tostring("hello") }, {})
+	-- end
+-- end
+
+-- Set up autocommands for command-line mode
+-- vim.api.nvim_create_autocmd("CmdlineEnter", {
+-- 	callback = log_cmdline_input,
+-- })
+
+-- vim.api.nvim_create_autocmd("CmdlineLeave:", {
+--     callback = function()
+--         print("Exiting command-line mode")
+--     end
+-- })
+
+-- vim.api.nvim_create_autocmd({ "CmdlineChanged", "CmdlineEnter" }, {
+-- 	callback = function()
+-- 		local str, chk = vim.fn.getcmdline():gsub("", "")
+-- 		if chk > 1 then
+-- 			local fh = io.open("nvim_cmd.log", "a+")
+-- 			fh:write(("%s%s%s\n"):format(vim.fn.getcmdtype(), " hello ", str))
+-- 			fh:flush()
+-- 		end
+-- 	end,
+-- })
