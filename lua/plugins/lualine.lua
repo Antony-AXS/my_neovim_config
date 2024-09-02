@@ -156,58 +156,58 @@ return {
 					-- 	{ "filename", file_status = true, newfile_status = true, path = 1 },
 				}, --lualine_x = {},
 				lualine_x = {
-					{
-						function()
-							-- 󰨑  󰤼    󰻭  󱇿  󰝜  󰩵    󱂬  󱓺  󰓪  󰱾  󱀂  󱀃  󰹈    󰧑
-							-- 󰼏  󰼐  󰼑  󰼒  󰼓  󰼔  󰼕  󰼖  󰼗  󰼘  󰿪
-							local Icon = "󱓷 " -- 󱗖  󱉟  󰗚  󰂾        󰭣  󰂽  󱓷
-							if #vim.api.nvim_list_tabpages() > 1 then
-								return (Icon .. vim.fn.tabpagenr() .. "|" .. (#vim.api.nvim_list_tabpages()))
-							else
-								return ""
-							end
-						end,
-						color = function()
-							if #vim.api.nvim_list_tabpages() > 1 then
-								return { fg = "#FFA500", gui = "bold" }
-							else
-								return { fg = "grey", gui = "bold" }
-							end
-						end,
-
-						padding = { left = 1, right = 1 },
-					},
-					{
-						function()
-							-- 󰨑  󰤼    󰻭    󱇿  󰝜  󰩵  󱓺  󰓪  󰱾  󱀂  󱀃  󰹈    󰧑
-							-- 󰼏  󰼐  󰼑  󰼒  󰼓  󰼔  󰼕  󰼖  󰼗  󰼘  󰿪
-							local Icon = "󱇿 "
-							-- if #vim.api.nvim_list_wins() == 1 then
-							-- 	Icon = "󰼏 "
-							-- elseif #vim.api.nvim_list_wins() == 2 then
-							-- 	Icon = "󰼐 "
-							-- elseif #vim.api.nvim_list_wins() == 3 then
-							-- 	Icon = "󰼑 "
-							-- end
-							if #vim.api.nvim_list_tabpages() == 1 then
-								return (Icon .. vim.fn.winnr() .. "|" .. #vim.api.nvim_tabpage_list_wins(0))
-							else
-								return (
-									Icon
-									.. vim.fn.winnr()
-									.. "|"
-									.. (#vim.api.nvim_tabpage_list_wins(0))
-									.. "|"
-									.. (#vim.api.nvim_list_wins())
-								)
-							end
-						end,
-						color = {
-							fg = "#a9ff0a",
-							gui = "bold",
-						},
-						padding = { left = 1, right = 1 },
-					},
+					-- {
+					-- 	function()
+					-- 		-- 󰨑  󰤼    󰻭  󱇿  󰝜  󰩵    󱂬  󱓺  󰓪  󰱾  󱀂  󱀃  󰹈    󰧑
+					-- 		-- 󰼏  󰼐  󰼑  󰼒  󰼓  󰼔  󰼕  󰼖  󰼗  󰼘  󰿪
+					-- 		local Icon = "󱓷 " -- 󱗖  󱉟  󰗚  󰂾        󰭣  󰂽  󱓷
+					-- 		if #vim.api.nvim_list_tabpages() > 1 then
+					-- 			return (Icon .. vim.fn.tabpagenr() .. "|" .. (#vim.api.nvim_list_tabpages()))
+					-- 		else
+					-- 			return ""
+					-- 		end
+					-- 	end,
+					-- 	color = function()
+					-- 		if #vim.api.nvim_list_tabpages() > 1 then
+					-- 			return { fg = "#FFA500", gui = "bold" }
+					-- 		else
+					-- 			return { fg = "grey", gui = "bold" }
+					-- 		end
+					-- 	end,
+					--
+					-- 	padding = { left = 1, right = 1 },
+					-- },
+					-- {
+					-- 	function()
+					-- 		-- 󰨑  󰤼    󰻭    󱇿  󰝜  󰩵  󱓺  󰓪  󰱾  󱀂  󱀃  󰹈    󰧑
+					-- 		-- 󰼏  󰼐  󰼑  󰼒  󰼓  󰼔  󰼕  󰼖  󰼗  󰼘  󰿪
+					-- 		local Icon = "󱇿 "
+					-- 		-- if #vim.api.nvim_list_wins() == 1 then
+					-- 		-- 	Icon = "󰼏 "
+					-- 		-- elseif #vim.api.nvim_list_wins() == 2 then
+					-- 		-- 	Icon = "󰼐 "
+					-- 		-- elseif #vim.api.nvim_list_wins() == 3 then
+					-- 		-- 	Icon = "󰼑 "
+					-- 		-- end
+					-- 		if #vim.api.nvim_list_tabpages() == 1 then
+					-- 			return (Icon .. vim.fn.winnr() .. "|" .. #vim.api.nvim_tabpage_list_wins(0))
+					-- 		else
+					-- 			return (
+					-- 				Icon
+					-- 				.. vim.fn.winnr()
+					-- 				.. "|"
+					-- 				.. (#vim.api.nvim_tabpage_list_wins(0))
+					-- 				.. "|"
+					-- 				.. (#vim.api.nvim_list_wins())
+					-- 			)
+					-- 		end
+					-- 	end,
+					-- 	color = {
+					-- 		fg = "#a9ff0a",
+					-- 		gui = "bold",
+					-- 	},
+					-- 	padding = { left = 1, right = 1 },
+					-- },
 					{
 						"filetype",
 						padding = { left = 1, right = 1 },
