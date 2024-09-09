@@ -147,7 +147,7 @@ local last_status = function()
 	end
 	vim.api.nvim_command(cmd)
 end
-vim.keymap.set("n", "<leader>ll", last_status, {})
+vim.keymap.set("n", "<leader>sl", last_status, {})
 
 local TshiftToggleConst = "2"
 local shift_theme = function(opts_theme)
@@ -333,7 +333,7 @@ require("mason-lspconfig").setup({
 		"lua_ls",
 		"rust_analyzer",
 		-- "quick_lint_js",
-		"tsserver",
+		"ts_ls",
 		"html",
 		"lwc_ls",
 		"jsonls",
@@ -452,7 +452,7 @@ lspconfig.lua_ls.setup({
 	},
 })
 lspconfig.rust_analyzer.setup({ capabilities = capabilities })
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
 	capabilities = capabilities,
 	settings = {
 		typescript = {
@@ -799,7 +799,6 @@ vim.g.lazydev_enabled = true
 -- 	print("Could not open file for writing.")
 -- end
 
-
 -- Function to handle keypress
 -- local function track_keypress(key)
 -- 	print("Key pressed: " .. vim.api.nvim_replace_termcodes(key, true, true, true))
@@ -812,16 +811,16 @@ vim.g.lazydev_enabled = true
 
 -- Function to log command-line inputs
 -- local function log_cmdline_input()
-	-- if file th
-	-- 	local rrr = vim.inspect(vim.fn.getcmdline())
-	-- 	file:write(rrr)
-	-- 	file:close() -- Don't forget to close the file!
-	-- else
-	-- 	print("Could not open file for writing.")
-	-- end
-	-- if cmdline == "G<CR>" or cmdline == ":G<CR>" then
-	-- 	fn.create_float_window_V2({ tostring("hello") }, {})
-	-- end
+-- if file th
+-- 	local rrr = vim.inspect(vim.fn.getcmdline())
+-- 	file:write(rrr)
+-- 	file:close() -- Don't forget to close the file!
+-- else
+-- 	print("Could not open file for writing.")
+-- end
+-- if cmdline == "G<CR>" or cmdline == ":G<CR>" then
+-- 	fn.create_float_window_V2({ tostring("hello") }, {})
+-- end
 -- end
 
 -- Set up autocommands for command-line mode
@@ -843,5 +842,13 @@ vim.g.lazydev_enabled = true
 -- 			fh:write(("%s%s%s\n"):format(vim.fn.getcmdtype(), " hello ", str))
 -- 			fh:flush()
 -- 		end
+-- 	end,
+-- })
+
+-- vim.api.nvim_create_autocmd("CursorMoved", {
+-- 	pattern = "*",
+-- 	callback = function()
+-- 		local cursor_pos = vim.api.nvim_win_get_cursor(0) -- 0 refers to the current window
+-- 		vim.print("Cursor moved in normal mode" .. tostring(vim.inspect(cursor_pos)))
 -- 	end,
 -- })
