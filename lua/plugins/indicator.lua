@@ -20,7 +20,7 @@ return {
 			},
 		})
 
-		vim.keymap.set("n", "<leader>bx", function()
+		vim.keymap.set("n", "<leader>l", function()
 			Indicator.indicateCurrent()
 		end, { silent = true })
 		vim.keymap.set("n", "<leader>bv", function()
