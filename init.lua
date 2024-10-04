@@ -332,7 +332,8 @@ require("mason-lspconfig").setup({
 	ensure_installed = {
 		"lua_ls",
 		"rust_analyzer",
-		-- "quick_lint_js",
+		"quick_lint_js",
+		-- "eslint",
 		"ts_ls",
 		"html",
 		"lwc_ls",
@@ -377,6 +378,7 @@ require("mason-tool-installer").setup({
 		"editorconfig-checker",
 		"gofumpt",
 		"golines",
+		"htmlbeautifier",
 		"prettier",
 		"prettierd",
 		"gomodifytags",
@@ -485,7 +487,8 @@ lspconfig.ts_ls.setup({
 		client.server_capabilities.documentRangeFormattingProvider = false
 	end,
 })
--- lspconfig.quick_lint_js.setup({ capabilities = capabilities })
+lspconfig.quick_lint_js.setup({ capabilities = capabilities })
+-- lspconfig.eslint.setup({ capabilities = capabilities })
 lspconfig.html.setup({ capabilities = capabilities })
 lspconfig.lwc_ls.setup({ capabilities = capabilities })
 lspconfig.cssls.setup({ capabilities = capabilities })
@@ -520,8 +523,9 @@ local RANGE_FORMATTING = methods.internal.RANGE_FORMATTING
 null_ls.setup({
 	sources = {
 		null_ls.builtins.formatting.stylua,
+		null_ls.builtins.formatting.htmlbeautifier,
 		null_ls.builtins.formatting.prettier.with({
-			filetypes = { "javascript", "typescript", "html", "css", "json" },
+			filetypes = { "javascript", "typescript", "css", "json" },
 			method = { FORMATTING, RANGE_FORMATTING },
 			-- generator_opts = {
 			-- 	command = "prettier",
@@ -852,3 +856,9 @@ vim.g.lazydev_enabled = true
 -- 		vim.print("Cursor moved in normal mode" .. tostring(vim.inspect(cursor_pos)))
 -- 	end,
 -- })
+
+vim.api.nvim_create_autocmd("WinClosed", {
+	callback = function(event)
+		vim.print("Window closed with buffer number:" .. " " .. event.buf)
+	end,
+})
