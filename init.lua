@@ -80,8 +80,10 @@ treesitter_configs.setup({
 				-- You can use the capture groups defined in textobjects.scm
 				["af"] = "@function.outer",
 				["if"] = "@function.inner",
-				["ik"] = "@conditional.inner",
 				["ak"] = "@conditional.outer",
+				["ik"] = "@conditional.inner",
+				["al"] = "@loop.outer",
+				["il"] = "@loop.inner",
 				["ac"] = "@class.outer",
 				-- You can optionally set descriptions to the mappings (used in the desc parameter of
 				-- nvim_buf_set_keymap) which plugins like which-key display
@@ -659,8 +661,19 @@ cmp.setup({
 
 -- require("cmp").setup.buffer({ sources = { { name = "vim-dadbod-completion" } } })
 
+local inlay_hint_msg_toggle = 0
 vim.keymap.set("n", "<leader>ih", function()
 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
+
+	local message
+	if inlay_hint_msg_toggle == 0 then
+		inlay_hint_msg_toggle = 1
+		message = "Inlay Hint Activated"
+	else
+		inlay_hint_msg_toggle = 0
+		message = "Inlay Hint Deactivated"
+	end
+	vim.notify(message)
 end)
 
 require("telescope").setup({
@@ -857,8 +870,8 @@ vim.g.lazydev_enabled = true
 -- 	end,
 -- })
 
-vim.api.nvim_create_autocmd("WinClosed", {
-	callback = function(event)
-		vim.print("Window closed with buffer number:" .. " " .. event.buf)
-	end,
-})
+-- vim.api.nvim_create_autocmd("WinClosed", {
+-- 	callback = function(event)
+-- 		vim.print("Window closed with buffer number:" .. " " .. event.buf)
+-- 	end,
+-- })
