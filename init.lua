@@ -26,6 +26,8 @@ local opts = {}
 
 require("lazy").setup("plugins", opts)
 
+local const = require("constants")
+
 local builtin = require("telescope.builtin")
 
 local treesitter_configs = require("nvim-treesitter.configs")
@@ -137,35 +139,33 @@ require("telescope").load_extension("lazygit")
 
 -- vim.keymap.set("n", "<leader>lb", positive_look_behind)
 
-local last_status_flag = 3
 local last_status = function()
 	local cmd
-	if last_status_flag == 3 then
-		cmd = "set laststatus=" .. last_status_flag
-		last_status_flag = 2
-	elseif last_status_flag == 2 then
-		cmd = "set laststatus=" .. last_status_flag
-		last_status_flag = 3
+	if const.last_status_flag == 3 then
+		cmd = "set laststatus=" .. const.last_status_flag
+		const.last_status_flag = 2
+	elseif const.last_status_flag == 2 then
+		cmd = "set laststatus=" .. const.last_status_flag
+		const.last_status_flag = 3
 	end
 	vim.api.nvim_command(cmd)
 end
 vim.keymap.set("n", "<leader>sl", last_status, {})
 
-local TshiftToggleConst = "2"
 local shift_theme = function(opts_theme)
 	if opts_theme.args == "sol" then
 		vim.cmd.colorscheme("solarized-osaka")
 	elseif opts_theme.args == "cat" then
 		vim.cmd.colorscheme("catppuccin")
 	elseif opts_theme.args == "Toggle" then
-		if TshiftToggleConst == "1" then
-			TshiftToggleConst = "2"
+		if const.TshiftToggleConst == "1" then
+			const.TshiftToggleConst = "2"
 			vim.api.nvim_command("colorscheme catppuccin")
-		elseif TshiftToggleConst == "2" then
-			TshiftToggleConst = "3"
+		elseif const.TshiftToggleConst == "2" then
+			const.TshiftToggleConst = "3"
 			vim.api.nvim_command("colorscheme solarized-osaka")
-		elseif TshiftToggleConst == "3" then
-			TshiftToggleConst = "1"
+		elseif const.TshiftToggleConst == "3" then
+			const.TshiftToggleConst = "1"
 			vim.api.nvim_command("colorscheme tokyonight-night")
 		end
 	end
@@ -661,16 +661,15 @@ cmp.setup({
 
 -- require("cmp").setup.buffer({ sources = { { name = "vim-dadbod-completion" } } })
 
-local inlay_hint_msg_toggle = 0
 vim.keymap.set("n", "<leader>ih", function()
 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
 
 	local message
-	if inlay_hint_msg_toggle == 0 then
-		inlay_hint_msg_toggle = 1
+	if const.inlay_hint_msg_toggle == 0 then
+		const.inlay_hint_msg_toggle = 1
 		message = "Inlay Hint Activated"
 	else
-		inlay_hint_msg_toggle = 0
+		const.inlay_hint_msg_toggle = 0
 		message = "Inlay Hint Deactivated"
 	end
 	vim.notify(message)
