@@ -30,6 +30,10 @@ return {
 			Indicator.indicateAll(false)
 		end, { silent = true })
 
+		vim.keymap.set("n", "<leader>iw", function()
+			Indicator.triggerWindowManager()
+		end, {})
+
 		vim.keymap.set("n", "<leader>it", Indicator.indicator_event_activate, {})
 		vim.keymap.set("n", "<leader>ir", Indicator.indicator_event_deactivate, {})
 
