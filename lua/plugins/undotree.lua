@@ -89,6 +89,7 @@ return {
 				title = "UndoTree",
 				cursorline = true,
 				border = "default",
+				size = { width = 110, height = 14 },
 				header = {
 					font = "Bold",
 					align = "Center",
