@@ -347,6 +347,7 @@ require("mason-lspconfig").setup({
 		"angularls",
 		"clangd",
 		"sqls",
+		"taplo",
 		"pylsp",
 		"gopls",
 		"bashls",
@@ -491,6 +492,7 @@ lspconfig.ts_ls.setup({
 })
 lspconfig.quick_lint_js.setup({ capabilities = capabilities })
 -- lspconfig.eslint.setup({ capabilities = capabilities })
+lspconfig.taplo.setup({ capabilities = capabilities })
 lspconfig.html.setup({ capabilities = capabilities })
 lspconfig.lwc_ls.setup({ capabilities = capabilities })
 lspconfig.cssls.setup({ capabilities = capabilities })
@@ -874,3 +876,8 @@ vim.g.lazydev_enabled = true
 -- 		vim.print("Window closed with buffer number:" .. " " .. event.buf)
 -- 	end,
 -- })
+--
+
+vim.keymap.set("n", "<leader>ss", function ()
+	vim.ui.open("https://neovim.io/")
+end, {})
