@@ -27,10 +27,10 @@ return {
 			Indicator.indicateAll()
 		end, { silent = true })
 		vim.keymap.set("n", "<leader>bc", function()
-			Indicator.indicateAll(false)
+			Indicator.indicateAll()
 		end, { silent = true })
 
-		vim.keymap.set("n", "<leader>iw", function()
+		vim.keymap.set("n", "<leader>im", function()
 			Indicator.triggerWindowManager()
 		end, {})
 
