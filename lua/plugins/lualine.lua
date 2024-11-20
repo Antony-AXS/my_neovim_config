@@ -43,10 +43,11 @@ return {
 				icons_enabled = true,
 				ignore_focus = {},
 				always_divide_middle = true,
+				always_show_tabline = true,
 				refresh = {
-					statusline = 1000,
-					tabline = 1000,
-					winbar = 1000,
+					statusline = 100,
+					tabline = 100,
+					winbar = 100,
 				},
 
 				-- component_separators = { left = "", right = "" },
