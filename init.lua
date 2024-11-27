@@ -125,6 +125,7 @@ treesitter_configs.setup({
 
 package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua"
 package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua"
+package.path = package.path .. ";" .. vim.fn.stdpath("config") .. "/temp.lua"
 
 require("telescope").load_extension("lazygit")
 
@@ -335,7 +336,7 @@ require("mason-lspconfig").setup({
 		"lua_ls",
 		"rust_analyzer",
 		"quick_lint_js",
-		-- "eslint",
+		"eslint",
 		"ts_ls",
 		"html",
 		"lwc_ls",
@@ -491,7 +492,7 @@ lspconfig.ts_ls.setup({
 	end,
 })
 lspconfig.quick_lint_js.setup({ capabilities = capabilities })
--- lspconfig.eslint.setup({ capabilities = capabilities })
+lspconfig.eslint.setup({ capabilities = capabilities })
 lspconfig.taplo.setup({ capabilities = capabilities })
 lspconfig.html.setup({ capabilities = capabilities })
 lspconfig.lwc_ls.setup({ capabilities = capabilities })
@@ -529,7 +530,7 @@ null_ls.setup({
 		null_ls.builtins.formatting.stylua,
 		null_ls.builtins.formatting.htmlbeautifier,
 		null_ls.builtins.formatting.prettier.with({
-			filetypes = { "javascript", "typescript", "css", "json" },
+			filetypes = { "javascript", "typescript", "javascriptreact", "css", "json", ".prettierrc" },
 			method = { FORMATTING, RANGE_FORMATTING },
 			-- generator_opts = {
 			-- 	command = "prettier",
@@ -878,6 +879,20 @@ vim.g.lazydev_enabled = true
 -- })
 --
 
-vim.keymap.set("n", "<leader>ss", function ()
-	vim.ui.open("https://neovim.io/")
-end, {})
+-- Disable warnings for .env files only, keep errors and info visible
+vim.api.nvim_create_autocmd({ "BufRead", "BufEnter" }, {
+	pattern = "*.env",
+	callback = function()
+		vim.diagnostic.config({
+			virtual_text = {
+				severity = {
+					min = vim.diagnostic.severity.ERROR, -- Show only errors and info, hide warnings
+				},
+			},
+			signs = true, -- Keep signs (gutter indicators) for errors and info
+			underline = true, -- Keep underlining for errors and info
+			update_in_insert = false, -- Optional: prevent updates during insert mode
+		})
+	end,
+})
+
